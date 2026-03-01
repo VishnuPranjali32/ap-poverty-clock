@@ -1,0 +1,2507 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AP Poverty Clock — Andhra Pradesh Zero Poverty 2029</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0a0a1a;
+      --bg-secondary: #111128;
+      --bg-card: rgba(20, 20, 50, 0.8);
+      --bg-card-hover: rgba(30, 30, 70, 0.9);
+      --bg-glass: rgba(255,255,255,0.04);
+      --text-primary: #f0f0ff;
+      --text-secondary: #a0a0c0;
+      --text-muted: #6a6a8a;
+      --border-color: rgba(255,255,255,0.08);
+      --border-glow: rgba(99, 102, 241, 0.3);
+      --accent-1: #6366f1;
+      --accent-2: #8b5cf6;
+      --accent-3: #a78bfa;
+      --accent-4: #06b6d4;
+      --accent-5: #10b981;
+      --accent-6: #f59e0b;
+      --accent-7: #ef4444;
+      --gradient-hero: linear-gradient(135deg, #6366f1 0%, #8b5cf6 25%, #a78bfa 50%, #06b6d4 75%, #10b981 100%);
+      --gradient-counter: linear-gradient(135deg, #10b981, #06b6d4, #6366f1);
+      --gradient-card: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.05));
+      --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.15);
+      --shadow-card: 0 8px 32px rgba(0,0,0,0.3);
+      --map-fill: #1e1e3f;
+      --map-stroke: #4a4a8a;
+      --map-hover: rgba(99, 102, 241, 0.3);
+      --timeline-bg: rgba(255,255,255,0.06);
+      --timeline-fill: linear-gradient(90deg, #6366f1, #10b981);
+      --badge-bg: rgba(16, 185, 129, 0.15);
+      --badge-text: #10b981;
+      --scrollbar-track: #111128;
+      --scrollbar-thumb: #333366;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f8f9fe;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --bg-card-hover: rgba(255, 255, 255, 1);
+      --bg-glass: rgba(0,0,0,0.02);
+      --text-primary: #1a1a2e;
+      --text-secondary: #4a4a6a;
+      --text-muted: #8a8aaa;
+      --border-color: rgba(0,0,0,0.08);
+      --border-glow: rgba(99, 102, 241, 0.2);
+      --accent-1: #4f46e5;
+      --accent-2: #7c3aed;
+      --accent-3: #8b5cf6;
+      --accent-4: #0891b2;
+      --accent-5: #059669;
+      --accent-6: #d97706;
+      --accent-7: #dc2626;
+      --gradient-hero: linear-gradient(135deg, #4f46e5 0%, #7c3aed 25%, #8b5cf6 50%, #0891b2 75%, #059669 100%);
+      --gradient-counter: linear-gradient(135deg, #059669, #0891b2, #4f46e5);
+      --gradient-card: linear-gradient(135deg, rgba(79,70,229,0.06), rgba(124,58,237,0.03));
+      --shadow-glow: 0 0 60px rgba(79, 70, 229, 0.1);
+      --shadow-card: 0 8px 32px rgba(0,0,0,0.08);
+      --map-fill: #e8e8f8;
+      --map-stroke: #b0b0d0;
+      --map-hover: rgba(79, 70, 229, 0.15);
+      --timeline-bg: rgba(0,0,0,0.06);
+      --timeline-fill: linear-gradient(90deg, #4f46e5, #059669);
+      --badge-bg: rgba(5, 150, 105, 0.1);
+      --badge-text: #059669;
+      --scrollbar-track: #f0f0f8;
+      --scrollbar-thumb: #c0c0d8;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+
+    /* ===== BACKGROUND EFFECTS ===== */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image: 
+        linear-gradient(rgba(99,102,241,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-orbs::before,
+    .bg-orbs::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.15;
+      animation: orbFloat 20s ease-in-out infinite;
+    }
+
+    .bg-orbs::before {
+      width: 600px; height: 600px;
+      background: var(--accent-1);
+      top: -200px; right: -200px;
+    }
+
+    .bg-orbs::after {
+      width: 500px; height: 500px;
+      background: var(--accent-5);
+      bottom: -150px; left: -150px;
+      animation-delay: -10s;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+
+    /* ===== LAYOUT ===== */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      transition: background 0.4s ease;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(99,102,241,0.3);
+    }
+
+    .header-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .org-name {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-1);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .header-title h1 {
+      font-size: 20px;
+      font-weight: 800;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .header-title span {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .header-sources {
+      font-size: 9px !important;
+      opacity: 0.7;
+      margin-top: 1px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--badge-bg);
+      color: var(--badge-text);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-5);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: relative;
+      width: 56px;
+      height: 28px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent-1);
+    }
+
+    .toggle-thumb {
+      width: 22px;
+      height: 22px;
+      background: var(--gradient-hero);
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    [data-theme="light"] .toggle-thumb {
+      transform: translateX(28px);
+    }
+
+    /* ===== TIMELINE (GFST-style) ===== */
+    .timeline-section {
+      padding: 20px 0 10px;
+    }
+
+    .timeline-mode-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 16px;
+    }
+
+    .mode-btn {
+      padding: 10px 32px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-glass);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: var(--font-sans);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode-btn:first-child {
+      border-radius: 999px 0 0 999px;
+      border-right: none;
+    }
+
+    .mode-btn:last-child {
+      border-radius: 0 999px 999px 0;
+    }
+
+    .mode-btn.active {
+      background: var(--accent-1);
+      color: #fff;
+      border-color: var(--accent-1);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .mode-btn .live-dot-sm {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      animation: livePulse 1.5s infinite;
+    }
+
+    .mode-btn.active .live-dot-sm {
+      background: #fff;
+    }
+
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .timeline-sub {
+      text-align: center;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .timeline-sub strong {
+      color: var(--accent-5);
+      font-weight: 700;
+    }
+
+    .timeline-slider-wrap {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      padding: 0 8px;
+    }
+
+    .timeline-slider-wrap.visible {
+      display: flex;
+    }
+
+    .timeline-slider-labels {
+      display: flex;
+      position: relative;
+      height: 22px;
+      margin-bottom: 2px;
+      /* Match slider thumb offset: thumb is 22px wide, so track runs from 11px to calc(100% - 11px) */
+      padding: 0 11px;
+    }
+
+    .timeline-slider-labels span {
+      position: absolute;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s;
+      user-select: none;
+      white-space: nowrap;
+      transform: translateX(-50%);
+      top: 0;
+    }
+
+    .timeline-slider-labels span:first-child {
+      transform: translateX(0);
+    }
+
+    .timeline-slider-labels span:last-child {
+      transform: translateX(-100%);
+    }
+
+    .timeline-slider-labels span:hover {
+      color: var(--accent-1);
+    }
+
+    .timeline-slider-labels span.active-label {
+      color: var(--accent-1);
+      font-weight: 800;
+    }
+
+    .timeline-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--timeline-bg);
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .timeline-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-1);
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+      border: 3px solid #fff;
+      transition: transform 0.15s ease;
+    }
+
+    .timeline-range::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .timeline-range::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--accent-1);
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+      border: 3px solid #fff;
+    }
+
+    .timeline-year-display {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-1);
+      margin-top: 4px;
+    }
+
+    .timeline-bar {
+      position: relative;
+      height: 6px;
+      background: var(--timeline-bg);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .timeline-fill {
+      height: 100%;
+      background: var(--timeline-fill);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+      position: relative;
+    }
+
+    .timeline-fill::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -4px;
+      width: 14px;
+      height: 14px;
+      background: var(--accent-5);
+      border-radius: 50%;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+    }
+
+    /* ===== HERO COUNTER (GFST-style) ===== */
+    .hero-section {
+      padding: 30px 0 20px;
+      text-align: center;
+    }
+
+    .hero-section-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .hero-context-line {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .hero-context-line strong {
+      color: var(--accent-4);
+    }
+
+    .hero-view-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-5);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .live-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      animation: livePulse 1.5s infinite;
+    }
+
+    .hero-counter {
+      font-family: var(--font-mono);
+      font-size: clamp(40px, 8vw, 80px);
+      font-weight: 700;
+      background: var(--gradient-counter);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      text-shadow: none;
+      filter: drop-shadow(0 0 30px rgba(16, 185, 129, 0.2));
+    }
+
+    .hero-approx {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .hero-approx .highlight {
+      background: var(--gradient-counter);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    .hero-rate {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      background: var(--badge-bg);
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--badge-text);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .hero-rate .arrow {
+      font-size: 16px;
+    }
+
+    /* ===== COUNTDOWN BOXES ===== */
+    .countdown-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 14px 22px;
+      text-align: center;
+      min-width: 80px;
+      transition: all 0.3s ease;
+    }
+
+    .countdown-box:hover {
+      border-color: var(--border-glow);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .countdown-value {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 700;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .countdown-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    /* ===== STATS CARDS ===== */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 20px 0 40px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--card-accent, var(--gradient-hero));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .stat-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-glow);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .stat-card:hover::before {
+      opacity: 1;
+    }
+
+    .stat-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .stat-value.green { color: var(--accent-5); }
+    .stat-value.blue { color: var(--accent-4); }
+    .stat-value.purple { color: var(--accent-2); }
+    .stat-value.amber { color: var(--accent-6); }
+    .stat-value.red { color: var(--accent-7); }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ===== SECTION TITLES ===== */
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    /* ===== MAP SECTION ===== */
+    .map-section {
+      padding: 30px 0;
+    }
+
+    .map-container {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .map-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-wrapper::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(99,102,241,0.03) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .map-legend {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: var(--bg-glass);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 12px;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .map-svg-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .map-svg-container svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .district-path {
+      transition: all 0.3s ease;
+      cursor: pointer;
+      stroke: var(--map-stroke);
+      stroke-width: 0.4;
+      stroke-linejoin: round;
+    }
+
+    .district-path:hover {
+      filter: brightness(1.3);
+      stroke: #fff;
+      stroke-width: 1;
+      transform-origin: center;
+    }
+
+    .district-path.selected {
+      stroke: var(--accent-6);
+      stroke-width: 1.2;
+      filter: brightness(1.2);
+    }
+
+    .district-label {
+      font-size: 8px;
+      fill: var(--text-primary);
+      font-weight: 700;
+      pointer-events: none;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      opacity: 1;
+    }
+
+    [data-theme="light"] .district-label {
+      fill: #1a1a2e;
+    }
+
+    /* Map Tooltip */
+    .map-tooltip {
+      position: fixed;
+      z-index: 1000;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-glow);
+      border-radius: 12px;
+      padding: 16px;
+      min-width: 220px;
+      box-shadow: var(--shadow-card);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .map-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .tooltip-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .tooltip-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .tooltip-row:last-child { border: none; }
+
+    .tooltip-row .label { color: var(--text-muted); }
+    .tooltip-row .value { font-weight: 600; font-family: var(--font-mono); }
+
+    /* District Info Panel */
+    .district-info-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .panel-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .panel-instruction {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .panel-district-name {
+      font-size: 20px;
+      font-weight: 800;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+
+    .panel-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .panel-stat-row:last-child { border: none; }
+
+    .panel-stat-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .panel-stat-value {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .panel-progress {
+      margin-top: 16px;
+    }
+
+    .panel-progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .panel-progress-bar {
+      height: 8px;
+      background: var(--timeline-bg);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .panel-progress-fill {
+      height: 100%;
+      background: var(--gradient-counter);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    /* ===== DISTRICT LIST ===== */
+    .district-list-section {
+      padding: 30px 0 60px;
+    }
+
+    .list-controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .sort-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      background: var(--bg-glass);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-sans);
+    }
+
+    .sort-btn:hover {
+      border-color: var(--accent-1);
+      color: var(--accent-1);
+    }
+
+    .sort-btn.active {
+      background: var(--accent-1);
+      color: #fff;
+      border-color: var(--accent-1);
+    }
+
+    .district-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .district-item {
+      display: grid;
+      grid-template-columns: 40px 1fr 120px 120px 120px 100px;
+      align-items: center;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      gap: 12px;
+    }
+
+    .district-item:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-glow);
+      transform: translateX(4px);
+    }
+
+    .district-rank {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .district-name-cell {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .district-name-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .district-name-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .district-hcr {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .district-hcr-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .district-change {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .district-mini-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--timeline-bg);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .district-mini-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      border-top: 1px solid var(--border-color);
+      padding: 24px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .footer a {
+      color: var(--accent-1);
+      text-decoration: none;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ===== SPARKLE ===== */
+    .sparkle-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* ===== PARTICLES CANVAS ===== */
+    #particleCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ===== COUNTER GLOW ===== */
+    .hero-counter {
+      position: relative;
+    }
+
+    .hero-counter::after {
+      content: '';
+      position: absolute;
+      inset: -20px -40px;
+      background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+      z-index: -1;
+      animation: counterPulse 3s ease-in-out infinite;
+      border-radius: 50%;
+    }
+
+    @keyframes counterPulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    /* ===== DIGIT FLIP EFFECT ===== */
+    .counter-digit {
+      display: inline-block;
+      transition: transform 0.1s ease;
+    }
+
+    /* ===== GLOWING BORDER ON MAP ===== */
+    .map-wrapper {
+      position: relative;
+    }
+
+    .map-wrapper::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 20px;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(16,185,129,0.3), rgba(99,102,241,0.1));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      animation: borderGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* ===== NUMBER TICKER ===== */
+    .ticker-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+
+    /* Tablet */
+    @media (max-width: 900px) {
+      .container { padding: 0 16px; }
+      .map-container { grid-template-columns: 1fr; }
+      .district-info-panel { order: 2; }
+    }
+
+    /* Small tablets / large phones */
+    @media (max-width: 768px) {
+      .district-item {
+        grid-template-columns: 30px 1fr 80px 80px;
+        padding: 12px 14px;
+        gap: 8px;
+      }
+      .district-item .col-hide { display: none; }
+      .district-name-text { font-size: 13px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat-card { padding: 16px; }
+      .stat-value { font-size: 20px; }
+      .map-wrapper { padding: 16px; border-radius: 16px; }
+      .map-legend { gap: 8px; padding: 10px 12px; }
+      .legend-item { font-size: 10px; }
+      .section-title { font-size: 18px; }
+      .section-subtitle { font-size: 12px; margin-bottom: 16px; }
+    }
+
+    /* Phones */
+    @media (max-width: 640px) {
+      .container { padding: 0 12px; }
+
+      /* Header */
+      .header-inner { flex-wrap: wrap; gap: 6px; padding: 8px 0; }
+      .header-left { gap: 10px; }
+      .logo-img { width: 36px; height: 36px; border-radius: 8px; }
+      .header-title h1 { font-size: 14px; }
+      .org-name { font-size: 7px; letter-spacing: 1px; }
+      .header-title span { font-size: 8px; }
+      .header-sources { display: none; }
+      .header-right { gap: 8px; }
+      .live-badge { padding: 4px 10px; font-size: 10px; }
+      .theme-toggle { width: 46px; height: 24px; }
+      .toggle-thumb { width: 18px; height: 18px; font-size: 10px; }
+      [data-theme="light"] .toggle-thumb { transform: translateX(22px); }
+
+      /* Timeline */
+      .timeline-section { padding: 14px 0 8px; }
+      .mode-btn { padding: 8px 20px; font-size: 11px; letter-spacing: 1px; }
+      .timeline-sub { font-size: 11px; margin-bottom: 8px; }
+      .timeline-slider-labels span { font-size: 9px; }
+      .timeline-range::-webkit-slider-thumb { width: 18px; height: 18px; border-width: 2px; }
+      .timeline-range::-moz-range-thumb { width: 18px; height: 18px; border-width: 2px; }
+      .timeline-slider-labels { padding: 0 9px; }
+      .timeline-year-display { font-size: 13px; }
+
+      /* Hero Counter */
+      .hero-section { padding: 20px 0 14px; }
+      .hero-section-label { font-size: 10px; letter-spacing: 2px; margin-bottom: 2px; }
+      .hero-context-line { font-size: 11px; }
+      .hero-view-badge { font-size: 9px; padding: 3px 10px; margin-bottom: 6px; display: flex; justify-content: center; }
+      .hero-counter { font-size: 36px !important; display: block; text-align: center; }
+      .sparkle-container { display: block; text-align: center; }
+      .hero-approx { font-size: 13px; margin-bottom: 10px; }
+      .hero-rate { font-size: 12px; padding: 6px 14px; }
+      .hero-rate .arrow { font-size: 13px; }
+
+      /* Countdown */
+      .countdown-box { padding: 10px 14px; min-width: 60px; border-radius: 10px; }
+      .countdown-value { font-size: 20px; }
+      .countdown-label { font-size: 8px; letter-spacing: 0.5px; }
+
+      /* Stats */
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 14px 0 24px; }
+      .stat-card { padding: 12px; border-radius: 12px; }
+      .stat-icon { font-size: 18px; margin-bottom: 4px; }
+      .stat-label { font-size: 9px; margin-bottom: 4px; }
+      .stat-value { font-size: 18px; }
+      .stat-sub { font-size: 10px; }
+
+      /* Section titles centered on mobile */
+      .section-title, .section-subtitle { text-align: center; }
+
+      /* Stat card content centered */
+      .stat-card { text-align: center; }
+
+      /* Map */
+      .map-section { padding: 16px 0; }
+      .map-container { grid-template-columns: 1fr; gap: 16px; }
+      .map-wrapper { padding: 12px; border-radius: 14px; }
+      .map-legend { gap: 6px; padding: 8px 10px; border-radius: 8px; flex-wrap: wrap; }
+      .legend-item { font-size: 9px; gap: 4px; }
+      .legend-color { width: 12px; height: 8px; }
+      .district-info-panel { padding: 16px; border-radius: 14px; }
+      .panel-title { font-size: 14px; margin-bottom: 12px; }
+      .panel-instruction { padding: 24px 12px; font-size: 12px; }
+      .panel-district-name { font-size: 16px; margin-bottom: 12px; }
+      .panel-stat-label { font-size: 11px; }
+      .panel-stat-value { font-size: 13px; }
+
+      /* District List */
+      .district-list-section { padding: 20px 0 40px; }
+      .list-controls { gap: 6px; margin-bottom: 14px; }
+      .sort-btn { padding: 6px 12px; font-size: 10px; }
+      .district-item {
+        grid-template-columns: 28px 1fr;
+        padding: 12px;
+        gap: 6px;
+        border-radius: 10px;
+      }
+      .district-item > div:nth-child(n+3) {
+        grid-column: 2;
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+      }
+      .district-item .col-hide { display: none; }
+      .district-rank { font-size: 12px; }
+      .district-name-text { font-size: 13px; }
+      .district-name-sub { font-size: 9px; }
+      .district-hcr { font-size: 14px; }
+      .district-hcr-label { font-size: 8px; }
+
+      /* Footer */
+      .footer { padding: 16px 0; font-size: 10px; }
+
+      /* Map tooltip - fullwidth on mobile */
+      .map-tooltip { min-width: 180px; padding: 12px; border-radius: 10px; }
+
+      /* Reduce background effects for performance */
+      .bg-orbs::before { width: 300px; height: 300px; }
+      .bg-orbs::after { width: 250px; height: 250px; }
+      .bg-grid { background-size: 40px 40px; }
+    }
+
+    /* Very small phones */
+    @media (max-width: 380px) {
+      .container { padding: 0 8px; }
+      .header-title h1 { font-size: 12px; }
+      .hero-counter { font-size: 30px !important; }
+      .hero-approx { font-size: 11px; }
+      .countdown-box { padding: 8px 10px; min-width: 50px; }
+      .countdown-value { font-size: 16px; }
+      .mode-btn { padding: 6px 14px; font-size: 10px; }
+      .stat-value { font-size: 16px; }
+      .stats-grid { gap: 6px; }
+      .district-item {
+        grid-template-columns: 24px 1fr;
+        padding: 10px;
+      }
+      .timeline-slider-labels span { font-size: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particleCanvas"></canvas>
+  <div class="bg-grid"></div>
+  <div class="bg-orbs"></div>
+
+  <!-- Tooltip -->
+  <div class="map-tooltip" id="mapTooltip">
+    <div class="tooltip-title" id="tooltipTitle"></div>
+    <div id="tooltipContent"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <div class="header-left">
+        <img src="GFST logo.jpeg" alt="GFST Logo" class="logo-img" />
+        <div class="header-title">
+          <div class="org-name">GFST - NEXT ERA OF GOVERNANCE</div>
+          <h1>Andhra Pradesh Poverty Clock</h1>
+          <span>Global Forum For Sustainable Transformation &middot; MPI Data &middot; Real-Time</span>
+          <span class="header-sources">NFHS-4 &middot; NFHS-5 &middot; Mission Zero Poverty 2029</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="live-badge">
+          <div class="live-dot"></div>
+          LIVE
+        </div>
+        <div class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">
+          <div class="toggle-thumb">
+            <span id="themeIcon">🌙</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Timeline -->
+    <section class="timeline-section animate-in">
+      <div class="timeline-mode-toggle">
+        <button class="mode-btn active" id="modeLive">
+          <span class="live-dot-sm"></span> LIVE
+        </button>
+        <button class="mode-btn" id="modeTimeline">
+          TIMELINE
+        </button>
+      </div>
+      <div class="timeline-sub">
+        Compounding toward <strong>Zero Poverty</strong> by 2029
+      </div>
+      <div class="timeline-slider-wrap" id="timelineSliderWrap">
+        <div class="timeline-slider-labels" id="timelineLabels">
+          <span data-year="2015" style="left:0%">2015</span>
+          <span data-year="2019" style="left:28.57%">2019</span>
+          <span data-year="2022" style="left:50%">2022</span>
+          <span data-year="2026" style="left:78.57%">2026</span>
+          <span data-year="2029" style="left:100%">2029</span>
+        </div>
+        <input type="range" class="timeline-range" id="timelineRange" min="2015" max="2029" value="2025" step="1" />
+        <div class="timeline-year-display" id="timelineYearDisplay">2025</div>
+      </div>
+      <div class="timeline-bar">
+        <div class="timeline-fill" id="timelineFill"></div>
+      </div>
+    </section>
+
+    <!-- Hero Counter -->
+    <section class="hero-section animate-in delay-1">
+      <div class="hero-section-label">Andhra Pradesh — People Living in Poverty</div>
+      <div class="hero-context-line">Projected from NFHS-4 & NFHS-5 · <strong>Quadratic Curve to Zero by 2029</strong></div>
+      <div class="hero-view-badge" id="viewBadge">
+        <span class="live-indicator"></span> LIVE
+      </div>
+      <div class="sparkle-container">
+        <div class="hero-counter" id="heroCounter">0</div>
+      </div>
+      <div class="hero-approx" id="heroApprox">
+        <span class="highlight" id="heroHCR">0%</span> of <span id="heroTotalPop">0</span> population
+      </div>
+      <div class="hero-rate" id="heroRate">
+        <span class="arrow">▼</span>
+        <span id="rateText">Reducing at ~0 people/day</span>
+      </div>
+      <div style="margin-top:20px; display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+        <div class="countdown-box">
+          <div class="countdown-value" id="cdDays">0</div>
+          <div class="countdown-label">Days</div>
+        </div>
+        <div class="countdown-box">
+          <div class="countdown-value" id="cdHours">0</div>
+          <div class="countdown-label">Hours</div>
+        </div>
+        <div class="countdown-box">
+          <div class="countdown-value" id="cdMins">0</div>
+          <div class="countdown-label">Minutes</div>
+        </div>
+        <div class="countdown-box">
+          <div class="countdown-value" id="cdSecs">0</div>
+          <div class="countdown-label">Seconds</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Cards -->
+    <section class="stats-grid animate-in delay-2">
+      <div class="stat-card" style="--card-accent: linear-gradient(90deg, #10b981, #06b6d4);">
+        <div class="stat-icon">📉</div>
+        <div class="stat-label">Poverty Rate (HCR)</div>
+        <div class="stat-value green" id="statHCR">—</div>
+        <div class="stat-sub">Headcount Ratio</div>
+      </div>
+      <div class="stat-card" style="--card-accent: linear-gradient(90deg, #06b6d4, #6366f1);">
+        <div class="stat-icon">👥</div>
+        <div class="stat-label">People in Poverty</div>
+        <div class="stat-value blue" id="statPeople">—</div>
+        <div class="stat-sub" id="statPeopleSub">Live estimate</div>
+      </div>
+      <div class="stat-card" style="--card-accent: linear-gradient(90deg, #8b5cf6, #a78bfa);">
+        <div class="stat-icon">📊</div>
+        <div class="stat-label">Daily Reduction</div>
+        <div class="stat-value purple" id="statRate">—</div>
+        <div class="stat-sub">People exiting poverty/day</div>
+      </div>
+      <div class="stat-card" style="--card-accent: linear-gradient(90deg, #f59e0b, #ef4444);">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-label">Target Year</div>
+        <div class="stat-value amber">2029</div>
+        <div class="stat-sub">Zero poverty goal</div>
+      </div>
+      <div class="stat-card" style="--card-accent: linear-gradient(90deg, #6366f1, #8b5cf6);">
+        <div class="stat-icon">🗓️</div>
+        <div class="stat-label">Days Remaining</div>
+        <div class="stat-value purple" id="statDays">—</div>
+        <div class="stat-sub" id="statDaysSub">Until Dec 31, 2029</div>
+      </div>
+      <div class="stat-card" style="--card-accent: linear-gradient(90deg, #10b981, #6366f1);">
+        <div class="stat-icon">🏘️</div>
+        <div class="stat-label">Districts at Zero</div>
+        <div class="stat-value green" id="statZeroDistricts">0</div>
+        <div class="stat-sub">Achieved zero poverty</div>
+      </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section animate-in delay-3">
+      <h2 class="section-title">District-wise Poverty Map</h2>
+      <p class="section-subtitle">Hover or click a district to see detailed poverty statistics</p>
+
+      <div class="map-container">
+        <div class="map-wrapper">
+          <div class="map-legend" id="mapLegend"></div>
+          <div class="map-svg-container" id="mapSvgContainer">
+            <!-- SVG Map inserted by JS -->
+          </div>
+        </div>
+
+        <div class="district-info-panel" id="districtPanel">
+          <div class="panel-title">District Details</div>
+          <div class="panel-instruction" id="panelInstruction">
+            🗺️ Click on a district in the map to view detailed statistics
+          </div>
+          <div id="panelContent" style="display:none;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- District List -->
+    <section class="district-list-section animate-in delay-4">
+      <h2 class="section-title">District-wise Poverty</h2>
+      <p class="section-subtitle">All 26 districts of Andhra Pradesh — year-by-year poverty projections (2015–2029)</p>
+
+      <div class="list-controls">
+        <button class="sort-btn" data-sort="hcr">By HCR</button>
+        <button class="sort-btn active" data-sort="poverty">By People in Poverty</button>
+        <button class="sort-btn" data-sort="change">By Reduction</button>
+        <button class="sort-btn" data-sort="alpha">A-Z</button>
+        <button class="sort-btn" data-sort="population">By Population</button>
+      </div>
+
+      <div class="district-list" id="districtList"></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 AP Poverty Clock &nbsp;|&nbsp; Data: NFHS-4 (2015-16) & NFHS-5 (2019-21) · Quadratic Projection to Zero by 2029 &nbsp;|&nbsp; Population: Census 2011 + 1.09% p.a.</p>
+      <p style="margin-top:4px;">Mission Zero Poverty — Andhra Pradesh 2029</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===== DATA (Year-by-Year from AP_Poverty_Clock_Data.xlsx) =====
+    const dataYears = [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029];
+    const TARGET_DATE = new Date(2029, 11, 31);
+
+    // State-level yearly data
+    const stateYearlyData = {
+  2015: { population: 51580338, poor: 6128540, rate: 11.88, exited: 0, daily: 0, hourly: 0, perSec: 0 },
+  2016: { population: 52142566, poor: 5529523, rate: 10.6, exited: 599017, daily: 1641.1, hourly: 68.4, perSec: 0.019 },
+  2017: { population: 52710922, poor: 4951449, rate: 9.39, exited: 578074, daily: 1583.8, hourly: 66.0, perSec: 0.0183 },
+  2018: { population: 53285470, poor: 4395219, rate: 8.25, exited: 556230, daily: 1523.9, hourly: 63.5, perSec: 0.0176 },
+  2019: { population: 53866280, poor: 3861770, rate: 7.17, exited: 533449, daily: 1461.5, hourly: 60.9, perSec: 0.0169 },
+  2020: { population: 54453422, poor: 3352041, rate: 6.16, exited: 509729, daily: 1396.5, hourly: 58.2, perSec: 0.0162 },
+  2021: { population: 55046963, poor: 2867008, rate: 5.21, exited: 485033, daily: 1328.9, hourly: 55.4, perSec: 0.0154 },
+  2022: { population: 55646979, poor: 2407665, rate: 4.33, exited: 459343, daily: 1258.5, hourly: 52.4, perSec: 0.0146 },
+  2023: { population: 56253527, poor: 1975024, rate: 3.51, exited: 432641, daily: 1185.3, hourly: 49.4, perSec: 0.0137 },
+  2024: { population: 56866690, poor: 1578547, rate: 2.78, exited: 396477, daily: 1086.2, hourly: 45.3, perSec: 0.0126 },
+  2025: { population: 57486540, poor: 1214773, rate: 2.11, exited: 363774, daily: 996.6, hourly: 41.5, perSec: 0.0115 },
+  2026: { population: 58113142, poor: 874130, rate: 1.5, exited: 340643, daily: 933.3, hourly: 38.9, perSec: 0.0108 },
+  2027: { population: 58746579, poor: 559112, rate: 0.95, exited: 315018, daily: 863.1, hourly: 36.0, perSec: 0.01 },
+  2028: { population: 59386914, poor: 271278, rate: 0.46, exited: 287834, daily: 788.6, hourly: 32.9, perSec: 0.0091 },
+  2029: { population: 60034231, poor: 0, rate: 0, exited: 271278, daily: 743.2, hourly: 31.0, perSec: 0.0086 },
+};
+
+    // District-level year-by-year data
+    const districtData = {
+  "Srikakulam": {
+    poverty: [223717, 192501, 163301, 136192, 111252, 88567, 68214, 50283, 34856, 22023, 11873, 4501, 0, 0, 0],
+    hcr: [12.8, 10.9, 9.14, 7.54, 6.1, 4.8, 3.66, 2.67, 1.83, 1.14, 0.61, 0.23, 0, 0, 0],
+    population: [1747788, 1766839, 1786098, 1805566, 1825247, 1845142, 1865254, 1885586, 1906138, 1926915, 1947919, 1969151, 1990615, 2012312, 2034247]
+  },
+  "Parvathipuram Manyam": {
+    poverty: [187481, 161439, 137069, 114436, 93606, 74645, 57623, 42610, 29677, 18898, 10348, 4104, 244, 0, 0],
+    hcr: [17.5, 14.91, 12.52, 10.34, 8.37, 6.6, 5.04, 3.69, 2.54, 1.6, 0.87, 0.34, 0.02, 0, 0],
+    population: [1071318, 1082995, 1094800, 1106733, 1118797, 1130991, 1143319, 1155781, 1168379, 1181115, 1193989, 1207003, 1220160, 1233460, 1246904]
+  },
+  "Vizianagaram": {
+    poverty: [465192, 411259, 360046, 311665, 266225, 223840, 184627, 148706, 116196, 87225, 61920, 40412, 22830, 9311, 0],
+    hcr: [19.0, 16.62, 14.39, 12.32, 10.41, 8.66, 7.07, 5.63, 4.35, 3.23, 2.27, 1.47, 0.82, 0.33, 0],
+    population: [2448377, 2475064, 2502042, 2529314, 2556884, 2584754, 2612928, 2641409, 2670200, 2699305, 2728728, 2758471, 2788538, 2818933, 2849659]
+  },
+  "Visakhapatnam": {
+    poverty: [189540, 170275, 151759, 134019, 117088, 101002, 85791, 71493, 58141, 45773, 34425, 24135, 14940, 6881, 0],
+    hcr: [10.5, 9.33, 8.23, 7.19, 6.21, 5.3, 4.45, 3.67, 2.95, 2.3, 1.71, 1.19, 0.73, 0.33, 0],
+    population: [1805141, 1824817, 1844708, 1864815, 1885142, 1905690, 1926462, 1947460, 1968688, 1990146, 2011839, 2033768, 2055936, 2078346, 2101000]
+  },
+  "Anakapalli": {
+    poverty: [231633, 207769, 184859, 162945, 142068, 122268, 103589, 86075, 69771, 54722, 40977, 28583, 17588, 8044, 0],
+    hcr: [16.2, 14.37, 12.65, 11.03, 9.51, 8.1, 6.79, 5.58, 4.47, 3.47, 2.57, 1.77, 1.08, 0.49, 0],
+    population: [1429836, 1445422, 1461177, 1477104, 1493204, 1509480, 1525933, 1542566, 1559380, 1576377, 1593560, 1610929, 1628489, 1646239, 1664183]
+  },
+  "Alluri Sitaramaraju": {
+    poverty: [295876, 265393, 236130, 208138, 181470, 156178, 132319, 109948, 89121, 69900, 52342, 36510, 22466, 10274, 0],
+    hcr: [23.8, 21.12, 18.59, 16.21, 13.98, 11.9, 9.97, 8.2, 6.57, 5.1, 3.78, 2.61, 1.59, 0.72, 0],
+    population: [1243176, 1256727, 1270425, 1284273, 1298271, 1312422, 1326728, 1341189, 1355808, 1370586, 1385526, 1400628, 1415895, 1431328, 1446930]
+  },
+  "Kakinada": {
+    poverty: [73415, 70633, 67516, 64051, 60230, 56041, 51475, 46520, 41165, 35400, 29211, 22590, 15523, 7996, 0],
+    hcr: [6.5, 6.19, 5.85, 5.49, 5.11, 4.7, 4.27, 3.82, 3.34, 2.84, 2.32, 1.78, 1.21, 0.61, 0],
+    population: [1129458, 1141769, 1154215, 1166795, 1179514, 1192370, 1205367, 1218506, 1231787, 1245214, 1258787, 1272507, 1286378, 1300399, 1314574]
+  },
+  "Dr. B.R. Ambedkar Konaseema": {
+    poverty: [94721, 90934, 86740, 82126, 77079, 71589, 65641, 59223, 52322, 44924, 37017, 28585, 19615, 10091, 0],
+    hcr: [8.8, 8.36, 7.89, 7.39, 6.86, 6.3, 5.71, 5.1, 4.46, 3.79, 3.09, 2.36, 1.6, 0.81, 0],
+    population: [1076373, 1088106, 1099966, 1111956, 1124076, 1136329, 1148715, 1161236, 1173893, 1186688, 1199623, 1212699, 1225918, 1239280, 1252788]
+  },
+  "East Godavari": {
+    poverty: [308159, 296356, 283159, 268523, 252406, 234769, 215565, 194750, 172280, 148106, 122181, 94457, 64886, 33420, 0],
+    hcr: [9.7, 9.23, 8.72, 8.18, 7.61, 7.0, 6.36, 5.68, 4.97, 4.23, 3.45, 2.64, 1.79, 0.91, 0],
+    population: [3176893, 3211521, 3246527, 3281914, 3317687, 3353849, 3390406, 3427362, 3464720, 3502485, 3540662, 3579256, 3618270, 3657709, 3697578]
+  },
+  "West Godavari": {
+    poverty: [196113, 162463, 131421, 103083, 77548, 54919, 35300, 18797, 5518, 0, 0, 0, 0, 0, 0],
+    hcr: [9.5, 7.79, 6.23, 4.83, 3.6, 2.52, 1.6, 0.84, 0.25, 0, 0, 0, 0, 0, 0],
+    population: [2064346, 2086848, 2109594, 2132589, 2155834, 2179333, 2203087, 2227101, 2251377, 2275917, 2300724, 2325802, 2351153, 2376781, 2402688]
+  },
+  "Eluru": {
+    poverty: [175854, 145673, 117833, 92416, 69513, 49219, 31623, 16825, 4920, 0, 0, 0, 0, 0, 0],
+    hcr: [8.6, 7.05, 5.64, 4.37, 3.26, 2.28, 1.45, 0.76, 0.22, 0, 0, 0, 0, 0, 0],
+    population: [2044818, 2067106, 2089638, 2112415, 2135440, 2158716, 2182246, 2206033, 2230078, 2254386, 2278959, 2303800, 2328911, 2354296, 2379958]
+  },
+  "NTR District": {
+    poverty: [99042, 88839, 79042, 69672, 60746, 52279, 44293, 36805, 29833, 23399, 17521, 12220, 7520, 3439, 0],
+    hcr: [6.2, 5.5, 4.84, 4.22, 3.64, 3.1, 2.6, 2.14, 1.71, 1.33, 0.98, 0.68, 0.41, 0.19, 0],
+    population: [1597452, 1614864, 1632466, 1650260, 1668247, 1686431, 1704813, 1723396, 1742181, 1761171, 1780368, 1799774, 1819391, 1839222, 1859270]
+  },
+  "Krishna": {
+    poverty: [310095, 279519, 250037, 221699, 194551, 168644, 144027, 120750, 98871, 78438, 59513, 42147, 26399, 12330, 0],
+    hcr: [9.9, 8.83, 7.81, 6.85, 5.95, 5.1, 4.31, 3.57, 2.89, 2.27, 1.7, 1.19, 0.74, 0.34, 0],
+    population: [3132274, 3166416, 3200930, 3235820, 3271091, 3306746, 3342789, 3379225, 3416059, 3453294, 3490935, 3528986, 3567452, 3606337, 3645646]
+  },
+  "Guntur": {
+    poverty: [108817, 100894, 92979, 85076, 77191, 69323, 61479, 53660, 45872, 38119, 30403, 22727, 15101, 7524, 0],
+    hcr: [5.8, 5.32, 4.85, 4.39, 3.94, 3.5, 3.07, 2.65, 2.24, 1.84, 1.45, 1.08, 0.71, 0.35, 0],
+    population: [1876158, 1896608, 1917281, 1938180, 1959306, 1980662, 2002251, 2024076, 2046138, 2068441, 2090987, 2113779, 2136819, 2160111, 2183656]
+  },
+  "Palnadu": {
+    poverty: [180112, 167191, 154260, 141322, 128381, 115445, 102515, 89599, 76701, 63826, 50980, 38170, 25398, 12672, 0],
+    hcr: [11.2, 10.28, 9.39, 8.51, 7.64, 6.8, 5.97, 5.16, 4.37, 3.6, 2.84, 2.11, 1.39, 0.68, 0],
+    population: [1608143, 1625672, 1643392, 1661305, 1679413, 1697719, 1716224, 1734931, 1753841, 1772958, 1792283, 1811819, 1831568, 1851532, 1871714]
+  },
+  "Bapatla": {
+    poverty: [100540, 93023, 85541, 78097, 70696, 63342, 56038, 48791, 41603, 34480, 27426, 20444, 13543, 6727, 0],
+    hcr: [6.2, 5.67, 5.16, 4.66, 4.17, 3.7, 3.24, 2.79, 2.35, 1.93, 1.52, 1.12, 0.73, 0.36, 0],
+    population: [1621610, 1639285, 1657154, 1675216, 1693476, 1711935, 1730595, 1749459, 1768528, 1787805, 1807292, 1826991, 1846906, 1867037, 1887388]
+  },
+  "Prakasam": {
+    poverty: [491045, 433825, 379511, 328228, 280095, 235227, 193754, 155797, 121494, 90973, 64372, 41833, 23490, 9498, 0],
+    hcr: [13.84, 12.1, 10.47, 8.96, 7.56, 6.28, 5.12, 4.07, 3.14, 2.33, 1.63, 1.05, 0.58, 0.23, 0],
+    population: [3548016, 3586690, 3625785, 3665306, 3705257, 3745645, 3786472, 3827745, 3869467, 3911644, 3954281, 3997383, 4040955, 4085001, 4129527]
+  },
+  "Sri Potti Sriramulu Nellore": {
+    poverty: [349092, 311091, 274800, 240292, 207639, 176911, 148185, 121536, 97045, 74788, 54852, 37317, 22272, 9804, 0],
+    hcr: [11.27, 9.93, 8.68, 7.51, 6.42, 5.41, 4.48, 3.64, 2.87, 2.19, 1.59, 1.07, 0.63, 0.27, 0],
+    population: [3097533, 3131296, 3165427, 3199930, 3234810, 3270069, 3305713, 3341745, 3378170, 3414992, 3452216, 3489845, 3527884, 3566338, 3605211]
+  },
+  "Tirupati": {
+    poverty: [112051, 103394, 94814, 86314, 77902, 69584, 61365, 53254, 45253, 37371, 29617, 21996, 14513, 7179, 0],
+    hcr: [6.8, 6.21, 5.63, 5.07, 4.53, 4.0, 3.49, 3.0, 2.52, 2.06, 1.61, 1.18, 0.77, 0.38, 0],
+    population: [1647811, 1665772, 1683929, 1702284, 1720838, 1739596, 1758557, 1777725, 1797103, 1816691, 1836493, 1856511, 1876747, 1897203, 1917883]
+  },
+  "Chittoor": {
+    poverty: [164987, 152004, 139165, 126478, 113955, 101603, 89435, 77460, 65691, 54136, 42808, 31719, 20879, 10302, 0],
+    hcr: [10.8, 9.84, 8.91, 8.01, 7.14, 6.3, 5.49, 4.7, 3.94, 3.21, 2.51, 1.84, 1.2, 0.59, 0],
+    population: [1527654, 1544305, 1561138, 1578154, 1595356, 1612746, 1630324, 1648095, 1666059, 1684219, 1702577, 1721135, 1739896, 1758861, 1778032]
+  },
+  "Annamayya": {
+    poverty: [139663, 129076, 118557, 108111, 97745, 87466, 77280, 67193, 57214, 47349, 37605, 27990, 18512, 9181, 0],
+    hcr: [11.8, 10.79, 9.8, 8.84, 7.91, 7.0, 6.12, 5.26, 4.43, 3.63, 2.85, 2.1, 1.37, 0.67, 0],
+    population: [1183586, 1196487, 1209529, 1222713, 1236040, 1249513, 1263133, 1276901, 1290819, 1304889, 1319113, 1333491, 1348026, 1362719, 1377573]
+  },
+  "YSR Kadapa": {
+    poverty: [275330, 236143, 199538, 165614, 134473, 106217, 80952, 58787, 39831, 24197, 12002, 3360, 0, 0, 0],
+    hcr: [9.14, 7.75, 6.48, 5.32, 4.27, 3.34, 2.52, 1.81, 1.21, 0.73, 0.36, 0.1, 0, 0, 0],
+    population: [3012360, 3045195, 3078388, 3111942, 3145862, 3180152, 3214816, 3249858, 3285281, 3321091, 3357290, 3393885, 3430878, 3468275, 3506079]
+  },
+  "Anantapur": {
+    poverty: [363530, 330575, 298518, 267399, 237263, 208151, 180110, 153184, 127420, 102867, 79572, 57583, 36958, 17746, 0],
+    hcr: [11.8, 10.61, 9.48, 8.4, 7.37, 6.4, 5.48, 4.61, 3.79, 3.03, 2.32, 1.66, 1.05, 0.5, 0],
+    population: [3080764, 3114345, 3148291, 3182607, 3217298, 3252366, 3287817, 3323654, 3359882, 3396505, 3433527, 3470952, 3508786, 3547031, 3585694]
+  },
+  "Sri Satya Sai": {
+    poverty: [163325, 148226, 133570, 119376, 105665, 92458, 79777, 67644, 56080, 45109, 34755, 25043, 15996, 7639, 0],
+    hcr: [13.8, 12.39, 11.04, 9.76, 8.55, 7.4, 6.32, 5.3, 4.34, 3.46, 2.63, 1.88, 1.19, 0.56, 0],
+    population: [1183515, 1196416, 1209456, 1222640, 1235966, 1249438, 1263057, 1276825, 1290742, 1304811, 1319033, 1333411, 1347945, 1362638, 1377490]
+  },
+  "Nandyal": {
+    poverty: [343250, 323328, 302757, 281523, 259612, 237009, 213701, 189672, 164905, 139391, 113108, 86045, 58182, 29508, 0],
+    hcr: [18.5, 17.24, 15.97, 14.69, 13.4, 12.1, 10.79, 9.48, 8.15, 6.81, 5.47, 4.12, 2.75, 1.38, 0],
+    population: [1855403, 1875627, 1896072, 1916739, 1937631, 1958751, 1980102, 2001685, 2023503, 2045559, 2067856, 2090396, 2113181, 2136215, 2159499]
+  },
+  "Kurnool": {
+    poverty: [485960, 457700, 428527, 398424, 367371, 335345, 302330, 268303, 233244, 197133, 159945, 121659, 82257, 41712, 0],
+    hcr: [20.5, 19.1, 17.69, 16.27, 14.84, 13.4, 11.95, 10.49, 9.02, 7.54, 6.05, 4.56, 3.05, 1.53, 0],
+    population: [2370535, 2396374, 2422494, 2448900, 2475593, 2502577, 2529855, 2557430, 2585306, 2613486, 2641973, 2670770, 2699882, 2729311, 2759060]
+  },
+    };
+
+    const districtNames = Object.keys(districtData);
+
+    // Selected year mode: 'live' or a year number
+    let viewMode = 'live';
+
+    // ===== INTERPOLATION HELPERS =====
+    // Get year index (0-14) from year number
+    function yearIndex(year) { return year - 2015; }
+
+    // Interpolate a value between two year data points
+    function interpolateValue(arr, year, fraction) {
+      const idx = yearIndex(year);
+      if (idx < 0) return arr[0];
+      if (idx >= 14) return Math.max(0, arr[14]);
+      const start = arr[idx];
+      const end = arr[idx + 1];
+      return Math.max(0, start + (end - start) * fraction);
+    }
+
+    // Get current live state data (real-time interpolation)
+    function getLiveStateData(now) {
+      const year = now.getFullYear();
+      const yearStart = new Date(year, 0, 1);
+      const yearEnd = new Date(year + 1, 0, 1);
+      const fraction = (now - yearStart) / (yearEnd - yearStart);
+
+      if (year < 2015) return { poor: stateYearlyData[2015].poor, pop: stateYearlyData[2015].population, rate: stateYearlyData[2015].rate, daily: 0 };
+      if (year >= 2029) return { poor: 0, pop: stateYearlyData[2029].population, rate: 0, daily: 0 };
+
+      const sd = stateYearlyData[year];
+      const sdNext = stateYearlyData[year + 1];
+      const poor = Math.max(0, sd.poor + (sdNext.poor - sd.poor) * fraction);
+      const pop = sd.population + (sdNext.population - sd.population) * fraction;
+      const rate = Math.max(0, sd.rate + (sdNext.rate - sd.rate) * fraction);
+      const daily = sdNext.daily; // daily rate active during this year
+
+      return { poor: Math.round(poor), pop: Math.round(pop), rate, daily };
+    }
+
+    // Get snapshot data for a specific year
+    function getYearStateData(year) {
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      // If viewing the current year, use live interpolation so numbers match LIVE mode
+      if (year === currentYear && year >= 2015 && year < 2029) {
+        return getLiveStateData(now);
+      }
+      const sd = stateYearlyData[year];
+      return { poor: sd.poor, pop: sd.population, rate: sd.rate, daily: sd.daily || (stateYearlyData[year + 1] ? stateYearlyData[year + 1].daily : 0) };
+    }
+
+    // Get district data for a specific year (static snapshot)
+    function getDistrictYearData(distName, year) {
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      // If viewing the current year, use live interpolation so numbers match LIVE mode
+      if (year === currentYear && year >= 2015 && year < 2029) {
+        return getDistrictLiveData(distName, now);
+      }
+      const d = districtData[distName];
+      const idx = yearIndex(year);
+      const cIdx = Math.max(0, Math.min(14, idx));
+      return {
+        name: distName,
+        poverty: d.poverty[cIdx],
+        population: d.population[cIdx],
+        hcr: d.hcr[cIdx],
+      };
+    }
+
+    // Get district data with live interpolation
+    function getDistrictLiveData(distName, now) {
+      const d = districtData[distName];
+      const year = now.getFullYear();
+      const yearStart = new Date(year, 0, 1);
+      const yearEnd = new Date(year + 1, 0, 1);
+      const fraction = (now - yearStart) / (yearEnd - yearStart);
+
+      return {
+        name: distName,
+        poverty: Math.round(interpolateValue(d.poverty, year, fraction)),
+        population: Math.round(interpolateValue(d.population, year, fraction)),
+        hcr: Math.max(0, interpolateValue(d.hcr, year, fraction)),
+      };
+    }
+
+    // Get current HCR for a district (used by map coloring)
+    function getCurrentHCR(distName, now) {
+      const d = districtData[distName];
+      const year = now.getFullYear();
+      if (year < 2015) return d.hcr[0];
+      if (year >= 2029) return 0;
+      const yearStart = new Date(year, 0, 1);
+      const yearEnd = new Date(year + 1, 0, 1);
+      const fraction = (now - yearStart) / (yearEnd - yearStart);
+      return Math.max(0, interpolateValue(d.hcr, year, fraction));
+    }
+
+    // Get all district data for current view mode
+    function getAllDistrictData(now) {
+      return districtNames.map(name => {
+        if (viewMode === 'live') {
+          return getDistrictLiveData(name, now);
+        } else {
+          return getDistrictYearData(name, viewMode);
+        }
+      });
+    }
+
+    // Count districts at zero poverty
+    function getZeroDistricts(now) {
+      const allData = getAllDistrictData(now);
+      return allData.filter(d => d.poverty <= 0).length;
+    }
+
+    // ===== COLOR SCALE (2-color: Green ↔ Red) =====
+    function getHCRColor(hcr) {
+      // Green family — low poverty (good)
+      if (hcr <= 0) return '#064e3b';        // Zero — deepest green
+      if (hcr <= 1) return '#047857';        // Near zero — dark green
+      if (hcr <= 2) return '#059669';        // Very low — emerald
+      if (hcr <= 3) return '#10b981';        // Low — medium green
+      if (hcr <= 4) return '#34d399';        // Low-moderate — bright green
+      if (hcr <= 5) return '#6ee7b7';        // Moderate — light green
+      if (hcr <= 7) return '#a7f3d0';        // Acceptable — very light green
+      if (hcr <= 9) return '#d1fae5';        // Borderline — palest green
+      // Red family — high poverty (concerning)
+      if (hcr <= 11) return '#fee2e2';       // Slightly high — palest red
+      if (hcr <= 13) return '#fecaca';       // Moderate-high — very light red
+      if (hcr <= 15) return '#fca5a5';       // High — light red
+      if (hcr <= 18) return '#f87171';       // Very high — medium red
+      if (hcr <= 22) return '#ef4444';       // Severe — red
+      return '#991b1b';                       // Extreme — deep red
+    }
+
+    function getHCRColorName(hcr) {
+      if (hcr <= 0) return 'Zero Poverty';
+      if (hcr <= 1) return 'Near Zero';
+      if (hcr <= 2) return 'Very Low';
+      if (hcr <= 3) return 'Low';
+      if (hcr <= 4) return 'Low-Moderate';
+      if (hcr <= 5) return 'Moderate';
+      if (hcr <= 7) return 'Acceptable';
+      if (hcr <= 9) return 'Borderline';
+      if (hcr <= 11) return 'Slightly High';
+      if (hcr <= 13) return 'Moderate-High';
+      if (hcr <= 15) return 'High';
+      if (hcr <= 18) return 'Very High';
+      if (hcr <= 22) return 'Severe';
+      return 'Extreme';
+    }
+
+    // ===== THEME TOGGLE =====
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+
+    themeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      themeIcon.textContent = next === 'dark' ? '🌙' : '☀️';
+      localStorage.setItem('ap-poverty-theme', next);
+    });
+
+    // Restore theme
+    const savedTheme = localStorage.getItem('ap-poverty-theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      themeIcon.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+    }
+
+    // ===== FORMAT HELPERS =====
+    function formatNumber(n) {
+      if (n >= 10_000_000) return (n / 10_000_000).toFixed(2) + ' Cr';
+      if (n >= 100_000) return (n / 100_000).toFixed(2) + ' L';
+      if (n >= 1_000) return (n / 1_000).toFixed(1) + 'K';
+      return Math.round(n).toLocaleString();
+    }
+
+    function formatPeople(n) {
+      return Math.round(n).toLocaleString('en-IN');
+    }
+
+    // ===== AP MAP SVG =====
+    // AP map with 26 districts - simplified tessellating polygons
+    // ViewBox: 0 0 500 700
+    // AP is elongated NE to SW along the east coast
+    // Coastal districts: Srikakulam → Nellore (NE to S)
+    // Interior districts: Kurnool, Anantapur, Kadapa, Chittoor (NW to S)
+    
+    // Shared boundary vertices for proper tessellation
+    // A=370,40 B=420,25 C=310,80 D=440,90 E=260,120 F=390,135 G=435,160
+    // ... etc (tessellation ensured by shared coordinates)
+    
+    const districtPaths = {
+  "Alluri Sitaramaraju": "M399.2,209.6L398.0,208.8L398.6,207.6L398.4,206.9L396.6,207.3L395.3,208.1L394.8,206.6L394.4,206.3L393.0,205.7L391.7,205.8L391.3,205.3L390.7,205.5L390.6,206.2L389.8,205.9L389.6,204.5L390.8,203.1L391.3,202.0L390.3,202.0L388.2,203.9L387.6,203.9L386.3,203.2L385.3,203.8L384.8,203.6L384.5,204.0L384.2,204.0L384.0,204.7L383.2,205.1L383.0,205.1L382.6,204.7L381.5,205.1L380.6,204.6L380.4,204.2L379.8,204.6L378.7,203.8L378.5,203.3L378.9,202.6L378.7,201.3L377.3,201.6L376.4,201.2L376.2,201.6L375.8,200.7L374.2,199.8L373.6,199.7L372.0,200.9L372.3,202.1L373.0,202.3L372.5,202.9L372.7,203.5L372.0,203.8L372.5,204.9L371.7,205.7L371.5,206.3L371.0,206.5L370.6,206.3L370.4,206.9L369.6,206.9L369.4,207.0L369.5,207.3L369.1,207.4L368.6,207.2L368.0,207.3L367.6,207.9L366.8,207.9L366.2,208.4L365.7,208.3L365.2,208.8L364.5,208.9L364.2,208.6L363.7,208.6L363.7,209.4L364.2,209.8L363.6,210.5L364.1,211.2L364.1,211.6L363.4,212.4L362.0,211.1L360.9,210.8L360.9,210.2L360.4,210.1L361.0,208.4L360.9,208.1L360.3,208.2L360.0,207.8L360.8,206.9L361.6,207.1L361.8,206.7L361.2,205.6L362.0,205.7L362.4,205.1L361.5,204.7L361.4,203.8L361.1,203.9L360.8,203.4L360.4,203.2L360.2,203.5L359.7,202.9L358.9,202.7L358.5,203.1L357.3,202.4L358.0,202.0L357.6,201.4L358.3,201.0L358.2,200.8L358.8,199.8L357.7,199.3L357.8,199.8L357.5,200.1L357.1,199.2L356.8,199.2L356.8,198.9L356.3,198.8L357.2,198.1L356.8,197.9L357.1,197.5L356.7,197.1L356.9,196.7L356.8,196.5L357.1,196.2L356.0,195.7L355.5,196.0L354.4,195.2L354.1,194.4L354.8,194.2L354.3,193.9L351.9,195.9L351.2,196.9L351.5,197.1L351.1,197.6L349.5,198.9L349.0,199.8L348.4,200.1L348.1,200.8L347.1,201.5L348.0,202.5L348.1,203.4L348.4,203.6L348.3,204.7L347.4,205.2L346.3,206.8L345.5,207.1L346.2,207.7L346.6,207.7L347.7,207.0L348.6,207.0L348.9,207.8L348.7,208.8L347.8,209.8L347.1,210.0L345.9,209.8L345.2,211.6L345.4,212.2L344.7,212.8L345.5,213.2L344.7,214.0L343.9,214.4L344.2,215.6L345.5,216.3L346.5,216.3L347.6,217.7L347.0,218.5L345.8,217.6L345.6,217.8L345.8,218.4L345.3,218.9L345.4,220.2L345.6,220.6L346.1,220.7L346.1,221.7L346.3,221.9L345.9,223.0L345.3,223.4L345.0,223.0L344.6,222.9L344.4,223.8L343.7,223.8L343.9,223.3L343.2,223.2L343.5,222.5L343.4,222.4L342.8,222.4L342.6,222.7L342.3,222.7L341.6,223.1L341.4,223.8L341.0,224.0L341.7,225.3L341.1,226.7L339.9,226.8L339.5,226.3L338.6,226.4L337.8,225.9L337.6,225.4L336.5,225.6L336.0,225.3L336.4,224.8L335.4,223.4L334.5,223.7L334.1,223.4L333.5,223.9L333.3,223.0L332.8,223.0L332.6,222.7L331.4,222.9L331.1,222.5L329.9,222.0L329.4,223.1L329.0,223.2L327.8,223.1L327.3,222.4L325.8,223.2L325.9,224.7L325.1,224.9L324.9,225.3L324.3,225.5L323.2,226.5L321.6,227.1L320.5,227.0L319.7,227.8L319.0,227.9L317.5,228.7L314.1,229.4L313.2,230.3L312.9,231.2L311.7,231.7L311.4,232.2L309.1,233.7L308.1,234.1L307.4,232.4L306.7,233.3L305.8,233.2L305.2,233.5L304.0,235.9L303.3,236.5L302.9,236.4L302.5,237.1L301.2,236.3L300.1,236.2L299.4,236.8L297.4,237.0L296.7,237.4L295.0,237.6L294.1,236.1L292.3,236.9L291.5,236.5L290.5,237.6L290.2,237.3L289.4,237.2L289.1,237.5L289.1,238.7L288.3,238.1L286.9,237.6L281.6,237.8L277.7,235.6L275.6,235.0L273.3,236.8L271.9,237.4L270.7,238.7L271.5,239.8L270.7,239.9L270.8,240.7L270.3,240.7L270.9,242.2L271.1,242.2L271.1,243.0L270.7,243.2L269.8,242.3L269.6,242.6L269.8,243.4L270.2,243.7L270.5,243.4L270.1,244.5L269.7,244.5L269.3,244.0L269.4,243.4L267.0,243.1L268.3,242.7L267.9,241.6L267.3,241.4L266.7,241.7L265.2,241.3L264.8,241.0L264.4,239.7L263.7,239.6L263.1,239.9L262.5,240.7L261.5,240.6L260.8,241.3L260.2,241.5L259.7,241.3L259.0,242.2L259.4,244.5L258.8,245.7L259.7,245.6L260.6,246.0L260.4,247.9L261.1,248.2L262.3,248.2L264.9,247.1L266.0,247.3L266.3,247.6L266.2,249.9L266.6,250.3L268.1,250.4L269.4,249.7L270.6,249.6L272.3,249.0L272.8,249.2L273.4,250.5L273.4,251.0L274.0,251.3L276.9,251.9L278.2,251.9L279.0,252.3L281.2,252.0L282.4,253.0L283.2,254.6L283.1,255.9L283.4,256.4L284.3,256.9L286.6,256.2L287.5,256.2L288.6,256.7L289.0,257.8L290.1,258.3L292.4,258.4L294.3,258.0L295.3,257.3L295.9,257.5L297.5,259.7L298.0,259.9L299.4,259.7L300.1,260.1L300.7,261.8L301.7,261.4L302.4,261.7L302.5,262.1L302.1,262.3L301.8,263.5L302.4,264.9L302.3,265.9L302.6,266.4L304.1,266.6L306.1,267.8L306.3,268.6L305.3,269.1L305.0,269.7L306.0,270.2L305.2,270.1L305.5,270.7L306.1,270.9L306.2,270.4L306.3,271.0L306.7,271.1L306.8,271.6L306.4,272.0L306.7,272.1L307.6,272.1L308.7,272.7L308.5,271.7L309.3,272.0L310.3,271.7L310.7,272.0L311.5,271.0L313.2,271.4L313.8,271.2L313.9,270.4L315.1,270.5L314.8,268.7L315.2,267.5L316.0,267.5L316.2,268.0L316.8,268.2L317.0,268.7L317.2,268.5L317.5,268.8L318.3,268.2L318.3,267.2L318.9,267.0L320.1,267.8L320.9,267.2L320.3,269.4L320.8,269.5L320.9,269.2L321.9,269.2L322.5,268.9L322.7,268.5L323.3,268.5L323.2,268.1L324.0,267.9L323.8,267.1L325.3,267.5L325.9,267.2L326.0,267.5L326.8,267.4L327.5,267.7L327.6,268.3L328.8,268.1L328.9,268.4L329.6,267.9L330.8,268.3L330.5,267.9L329.2,267.8L328.6,267.1L329.1,266.2L328.7,265.4L329.1,264.4L328.6,264.1L328.5,263.6L329.4,262.7L329.6,263.0L329.8,263.0L330.2,262.4L329.6,262.3L329.8,262.0L330.3,261.9L330.6,262.8L331.3,262.0L331.3,262.4L331.5,262.5L331.2,262.7L331.4,263.0L332.2,262.6L332.4,262.7L332.3,263.0L332.6,262.9L332.7,263.3L332.0,263.6L332.1,264.1L331.6,264.6L331.1,264.7L330.8,265.2L331.0,265.6L331.8,265.7L331.3,266.5L332.2,266.3L332.7,266.7L332.8,265.4L333.9,265.6L334.6,265.1L334.0,264.9L334.3,264.3L333.7,264.1L334.2,264.0L335.3,263.3L335.6,263.5L336.4,262.9L337.2,263.3L338.4,262.7L338.3,262.3L340.5,260.3L342.4,259.4L342.6,257.5L345.3,255.5L345.2,255.1L345.5,254.8L345.0,253.0L346.7,253.5L346.3,252.8L347.3,251.7L350.7,250.6L350.6,250.4L352.9,249.8L353.0,248.4L352.0,247.9L351.4,248.1L351.0,247.1L350.1,247.7L348.6,248.1L346.8,248.1L346.1,247.7L345.9,247.2L346.4,246.6L345.9,246.2L346.1,245.7L346.8,245.7L346.9,245.4L347.7,245.1L348.3,245.6L348.7,245.2L349.2,245.3L349.2,245.1L350.1,244.9L350.9,244.0L350.7,243.4L351.5,242.9L352.3,243.0L352.5,242.3L352.9,242.2L355.0,243.0L355.3,243.4L355.9,242.9L354.9,244.0L355.1,244.7L355.7,244.6L357.9,243.3L358.4,241.6L358.9,241.5L359.0,240.2L360.3,239.9L360.7,240.0L360.3,240.3L360.5,240.5L361.5,240.3L360.8,239.6L361.5,239.6L362.2,239.1L362.1,239.6L363.2,240.0L363.7,238.7L362.3,236.1L362.5,235.9L362.6,236.2L363.2,236.4L365.9,235.0L366.4,235.5L366.7,235.4L367.0,234.5L368.1,234.4L368.1,234.1L367.5,234.0L367.2,233.6L367.3,233.4L366.4,232.7L365.1,232.2L366.1,232.1L367.2,232.5L367.8,231.6L367.4,231.2L368.7,230.6L368.7,230.1L367.6,229.7L368.0,229.2L369.0,229.7L369.8,229.6L369.6,230.1L369.9,230.3L370.7,230.2L370.6,229.7L370.0,229.6L370.1,229.0L370.8,229.4L372.0,230.8L372.1,230.4L373.1,231.2L373.6,230.9L373.8,230.3L374.3,230.6L374.7,230.4L375.2,229.9L375.3,229.1L376.1,228.8L376.2,228.2L375.6,227.9L375.5,227.2L376.3,226.4L376.7,226.5L377.2,225.9L377.7,226.0L378.3,225.6L378.4,225.9L379.3,225.8L379.7,226.2L379.5,226.6L379.9,226.9L379.7,227.1L380.1,227.4L381.5,227.3L382.5,226.2L383.4,225.6L384.0,225.6L383.8,224.8L385.4,222.8L385.6,221.7L386.4,221.1L385.1,221.3L385.7,220.9L385.3,219.5L384.2,218.2L384.8,217.8L385.9,217.5L386.6,218.4L386.8,218.3L387.2,219.5L388.6,219.8L388.7,220.3L389.0,220.1L389.1,219.4L389.5,219.4L389.2,220.7L388.0,221.3L387.8,222.2L388.0,222.7L388.0,221.6L389.0,222.0L390.0,221.1L390.5,221.2L392.7,220.2L392.8,219.8L392.1,219.6L392.5,219.2L392.1,218.6L392.6,217.6L393.3,217.6L394.7,218.1L395.0,217.7L393.8,216.8L392.3,216.8L391.4,215.7L391.1,214.6L391.7,214.1L392.3,214.1L392.5,214.5L393.2,214.7L393.3,215.8L394.3,216.1L395.0,215.8L395.2,215.5L395.1,215.2L394.7,215.2L394.8,214.4L394.4,213.7L395.2,213.5L395.4,213.1L396.4,214.8L397.8,215.2L398.3,215.0L397.8,214.5L398.2,214.0L398.0,213.1L398.4,213.4L398.5,214.2L399.3,214.4L399.3,213.2L399.8,212.8L400.8,213.6L400.5,212.2L400.8,210.5L399.2,209.6Z",
+  "Anakapalli": "M388.0,222.7L387.8,222.2L388.0,221.3L389.2,220.7L389.5,219.4L389.1,219.4L389.0,220.1L388.7,220.3L388.6,219.8L387.2,219.5L386.8,218.3L386.6,218.4L385.9,217.5L384.8,217.8L384.2,218.2L385.3,219.5L385.7,220.9L385.1,221.3L386.4,221.1L385.6,221.7L385.4,222.8L383.8,224.8L384.0,225.6L383.4,225.6L382.5,226.2L381.5,227.3L380.1,227.4L379.7,227.1L379.9,226.9L379.5,226.6L379.7,226.2L379.3,225.8L378.4,225.9L378.3,225.6L377.7,226.0L377.2,225.9L376.7,226.5L376.3,226.4L375.5,227.2L375.6,227.9L376.2,228.2L376.1,228.8L375.3,229.1L375.2,229.9L374.7,230.4L374.3,230.6L373.8,230.3L373.6,230.9L373.1,231.2L372.1,230.4L372.0,230.8L370.8,229.4L370.1,229.0L370.0,229.6L370.6,229.7L370.7,230.2L369.9,230.3L369.6,230.1L369.8,229.6L369.0,229.7L368.0,229.2L367.6,229.7L368.7,230.1L368.7,230.6L367.4,231.2L367.8,231.6L367.2,232.5L366.1,232.1L365.1,232.2L366.4,232.7L367.3,233.4L367.2,233.6L367.5,234.0L368.1,234.1L368.1,234.4L367.0,234.5L366.7,235.4L366.4,235.5L365.9,235.0L363.2,236.4L362.6,236.2L362.5,235.9L362.3,236.1L363.7,238.7L363.2,240.0L362.1,239.6L362.2,239.1L361.5,239.6L360.8,239.6L361.5,240.3L360.5,240.5L360.3,240.3L360.7,240.0L360.3,239.9L359.0,240.2L358.9,241.5L358.4,241.6L357.9,243.3L355.7,244.6L355.1,244.7L354.9,244.0L355.9,242.9L355.3,243.4L355.0,243.0L352.9,242.2L352.5,242.3L352.3,243.0L351.5,242.9L350.7,243.4L350.9,244.0L350.1,244.9L349.2,245.1L349.2,245.3L348.7,245.2L348.3,245.6L347.7,245.1L346.9,245.4L346.8,245.7L346.1,245.7L345.9,246.2L346.4,246.6L345.9,247.2L346.1,247.7L346.7,248.1L348.7,248.1L350.1,247.7L351.0,247.1L351.4,248.1L352.0,247.9L353.0,248.3L353.1,249.2L352.8,249.6L352.9,249.8L350.6,250.4L350.7,250.6L347.3,251.7L346.3,252.8L346.7,253.5L345.0,253.0L345.5,254.8L345.2,255.1L345.1,256.0L345.9,256.5L346.8,255.7L347.8,255.5L347.9,255.7L347.3,256.8L347.6,257.4L348.6,257.4L349.8,258.1L351.5,257.9L351.5,257.5L352.3,257.3L352.5,256.5L352.2,255.5L353.1,255.5L353.3,255.0L352.8,254.4L353.3,254.3L353.2,254.1L353.8,254.6L353.5,254.9L353.8,255.0L354.0,256.1L354.4,256.2L354.8,256.1L355.3,255.6L355.5,256.0L356.2,256.1L357.5,255.7L358.0,255.4L358.3,254.5L358.7,254.9L358.8,256.7L359.2,256.6L360.3,258.0L361.4,258.5L361.1,259.5L360.1,260.6L358.8,261.6L358.5,262.7L357.7,263.6L358.5,264.9L359.2,265.0L359.1,265.5L358.8,265.5L358.8,266.2L358.5,266.6L357.3,266.4L357.3,267.6L356.3,268.1L356.5,269.4L357.5,270.2L357.6,271.1L367.8,265.3L384.4,257.8L385.2,256.9L385.4,256.3L386.1,255.8L391.8,253.4L392.8,249.4L394.1,247.4L393.7,246.9L392.5,246.7L392.6,246.4L392.2,246.0L392.6,245.3L391.9,245.1L391.7,244.7L391.8,244.4L392.3,244.5L392.2,243.6L393.1,243.7L393.3,243.5L393.7,243.5L394.2,242.4L395.9,242.9L396.3,243.4L396.7,243.3L396.7,243.7L397.3,243.8L397.6,243.2L396.9,243.0L397.6,243.1L397.9,242.8L397.4,242.5L396.8,240.9L397.1,240.3L398.2,241.1L399.0,240.2L398.9,238.7L400.3,237.9L400.7,236.9L399.1,236.6L399.2,235.3L398.6,234.9L399.0,233.9L397.8,233.6L397.4,234.6L397.7,234.8L397.3,235.5L396.2,235.3L396.1,235.7L395.0,235.5L394.6,236.0L393.9,235.6L393.8,234.2L393.3,233.9L392.8,234.0L392.4,233.0L392.6,232.1L392.2,231.5L391.6,231.1L391.5,230.2L390.4,230.1L389.3,229.8L388.3,228.8L387.3,228.3L386.3,228.2L385.5,227.9L385.4,227.0L385.8,226.6L385.4,226.1L385.4,224.9L385.8,224.6L385.6,224.0L386.5,222.9L388.0,222.7Z",
+  "Anantapur": "M58.2,453.1L60.3,453.0L60.6,452.5L61.0,452.4L61.2,450.9L62.7,450.9L63.8,450.4L66.3,450.3L66.9,449.8L68.4,449.6L69.8,449.0L72.0,449.0L72.2,448.6L72.6,448.6L72.8,447.8L73.1,447.5L73.9,447.5L73.9,447.8L74.3,447.9L76.1,448.0L76.7,449.1L77.8,448.2L77.7,446.8L78.1,446.2L77.7,445.8L76.5,445.8L75.0,444.6L75.1,443.8L73.7,444.4L72.2,444.6L72.2,445.3L71.9,444.6L70.7,444.7L70.6,444.1L71.1,444.1L71.2,443.7L69.5,441.4L69.2,441.3L68.5,441.9L67.2,441.9L66.9,440.6L64.5,440.4L65.1,439.8L64.8,439.5L65.1,439.4L65.0,438.9L65.7,438.2L65.2,437.4L65.9,436.6L65.7,435.7L66.0,435.6L66.2,435.2L66.6,435.3L67.2,435.1L67.7,434.4L67.6,433.8L66.1,433.2L66.4,432.2L67.2,431.9L68.7,432.1L69.4,431.6L70.0,429.8L70.4,429.6L70.8,429.9L71.3,429.8L71.3,428.8L73.5,428.6L74.8,427.6L75.3,427.4L76.1,428.3L76.6,428.0L78.2,428.4L78.4,427.8L77.5,427.6L78.4,427.5L78.1,426.1L79.3,425.2L79.8,425.8L80.7,425.5L81.0,425.8L84.5,426.3L85.1,427.0L85.8,427.1L86.5,427.7L85.9,428.7L86.4,430.3L85.9,430.3L86.0,431.6L86.3,431.9L87.8,432.0L89.0,432.5L89.4,432.3L89.6,431.9L89.3,430.3L90.9,430.0L91.4,429.0L92.3,426.5L94.3,426.8L94.1,426.3L94.7,425.4L95.0,422.7L94.1,422.6L94.0,422.9L93.5,422.9L93.5,422.3L92.8,422.3L92.6,421.6L91.6,421.3L91.0,421.5L90.8,421.3L91.6,419.7L91.6,419.3L89.8,418.1L90.9,416.6L91.6,414.9L93.0,415.5L93.8,413.5L92.3,413.0L92.6,411.4L93.7,408.7L94.4,408.3L94.8,408.5L95.2,407.7L94.9,406.9L92.2,406.2L92.3,405.6L90.9,404.9L90.6,404.4L90.2,405.0L89.0,404.6L88.6,403.6L87.6,402.9L87.6,401.5L86.7,400.8L86.9,399.8L87.3,399.8L87.4,399.0L87.8,398.5L87.8,397.8L87.4,397.3L86.9,397.2L86.6,396.7L85.5,396.3L84.7,398.1L83.0,397.9L81.4,397.3L81.5,396.8L81.9,396.9L81.5,396.6L81.6,396.3L82.5,395.8L82.5,395.5L82.3,395.5L82.4,394.8L82.2,394.2L80.3,393.9L80.1,394.0L79.6,396.5L78.3,396.5L77.6,396.9L77.4,396.0L76.0,396.1L75.7,396.5L75.7,396.9L74.9,397.5L74.6,398.3L74.1,397.8L73.5,397.9L73.3,397.8L73.5,397.2L72.0,396.9L71.9,396.2L70.9,395.6L71.1,394.6L70.1,394.4L69.8,393.5L69.2,393.9L68.7,393.7L69.0,392.3L67.8,391.7L67.6,390.9L66.9,390.7L66.2,390.7L66.1,391.2L65.4,391.4L65.2,392.3L64.1,392.3L63.8,392.9L63.8,393.7L62.1,393.4L61.7,392.7L59.7,392.2L58.8,391.2L57.3,391.4L56.1,392.2L54.3,391.3L54.0,391.8L54.3,392.3L53.3,392.1L53.2,391.4L52.7,391.3L51.8,391.2L51.6,391.5L50.9,391.7L49.0,391.3L48.3,394.0L46.2,394.1L45.9,395.4L45.2,395.4L44.8,396.8L43.6,396.8L43.1,396.1L41.1,396.0L39.5,395.1L38.6,395.2L38.1,396.1L36.8,395.9L36.7,397.3L36.3,397.9L35.1,398.6L35.0,400.3L34.5,401.9L34.3,401.8L34.1,402.6L33.0,402.4L32.8,402.8L32.5,402.8L32.3,404.3L30.1,404.1L30.6,403.1L30.5,402.6L27.7,402.6L26.6,403.0L26.5,403.7L25.4,403.5L24.4,402.8L22.8,402.7L22.5,402.5L21.8,402.6L21.1,402.4L20.1,402.8L19.4,401.1L17.7,399.9L16.9,399.8L15.5,398.9L15.0,399.4L14.6,399.4L14.4,400.0L14.1,400.0L14.3,400.1L13.9,401.1L14.9,403.4L14.7,404.1L14.2,404.3L14.0,405.0L13.1,405.2L13.5,406.1L16.6,406.4L17.2,407.2L17.5,407.2L18.0,406.6L19.5,406.4L19.6,408.3L19.3,410.8L18.3,410.8L18.2,411.1L18.6,411.3L18.9,412.4L18.7,413.9L18.0,414.3L18.2,414.5L18.2,415.2L18.7,415.4L18.7,415.9L17.7,415.8L17.7,417.0L16.6,416.9L16.5,417.2L14.5,417.3L15.0,419.0L15.7,419.9L14.7,421.9L14.7,422.7L14.0,423.5L13.4,428.2L14.3,428.8L14.4,428.6L15.0,431.1L15.7,431.8L15.9,432.5L16.9,432.7L17.3,432.5L17.6,433.1L18.8,433.8L19.5,435.9L20.5,435.7L20.7,435.3L21.5,434.9L25.9,435.2L25.7,436.2L25.0,437.3L24.1,437.2L24.3,439.5L24.0,440.3L22.4,439.0L21.5,440.3L20.6,440.6L20.6,443.4L21.7,444.9L24.2,445.4L24.8,446.5L22.9,447.8L23.6,448.6L23.8,449.5L24.5,449.6L26.5,449.3L27.8,450.0L29.7,449.4L30.7,449.4L31.1,450.3L31.8,450.6L32.3,451.3L33.5,451.1L34.4,450.7L34.5,449.5L34.3,448.9L34.6,448.4L34.0,448.5L34.0,448.1L34.3,447.7L34.3,446.6L35.3,445.5L35.7,443.8L37.4,443.7L39.2,444.9L41.1,444.9L42.0,445.3L42.4,445.1L42.8,444.4L44.5,443.8L44.6,445.7L44.3,447.2L49.1,447.6L49.1,449.1L48.8,450.1L49.9,450.5L50.3,450.9L50.2,451.7L50.5,452.1L50.8,452.2L52.3,451.6L52.3,450.6L51.8,450.2L51.8,448.6L51.5,448.2L50.5,447.9L50.6,447.3L49.9,445.8L50.0,444.8L50.9,444.0L51.7,443.9L52.9,444.5L53.1,445.4L54.0,445.2L53.9,446.5L54.2,447.3L54.8,447.4L56.0,446.7L56.4,447.3L57.1,447.4L57.4,448.6L56.7,450.2L57.4,451.5L57.5,452.5L58.2,453.1Z",
+  "Annamayya": "M164.6,435.2L164.4,435.3L164.6,435.5L164.2,435.3L163.8,435.6L164.5,436.0L164.3,436.6L165.1,437.8L164.9,439.1L165.2,439.7L164.9,439.8L164.9,439.5L164.7,439.9L164.6,439.7L164.5,439.9L164.6,440.7L165.3,441.4L164.8,442.6L163.2,440.5L162.4,440.7L160.4,439.4L161.0,437.8L161.4,437.7L160.7,437.7L159.6,436.7L158.6,436.8L158.0,436.4L156.8,436.7L156.3,437.4L154.9,437.1L154.3,436.5L154.0,435.6L153.7,436.0L152.5,434.6L152.3,434.7L151.9,434.3L151.6,433.5L151.5,433.7L151.4,433.4L151.3,433.7L151.2,433.0L150.9,433.5L150.3,433.5L150.5,434.5L149.8,434.5L150.2,434.8L150.6,434.8L150.4,435.0L150.9,435.3L150.7,435.7L150.9,435.9L151.1,435.8L151.1,435.5L151.2,435.9L152.3,435.6L149.3,437.2L148.2,436.5L147.2,436.5L146.3,435.8L143.3,435.5L143.3,435.3L143.0,435.5L141.5,433.9L140.2,433.5L139.4,432.7L138.5,432.3L138.6,435.0L140.4,438.1L140.2,440.2L141.2,442.7L140.6,443.9L140.8,444.9L139.4,444.8L138.9,446.3L137.0,446.3L136.2,446.7L135.5,446.7L132.9,445.2L132.0,445.8L131.4,445.6L131.6,446.2L130.7,446.6L127.0,446.3L126.7,446.4L126.7,447.5L127.6,448.3L127.2,449.3L126.9,449.4L125.9,449.2L126.3,448.3L125.7,447.8L125.3,447.9L123.9,447.2L123.4,447.5L122.9,447.2L122.4,447.8L122.7,449.2L123.7,450.1L124.3,451.5L122.2,452.7L122.0,453.5L121.5,453.5L121.3,453.2L120.7,453.7L120.7,454.5L121.1,454.2L121.3,454.5L120.7,455.0L120.5,455.5L121.7,456.1L120.8,457.2L120.3,457.2L120.3,456.9L119.7,457.1L119.9,456.7L119.4,456.5L119.6,456.1L120.7,455.9L119.7,454.8L118.5,454.9L118.3,454.0L116.7,453.9L115.5,454.3L113.4,455.8L114.5,457.7L114.1,459.0L113.5,459.0L113.4,459.2L113.8,460.9L113.2,461.4L113.3,462.9L114.3,463.5L115.0,463.6L114.5,464.8L112.5,465.2L112.1,466.2L110.8,466.8L110.1,467.6L109.2,467.3L109.4,466.8L109.1,466.6L107.7,467.9L107.1,467.8L106.8,468.9L106.0,468.7L105.2,469.5L104.9,469.5L104.8,470.3L104.3,470.4L103.7,470.1L103.3,470.2L103.6,470.6L103.0,471.9L102.7,472.1L102.8,472.5L101.5,472.9L101.4,473.2L102.3,473.8L102.2,475.5L102.7,476.0L102.6,476.4L102.0,476.4L101.1,477.1L99.4,477.0L98.3,476.5L96.7,476.8L96.0,476.7L95.8,477.0L94.5,476.7L94.0,477.7L93.0,478.3L92.5,479.3L93.2,479.6L94.2,480.9L93.8,482.3L92.6,482.4L91.2,482.0L91.4,482.6L91.0,483.2L91.6,483.4L91.6,483.8L92.3,484.2L92.3,485.2L92.9,485.2L93.1,484.7L93.8,484.4L96.4,484.4L97.1,484.6L97.0,485.8L99.1,486.1L99.1,487.5L98.2,488.5L98.5,489.9L99.7,489.0L100.0,488.3L100.8,488.6L101.0,487.9L101.6,488.0L102.4,488.8L103.0,488.5L106.4,488.1L107.9,488.5L110.0,488.2L111.0,488.5L110.9,489.0L111.2,489.2L110.5,490.6L110.5,491.3L109.8,492.2L109.8,492.8L109.3,493.2L109.6,494.8L109.1,495.6L109.6,497.3L109.4,497.5L109.8,499.8L109.6,500.6L108.8,502.0L109.0,502.2L109.5,501.9L111.4,503.1L111.3,503.4L110.4,503.6L109.9,503.5L110.1,503.1L109.8,503.0L109.5,503.7L110.1,503.7L110.9,504.7L112.0,504.4L112.5,503.7L112.9,503.8L113.3,503.9L113.5,505.1L113.7,505.1L116.2,504.0L116.6,503.3L117.8,503.2L118.3,502.2L118.1,501.8L117.1,501.6L118.1,500.8L117.8,499.6L118.0,499.2L117.4,498.4L116.8,498.1L117.1,497.1L115.6,497.1L115.6,496.7L115.9,496.6L115.4,496.4L116.7,494.7L118.3,494.7L119.2,494.3L119.0,494.5L119.4,494.7L119.9,493.7L120.8,492.8L122.8,494.5L123.6,494.3L124.3,494.6L125.4,494.3L126.3,494.7L126.6,494.2L126.5,493.8L125.0,493.2L124.4,492.7L126.3,492.1L127.2,492.6L127.0,493.4L127.4,493.5L128.2,491.6L130.0,491.4L130.0,491.9L129.3,492.8L129.5,492.9L130.0,492.4L131.1,491.9L131.0,489.7L131.7,488.6L134.8,488.9L134.8,488.0L134.4,487.1L134.7,486.9L135.8,487.0L136.4,486.0L137.7,484.8L137.8,483.1L138.4,483.9L138.4,484.3L139.6,484.2L139.4,484.8L139.8,486.3L139.0,487.4L139.4,488.2L140.5,488.1L141.2,488.9L141.9,489.0L142.3,488.8L142.7,488.2L143.9,488.8L144.2,488.1L144.8,488.1L145.1,487.2L144.6,486.3L146.4,485.9L146.4,485.4L146.1,484.6L145.4,484.8L145.2,484.6L146.3,483.7L145.3,482.3L145.3,480.6L146.8,480.3L147.6,479.4L148.9,479.1L148.9,477.6L148.2,477.4L147.9,476.8L148.0,475.8L149.0,475.7L149.1,475.0L148.8,474.8L148.2,474.9L147.9,474.4L147.4,474.4L147.2,473.3L148.1,473.0L147.8,472.5L149.4,472.6L149.6,472.1L149.2,472.1L148.7,471.5L147.9,471.1L148.0,470.3L146.9,469.8L147.1,469.5L148.0,469.8L148.3,470.6L151.5,471.2L152.3,472.9L154.1,473.0L155.4,472.0L156.0,472.7L156.8,473.1L157.5,473.9L159.4,475.2L159.2,475.5L158.7,475.3L158.2,475.7L158.0,476.3L159.6,477.5L159.9,478.4L161.0,478.8L161.0,478.3L164.0,478.4L164.8,480.5L168.8,478.6L171.3,478.1L171.6,477.7L171.6,477.2L171.3,477.2L171.6,476.8L173.3,477.1L174.5,476.3L174.7,476.1L173.9,475.9L173.7,474.4L172.7,472.6L172.5,471.4L173.0,470.5L172.8,469.7L173.7,468.6L173.9,467.2L173.5,466.5L173.4,465.6L173.7,464.7L173.0,464.1L172.6,462.5L173.0,461.6L173.0,460.3L173.5,459.5L173.7,458.0L173.1,457.1L172.2,452.5L171.8,451.7L172.6,449.5L171.6,448.2L171.8,447.4L169.8,443.7L168.4,443.1L168.3,441.5L166.3,438.6L166.1,436.8L165.5,435.6L164.6,435.2Z",
+  "Bapatla": "M220.6,368.3L223.3,363.6L226.0,360.8L228.7,358.7L232.5,356.5L236.0,355.0L240.8,353.3L244.6,352.5L247.9,352.3L250.8,352.8L252.4,353.8L253.2,355.4L253.8,355.4L253.2,355.1L253.3,354.6L253.0,353.5L253.2,353.7L254.6,355.2L254.4,356.2L253.9,356.0L253.5,356.3L254.6,360.1L254.1,360.4L253.9,359.7L253.8,360.0L253.4,359.5L253.5,358.9L253.2,358.7L253.2,357.9L252.8,357.7L252.8,357.0L252.6,358.5L254.5,361.6L255.2,362.3L255.9,362.4L255.8,360.6L256.1,359.4L257.2,356.7L257.5,356.6L257.6,355.6L258.2,354.4L258.7,353.7L259.0,353.8L260.0,350.2L259.5,349.8L259.7,348.0L259.6,347.3L259.2,347.6L259.3,345.1L258.4,342.1L258.7,342.0L258.7,341.2L258.1,341.2L258.3,341.1L258.4,340.5L258.2,339.9L257.8,339.8L257.9,339.0L257.1,339.1L257.7,337.4L255.6,333.4L256.3,332.4L255.1,332.3L254.9,330.9L252.8,330.7L252.6,330.4L252.8,330.0L252.4,330.4L251.4,330.1L251.3,330.6L250.9,330.5L250.8,330.8L251.1,330.8L250.8,331.5L250.1,331.3L249.8,330.7L249.1,330.7L248.8,331.5L247.4,331.7L247.1,333.4L246.3,333.7L244.9,333.7L244.5,332.5L243.9,332.6L243.2,332.2L243.2,331.8L242.9,332.1L242.4,332.0L242.3,331.3L241.4,331.1L241.2,331.8L240.9,331.6L240.2,333.1L239.4,333.2L239.8,334.8L239.2,334.6L238.9,334.9L238.6,335.4L239.1,335.6L239.0,336.4L238.5,336.8L239.2,337.3L239.7,336.2L240.3,336.3L240.1,338.0L240.7,338.3L241.3,339.1L241.7,339.2L241.4,341.6L241.8,342.4L240.9,342.8L241.2,343.2L240.8,343.8L239.7,343.4L239.6,344.4L238.9,344.5L238.8,344.9L238.3,344.6L238.1,345.4L237.5,345.2L237.7,344.4L237.3,344.4L236.7,345.1L235.8,345.4L235.6,345.4L236.0,344.9L235.4,344.7L233.5,344.6L233.1,345.2L233.4,345.6L233.1,346.3L231.6,346.4L231.5,345.3L228.3,344.5L227.5,344.0L227.6,343.6L226.8,343.5L226.2,344.3L225.6,344.1L225.7,343.7L224.9,343.5L225.1,342.6L224.2,341.9L224.1,342.3L221.8,342.1L221.8,342.5L220.5,342.1L220.3,343.0L219.9,343.0L219.9,343.3L217.5,342.9L217.4,343.7L217.0,343.7L217.0,343.2L215.4,342.8L215.4,342.5L214.4,342.5L214.1,344.1L214.5,344.3L213.3,344.0L211.9,344.6L211.3,344.0L211.2,342.2L210.9,341.9L211.1,341.5L210.4,340.7L210.6,339.8L210.3,339.6L209.0,340.2L208.6,339.7L209.2,338.1L209.2,337.5L207.4,338.4L206.8,338.1L206.9,337.7L206.1,337.1L206.2,336.9L204.6,336.6L204.8,336.3L204.5,336.1L203.4,335.5L203.4,336.2L203.1,336.7L202.4,337.0L202.2,337.4L200.3,336.4L198.9,336.1L198.2,337.2L198.7,337.6L198.3,339.5L199.1,339.7L199.2,340.1L199.9,340.0L199.9,340.6L201.2,340.8L201.4,341.5L201.2,342.4L199.0,342.9L198.2,343.9L198.0,345.6L199.0,345.3L199.7,345.5L199.7,346.0L200.4,346.2L200.1,346.9L200.9,347.2L200.4,348.7L200.0,348.4L199.9,348.8L199.1,348.8L198.8,349.1L198.8,349.5L199.9,351.0L199.7,351.1L199.9,351.9L200.8,352.5L200.6,352.9L202.4,353.9L203.1,353.9L202.8,354.7L202.9,355.2L201.5,355.4L201.3,355.7L201.3,357.6L200.7,359.3L201.4,360.4L201.2,360.9L200.7,361.1L200.6,361.7L199.7,362.2L199.8,362.6L200.2,363.0L200.9,363.0L202.6,363.8L202.8,363.0L203.3,363.1L203.6,362.5L204.1,362.6L204.5,362.2L205.0,363.0L207.4,363.6L207.3,363.9L207.6,364.0L208.3,362.5L209.4,363.3L210.0,363.3L210.3,364.1L211.4,363.8L212.2,364.2L212.0,364.5L213.5,364.9L213.8,364.1L212.9,363.7L212.8,363.0L213.7,363.0L214.4,363.6L214.6,363.1L215.2,363.1L216.1,361.5L216.5,361.6L217.3,360.9L217.5,359.8L217.3,359.5L217.9,359.0L218.5,359.2L218.4,359.5L218.8,360.0L217.4,362.5L217.8,363.0L217.7,363.4L216.9,364.0L216.4,366.0L216.9,366.7L216.6,367.6L220.6,368.3Z",
+  "Chittoor": "M193.0,505.2L192.3,504.3L191.7,504.3L190.6,502.3L189.9,501.6L189.6,501.6L189.5,500.5L188.4,500.3L188.8,498.8L189.2,498.5L189.1,497.3L188.0,497.0L187.9,497.2L187.2,497.1L186.7,497.4L186.6,499.0L185.3,499.0L185.3,499.7L184.5,500.3L184.5,500.0L184.2,500.3L183.9,499.8L182.3,499.7L181.1,500.1L180.7,499.7L180.8,498.2L179.9,498.7L179.9,497.2L181.2,497.2L181.7,496.6L181.0,495.9L181.8,495.7L182.0,495.4L181.4,495.0L181.1,495.2L180.3,494.4L180.2,493.1L178.9,492.9L178.4,493.4L178.6,492.5L179.5,491.7L179.3,490.9L179.7,490.8L180.5,489.4L180.1,489.4L179.9,488.6L179.2,488.6L178.6,487.7L178.2,488.5L178.6,489.5L178.1,490.0L177.4,489.8L177.3,490.2L176.6,490.1L176.3,489.3L175.9,489.2L175.5,489.4L175.3,489.9L174.3,489.9L174.1,492.0L173.0,492.5L172.7,493.1L173.0,493.7L171.6,494.2L171.6,494.6L171.2,494.2L171.3,493.6L170.7,493.5L169.6,494.4L169.4,494.1L168.5,494.2L167.8,494.4L168.1,494.5L167.4,494.3L167.3,494.6L163.9,494.8L162.1,495.5L161.8,496.4L161.0,496.8L160.9,497.2L160.3,497.1L160.1,496.8L159.6,497.5L160.2,497.4L160.5,497.6L160.9,497.4L161.0,498.1L162.0,498.3L160.5,498.6L160.2,498.3L159.8,498.6L159.2,498.0L158.8,498.6L159.0,498.9L160.2,499.0L160.1,499.6L159.8,499.9L161.5,499.7L161.5,501.1L160.9,501.0L160.9,500.2L160.7,500.0L160.5,500.2L160.1,500.0L160.0,500.8L159.6,500.8L158.5,499.7L157.9,500.2L157.4,500.0L157.1,500.4L157.4,500.9L156.1,500.8L155.9,500.5L155.2,500.9L155.1,500.6L155.7,500.4L156.2,499.6L155.7,499.2L155.8,498.8L155.5,498.8L155.5,499.1L155.1,499.1L155.1,498.4L154.5,498.3L154.3,498.6L154.0,498.3L152.1,498.2L152.0,497.3L150.9,496.7L149.9,496.8L148.8,495.5L147.3,494.9L146.6,494.2L145.5,494.2L145.6,492.8L145.3,492.0L144.5,491.8L143.7,491.2L144.7,491.2L145.1,491.4L146.3,491.0L146.8,491.3L147.5,491.1L147.9,490.0L148.8,490.0L149.2,491.3L150.4,492.0L151.5,491.8L151.6,492.6L152.5,492.9L153.3,492.7L153.2,492.4L155.2,492.4L157.3,491.1L156.7,489.8L157.1,488.4L156.9,487.6L156.0,487.7L152.2,487.1L149.9,487.0L149.5,486.7L149.7,485.1L151.0,484.3L151.2,482.7L152.1,480.5L151.5,479.5L151.7,478.1L152.0,477.8L151.9,477.0L150.6,477.0L149.3,477.3L148.9,477.6L148.9,479.1L147.6,479.4L146.8,480.3L145.3,480.6L145.3,482.3L146.3,483.7L145.2,484.6L145.4,484.8L146.1,484.6L146.4,485.9L144.6,486.3L145.0,487.0L145.0,487.6L144.8,488.1L144.2,488.1L143.9,488.8L142.7,488.2L142.3,488.8L141.4,489.0L140.7,488.2L139.4,488.2L139.0,487.9L139.0,487.3L139.8,486.3L139.4,484.8L139.6,484.2L138.4,484.3L138.4,483.9L137.8,483.1L137.7,484.8L136.4,486.0L135.8,487.0L134.7,486.9L134.4,487.1L134.8,488.0L134.8,488.9L131.7,488.6L131.0,489.7L131.1,491.9L130.0,492.4L129.5,492.9L129.3,492.8L130.0,491.9L130.0,491.4L128.2,491.6L127.4,493.5L127.0,493.4L127.2,492.6L126.3,492.1L124.4,492.7L125.0,493.2L126.5,493.8L126.6,494.2L126.3,494.7L125.4,494.3L124.3,494.6L123.6,494.3L122.8,494.5L120.7,492.8L120.4,493.4L119.9,493.7L119.4,494.7L119.0,494.5L119.2,494.3L118.3,494.7L117.0,494.6L116.0,495.6L115.8,496.1L115.4,496.4L115.9,496.6L115.6,496.7L115.6,497.1L117.1,497.1L116.8,498.1L117.9,499.0L118.1,500.8L117.1,501.6L118.1,501.8L118.3,502.3L117.8,503.2L116.6,503.3L116.2,504.0L115.5,504.3L115.8,504.4L115.6,505.5L116.8,505.7L117.0,506.1L117.6,506.1L117.6,506.5L118.0,506.6L118.1,507.2L118.7,507.6L119.1,506.3L120.1,506.5L120.7,505.8L120.6,505.0L120.9,505.1L121.4,505.9L121.4,506.5L121.5,506.7L122.0,506.7L122.0,507.2L121.9,507.9L121.1,508.7L120.8,510.0L120.8,510.3L121.4,510.4L121.5,510.8L121.1,510.8L120.9,511.5L119.8,511.5L119.8,512.1L120.8,511.9L121.4,512.3L121.6,513.5L121.2,513.4L120.9,513.8L119.8,513.6L119.2,514.2L119.7,514.6L119.5,515.0L118.7,515.0L118.3,515.6L117.9,515.6L118.0,516.3L119.1,517.1L118.3,517.4L118.2,517.8L117.8,517.6L117.4,517.9L117.3,518.7L117.7,519.1L117.7,519.7L116.7,519.7L116.1,520.3L115.5,520.1L115.3,520.8L114.5,520.8L114.6,523.1L115.3,523.9L114.9,524.9L113.0,524.5L112.8,525.3L113.1,525.6L112.6,525.9L112.0,525.9L112.1,526.5L111.5,526.7L112.0,528.0L112.6,527.5L113.1,527.7L114.9,529.1L115.0,530.0L114.7,531.3L114.7,530.7L113.7,529.9L113.6,528.7L113.0,528.7L112.6,529.3L111.6,529.2L110.8,528.3L110.6,529.0L110.2,529.0L108.1,527.0L107.9,527.2L108.1,527.6L107.8,527.7L107.7,528.5L107.4,528.7L107.5,528.9L107.3,529.2L106.5,529.1L106.3,529.4L106.1,530.1L106.6,530.3L107.0,530.0L107.1,530.4L106.7,530.8L105.7,530.8L105.6,531.8L103.8,531.8L103.0,531.3L102.8,531.6L102.1,531.6L101.6,535.9L101.2,537.2L100.8,537.6L101.4,539.4L100.8,540.5L99.4,540.7L99.5,541.2L98.9,541.6L99.5,541.8L99.6,542.0L101.2,542.1L101.3,541.2L101.6,540.8L103.2,540.9L105.0,543.2L106.1,543.6L106.8,544.3L107.5,544.3L109.1,545.6L111.6,545.5L112.5,545.1L112.9,545.4L114.3,545.4L114.7,545.8L115.1,545.3L115.1,544.6L115.3,544.4L115.1,544.2L114.9,542.7L115.9,542.9L116.8,542.7L117.0,541.9L117.2,541.8L116.6,541.1L116.9,541.0L117.0,540.3L117.5,540.8L118.0,540.5L118.0,540.1L117.1,539.9L116.9,539.4L116.4,539.1L116.2,538.7L116.4,538.4L117.6,539.2L117.6,539.8L117.8,539.8L118.0,539.1L118.3,540.3L119.0,540.2L119.0,540.5L119.4,540.6L118.9,540.8L118.6,540.6L118.9,541.8L120.1,541.3L120.1,540.8L120.5,540.8L120.0,540.1L120.6,539.1L120.1,538.9L120.5,538.1L120.3,538.3L120.1,537.9L120.4,537.6L120.7,537.7L120.9,537.3L121.3,537.2L121.3,537.0L122.3,536.3L122.3,535.4L122.8,535.1L122.8,534.2L123.2,534.0L122.8,532.3L123.5,531.3L124.8,527.5L126.2,527.5L125.0,525.5L125.6,525.4L124.1,523.9L126.1,522.4L126.1,521.6L129.0,522.4L129.5,519.3L131.1,519.6L131.8,520.2L134.3,519.4L135.5,518.1L137.2,518.7L138.9,518.5L138.9,517.9L139.6,517.6L140.4,517.7L140.0,519.0L140.2,521.5L142.4,521.2L142.9,521.6L143.1,521.2L142.4,520.7L140.9,520.6L141.4,519.5L142.0,519.4L142.1,518.6L143.1,518.7L143.6,518.4L144.0,518.9L144.4,518.7L144.8,518.9L145.0,518.4L146.3,518.2L147.3,518.9L148.8,519.2L148.9,519.8L150.4,520.3L150.3,521.0L151.4,521.9L152.5,521.9L153.0,521.1L153.5,521.1L154.7,521.3L155.4,521.9L156.3,522.2L157.4,521.5L157.6,521.6L158.1,520.6L157.4,520.6L157.3,520.2L158.0,520.1L157.3,520.0L157.3,519.6L157.8,519.8L158.0,519.4L158.0,519.1L157.6,519.1L157.6,518.7L157.4,518.4L157.9,518.5L158.0,518.1L158.4,518.6L158.5,518.2L160.6,517.2L160.8,516.4L160.3,515.9L160.5,515.2L159.1,514.6L159.4,514.1L160.2,514.2L160.0,514.0L160.6,513.2L161.1,513.2L161.2,514.6L160.9,514.9L161.2,515.2L161.8,514.7L161.8,513.9L162.2,513.9L162.3,514.6L163.2,514.1L163.5,516.1L165.3,515.9L164.5,516.4L164.6,516.7L164.2,516.9L164.9,517.1L165.1,516.8L165.6,516.7L165.2,516.5L165.9,516.4L165.6,516.1L166.2,515.6L166.9,515.7L166.9,515.3L167.2,515.3L167.2,516.2L168.1,516.1L168.4,515.5L168.1,515.2L167.9,513.6L169.3,513.7L169.3,513.3L168.7,513.0L169.8,512.7L168.9,512.1L169.9,512.0L170.4,512.2L171.1,511.8L171.1,512.1L172.8,512.2L172.4,511.7L173.1,511.1L172.6,510.8L172.7,510.5L173.6,510.5L173.6,509.2L172.9,509.2L172.8,509.7L172.3,509.7L172.8,509.4L172.3,509.4L172.7,509.0L171.6,509.0L171.5,508.8L171.8,508.4L171.5,508.4L171.4,508.0L170.9,507.6L172.5,507.1L172.5,506.3L173.2,506.1L173.1,505.5L172.3,505.6L171.6,506.2L171.4,505.6L169.8,505.7L169.8,505.0L169.4,505.1L169.7,504.5L170.6,504.5L170.3,503.8L170.8,503.5L171.3,503.8L171.7,503.4L172.3,503.4L172.6,502.5L173.8,503.3L175.3,503.2L176.4,502.7L176.3,503.6L177.0,503.5L177.1,503.1L178.0,502.9L178.6,503.3L178.7,504.3L179.0,504.6L178.5,505.5L178.9,506.0L178.5,506.5L178.5,507.0L179.9,507.2L180.8,508.0L181.8,507.9L182.1,506.5L182.4,506.4L182.9,506.3L182.7,506.8L183.2,506.6L184.2,507.4L184.3,506.6L184.6,506.3L184.8,507.1L184.9,506.2L185.4,506.1L185.8,506.6L186.3,506.4L186.2,506.9L186.8,506.7L187.0,505.8L187.3,505.9L187.2,506.3L187.9,506.8L187.6,507.3L188.0,507.4L187.8,507.9L187.6,507.6L187.0,507.9L187.3,508.9L188.1,509.3L187.9,509.0L188.3,508.4L188.8,508.5L189.1,509.4L188.7,509.5L188.4,510.0L189.1,510.5L189.6,510.1L190.2,510.2L190.2,509.4L190.6,509.4L191.2,510.2L191.4,511.2L191.9,511.2L192.1,510.5L192.7,510.4L192.8,510.7L192.9,510.1L193.5,509.8L193.9,510.0L193.9,509.1L190.8,507.3L190.2,506.5L191.7,505.8L191.9,504.5L193.0,505.2Z",
+  "Dr. B.R. Ambedkar Konaseema": "M340.2,290.4L339.9,291.4L339.4,291.3L338.6,292.8L337.9,292.7L337.2,294.6L336.1,294.7L336.0,294.3L334.9,293.8L334.1,293.9L334.3,294.0L334.5,295.2L334.0,296.0L333.4,296.3L332.8,295.8L332.0,295.6L331.8,295.2L331.4,295.2L331.1,295.7L330.7,295.7L330.9,295.3L330.4,294.5L331.9,294.0L331.0,293.3L331.0,292.8L329.8,292.7L329.7,293.0L328.9,292.9L328.8,293.3L328.2,293.2L328.0,292.7L328.2,292.0L327.6,291.8L327.7,291.5L327.1,292.0L327.2,291.5L326.2,291.2L326.2,290.7L325.6,290.8L325.2,291.2L325.0,292.0L324.4,292.0L324.3,292.8L324.7,293.1L324.4,293.8L323.9,293.9L324.1,294.4L323.3,296.4L322.8,296.2L322.9,295.6L322.5,295.5L322.7,294.1L323.0,293.6L322.4,293.2L322.8,291.8L321.6,290.9L321.8,287.9L321.3,287.8L321.2,287.4L320.7,287.3L320.6,287.0L320.2,287.7L319.7,287.9L319.4,288.8L318.4,288.8L318.2,289.1L317.2,289.4L317.1,289.7L317.6,289.9L317.6,290.9L317.2,291.4L317.8,291.7L318.3,291.6L318.2,292.2L318.4,292.4L318.3,292.9L317.6,293.1L317.4,293.7L317.7,294.8L317.2,295.0L316.5,294.9L316.3,293.5L315.4,293.3L315.2,293.9L314.6,293.8L313.7,294.3L313.7,293.0L313.1,292.0L312.7,289.8L312.2,289.1L310.7,289.0L309.3,289.2L308.9,291.0L309.4,291.0L309.5,293.0L310.3,293.8L310.6,294.6L310.7,296.4L310.2,298.1L311.3,300.0L312.9,300.9L313.2,301.7L312.6,303.2L315.9,306.7L316.9,308.9L317.0,309.8L316.7,312.1L316.2,313.8L316.4,315.4L316.2,315.8L313.9,316.5L312.6,317.7L312.4,318.5L310.8,320.1L309.6,320.1L309.3,319.1L308.7,318.6L308.2,318.8L307.5,319.9L307.3,321.0L307.8,321.9L308.5,324.5L308.2,325.3L308.4,326.1L307.3,327.3L316.7,323.0L322.1,321.7L332.8,316.2L338.7,313.4L342.3,312.2L344.1,311.2L344.6,310.1L344.3,309.7L344.3,308.8L344.7,306.1L347.4,302.4L347.0,301.7L345.7,301.4L345.7,300.8L346.5,296.8L346.3,296.6L347.1,291.4L346.8,288.1L346.2,287.0L344.9,286.2L344.7,286.6L345.4,287.4L340.2,291.2L340.2,290.4ZM341.1,303.9L339.4,302.6L337.6,302.6L336.9,302.4L337.0,301.9L336.5,301.9L336.5,301.5L337.7,301.6L338.0,300.7L338.5,300.7L338.6,300.2L338.8,300.3L339.0,300.0L339.2,300.4L338.8,300.5L338.4,301.7L340.8,302.5L341.5,302.4L341.8,302.1L342.7,302.1L343.6,300.8L344.0,301.9L343.6,302.7L342.7,303.5L341.1,303.9Z",
+  "East Godavari": "M313.5,304.0L312.6,303.1L313.2,301.7L312.9,300.9L311.3,300.0L310.2,298.1L310.7,296.4L310.6,294.6L310.3,293.8L309.5,293.0L309.4,291.0L308.9,291.0L309.3,289.1L312.2,289.1L312.7,289.8L313.1,292.0L313.7,293.0L313.7,294.3L314.6,293.8L315.2,293.9L315.4,293.3L316.3,293.5L316.5,294.9L317.2,295.0L317.7,294.8L317.4,293.7L317.6,293.1L318.3,292.9L318.4,292.4L318.2,292.2L318.3,291.6L317.8,291.7L317.2,291.4L317.6,290.9L317.6,289.9L317.1,289.7L317.2,289.4L318.2,289.1L318.4,288.8L319.4,288.8L319.7,287.9L320.2,287.7L320.6,287.0L320.7,287.3L321.2,287.4L321.3,287.8L321.8,287.9L321.6,290.9L322.8,291.8L322.4,293.2L323.0,293.6L322.7,294.1L322.5,295.5L322.9,295.6L322.8,296.2L323.3,296.4L324.1,294.4L323.9,293.9L324.4,293.8L324.7,293.1L324.3,292.8L324.4,292.0L325.0,292.0L325.2,291.2L325.6,290.8L326.2,290.7L326.2,291.2L327.2,291.5L327.1,292.0L327.7,291.5L327.6,291.8L328.2,292.0L328.0,292.7L328.2,293.2L328.5,293.3L328.8,293.3L328.9,292.9L329.7,293.0L329.8,292.7L331.0,292.8L330.9,293.2L331.8,292.8L331.6,292.4L332.3,292.5L332.7,292.0L333.3,292.4L334.0,292.1L334.6,290.6L334.2,290.1L334.4,289.8L335.2,289.2L335.4,288.7L336.4,288.9L337.9,286.9L337.3,286.7L337.1,287.0L336.7,286.9L336.4,287.2L335.9,286.5L334.9,286.3L334.6,286.9L334.1,287.1L332.9,286.7L332.3,287.6L331.5,287.5L331.4,288.3L330.6,288.0L329.7,288.2L329.3,286.3L328.9,286.2L329.2,285.8L329.0,285.1L329.5,285.1L329.6,284.5L330.0,284.2L330.0,283.6L329.8,283.4L327.3,283.6L327.3,282.1L328.2,281.5L328.2,280.4L325.3,278.7L322.9,278.8L321.8,279.6L320.8,279.8L320.3,277.5L320.5,276.1L320.2,276.0L319.6,274.9L319.9,274.4L320.7,274.1L320.5,273.2L319.3,273.1L319.3,272.7L318.0,273.2L317.9,273.0L318.2,272.8L317.8,272.8L317.7,274.2L316.3,274.4L315.9,274.8L314.6,274.7L314.7,274.0L314.4,274.0L314.3,274.3L313.6,274.1L314.1,273.0L313.0,272.7L312.3,273.0L312.4,272.4L311.8,271.8L311.9,271.1L311.5,271.0L310.7,272.0L310.3,271.7L309.3,272.0L308.5,271.7L308.7,272.6L308.4,272.6L307.6,272.1L306.4,272.0L306.8,271.6L306.7,271.1L306.3,271.0L306.2,270.4L306.1,270.9L305.5,270.7L305.2,270.1L306.0,270.2L305.0,269.7L304.8,271.1L304.0,272.2L304.0,273.5L305.0,275.7L304.8,275.9L303.2,274.8L303.0,274.4L301.9,274.4L301.4,273.7L301.8,273.2L301.7,272.7L300.0,273.0L298.6,272.2L297.7,273.3L297.5,273.2L297.5,273.6L296.5,274.0L295.6,273.8L294.3,274.9L294.2,276.1L294.7,276.6L294.2,277.3L294.3,278.3L293.8,278.4L293.5,279.2L292.4,279.2L292.6,280.0L293.1,280.0L293.2,280.2L293.0,281.0L292.7,281.4L292.2,281.2L292.2,281.6L291.7,281.6L291.5,281.9L291.8,283.0L292.2,282.9L293.0,283.3L292.7,283.7L293.1,284.0L292.9,285.4L292.2,285.2L291.9,284.2L291.5,284.0L291.7,283.4L290.9,282.9L290.5,282.9L290.4,283.3L289.4,283.1L289.2,283.5L288.5,283.7L288.5,283.9L287.2,284.1L287.0,284.0L287.1,283.6L286.5,282.5L285.7,283.0L284.4,283.2L284.1,285.0L283.5,285.4L282.7,285.1L282.6,284.5L281.5,284.3L280.4,287.5L278.9,287.3L278.8,287.5L278.8,288.9L278.4,290.5L279.1,290.8L279.1,291.1L278.9,291.3L278.4,291.2L277.6,292.9L278.4,292.9L278.5,294.0L279.2,294.1L279.4,294.9L280.2,295.1L280.9,294.5L281.3,294.6L281.6,296.5L282.2,296.2L282.6,296.3L282.5,294.4L283.7,294.6L283.7,296.1L284.4,295.9L285.4,296.5L285.9,295.8L286.1,293.7L285.6,292.8L285.9,291.9L287.5,292.0L288.1,291.3L289.0,291.4L289.3,292.0L289.0,293.5L289.4,293.9L289.6,293.5L290.9,293.7L292.0,293.2L292.5,292.6L292.2,291.8L294.0,292.0L294.8,291.3L294.8,289.2L295.2,288.4L295.0,287.7L295.3,287.5L295.2,287.9L295.7,288.1L295.9,288.5L296.3,288.5L297.4,289.2L297.9,289.0L298.6,289.5L298.8,290.7L299.7,291.1L300.0,291.7L302.0,291.5L302.1,291.9L303.0,292.3L303.7,294.5L304.1,294.3L305.0,294.7L304.5,295.7L303.9,296.0L303.4,297.7L303.0,298.0L303.6,298.6L304.3,298.7L304.4,299.0L305.6,299.2L305.7,299.7L306.1,299.6L306.3,300.0L306.4,299.7L306.8,300.0L306.9,299.7L308.8,299.9L308.8,299.5L309.0,299.5L308.7,302.0L310.6,302.0L310.4,303.4L311.0,304.0L311.0,305.2L311.5,305.2L311.6,304.7L312.8,304.5L312.7,304.0L313.5,304.0Z",
+  "Eluru": "M260.5,248.0L259.8,247.9L259.1,248.4L258.1,248.2L257.3,248.4L256.9,248.6L257.0,249.7L259.8,250.7L263.1,250.6L263.5,251.0L264.3,253.1L265.8,254.4L266.5,256.6L271.7,258.8L272.4,258.3L273.5,257.0L275.1,257.4L275.9,258.5L275.3,259.3L275.5,259.8L278.0,260.8L278.4,260.0L279.3,259.8L280.4,261.9L281.4,262.5L283.6,263.1L284.1,263.3L284.6,264.1L283.7,265.6L282.1,267.0L280.4,266.5L279.9,266.8L278.3,266.5L277.1,266.6L276.3,268.9L276.4,269.9L277.0,270.7L276.1,272.2L271.9,272.6L270.5,273.1L269.1,272.5L268.6,273.7L267.6,274.5L266.5,274.3L265.7,274.6L264.3,273.9L263.8,274.1L263.9,273.8L262.2,272.8L260.9,272.8L260.9,274.6L261.3,275.0L261.2,276.5L260.4,276.7L258.7,276.3L258.6,277.9L257.9,278.4L258.4,279.6L257.9,281.1L258.4,281.7L256.5,283.5L255.8,282.8L253.8,282.2L252.6,284.6L253.8,285.8L255.4,286.5L255.6,287.8L255.3,290.1L256.0,290.4L257.1,291.3L256.5,292.6L255.4,293.0L253.7,292.9L253.5,294.2L252.0,295.0L252.5,295.7L252.5,297.1L249.4,302.4L247.2,305.4L247.1,307.4L247.7,308.0L250.2,308.5L250.5,308.0L251.2,307.8L252.6,308.3L253.4,307.1L253.8,307.5L254.9,306.6L254.9,306.2L254.4,306.0L255.0,305.1L255.3,306.5L256.0,307.0L255.7,307.8L256.0,308.8L256.7,309.0L257.5,308.1L258.2,308.6L258.7,308.6L259.1,306.4L257.0,305.4L256.9,304.3L257.2,303.8L258.3,304.2L258.5,303.7L258.5,302.9L259.3,302.8L259.6,303.2L260.0,302.9L260.0,303.3L260.1,303.1L260.7,303.3L261.0,303.1L260.7,303.6L261.4,303.4L261.3,303.9L262.3,304.5L262.1,305.2L263.1,305.4L263.0,305.8L264.0,306.9L264.2,308.0L266.2,310.4L266.5,311.9L267.1,312.1L267.4,311.8L268.2,311.8L268.7,311.4L269.5,311.4L270.9,310.7L270.8,311.0L271.8,310.3L272.1,310.7L271.2,312.1L271.3,312.4L272.1,312.4L271.8,314.3L272.8,314.8L272.4,315.7L271.5,316.1L271.1,315.8L270.7,316.6L271.3,317.5L270.9,317.9L271.2,318.1L270.9,318.4L270.3,318.1L270.8,318.6L270.6,319.6L269.8,319.2L269.8,319.0L268.5,319.4L268.4,320.3L269.2,320.4L269.6,321.0L269.5,321.6L270.5,321.8L270.7,322.5L271.9,322.6L272.3,322.2L272.7,322.6L274.1,322.9L274.7,321.8L275.0,321.9L275.2,321.2L276.1,321.3L276.0,322.3L277.8,322.6L278.1,320.9L278.6,320.3L279.4,319.9L279.3,320.5L279.6,320.7L280.9,321.3L282.4,319.7L282.6,319.9L283.9,319.2L283.2,318.3L284.5,318.0L284.9,318.0L285.2,318.9L284.8,320.4L285.7,320.5L285.5,320.6L286.4,320.9L286.3,321.1L288.6,321.0L288.7,320.6L289.7,319.8L289.8,319.2L288.8,318.9L288.9,318.7L288.0,318.0L288.4,317.4L287.7,317.0L288.0,315.7L287.5,315.2L286.0,315.3L285.6,314.9L286.0,314.8L286.0,314.0L286.2,313.7L286.6,311.5L286.5,310.2L286.9,310.1L286.7,309.8L287.1,309.8L286.9,309.0L286.3,309.2L285.3,308.4L285.7,305.5L285.4,304.4L286.8,304.1L286.8,304.9L286.2,305.2L286.3,306.2L287.2,305.8L289.3,305.6L291.5,306.0L292.2,305.8L292.8,305.1L293.9,305.0L294.0,304.4L295.3,304.3L295.1,305.2L295.6,305.4L295.5,305.8L296.0,305.9L296.4,305.3L297.5,305.3L297.5,305.7L297.9,305.7L297.9,306.5L298.7,307.1L299.4,306.3L298.8,305.6L298.9,304.9L299.8,304.7L299.8,304.2L300.3,304.1L300.6,303.5L301.4,303.5L301.3,302.4L299.7,302.3L299.5,301.6L299.8,301.2L299.4,300.1L298.8,299.9L298.1,301.6L297.5,301.4L296.9,301.8L296.5,301.5L296.3,301.9L295.8,302.1L294.3,301.5L293.8,302.1L292.6,302.3L292.0,300.2L293.4,300.4L293.8,300.1L294.4,300.2L293.9,298.9L294.6,297.9L295.0,297.9L295.5,296.9L294.8,296.6L294.8,296.2L294.3,295.2L294.1,293.9L293.1,293.5L293.3,291.9L292.2,291.8L292.5,292.6L292.0,293.2L290.9,293.7L289.6,293.5L289.4,293.9L289.0,293.5L289.3,292.0L289.0,291.4L288.1,291.3L287.5,292.0L285.9,291.9L285.6,292.8L286.1,293.9L285.7,296.4L284.4,295.9L283.7,296.1L283.7,294.6L282.5,294.4L282.6,296.3L282.2,296.2L281.6,296.5L281.3,294.6L280.9,294.5L280.2,295.1L279.4,294.9L279.2,294.1L278.5,294.0L278.4,292.9L277.6,292.9L278.4,291.2L278.9,291.3L279.1,291.1L279.1,290.8L278.4,290.5L278.8,288.9L278.7,287.8L278.9,287.3L280.4,287.5L281.5,284.3L282.6,284.5L282.7,285.1L283.5,285.4L284.1,285.0L284.4,283.2L285.7,283.0L286.5,282.5L287.1,283.6L287.0,284.0L287.2,284.1L288.5,283.9L288.5,283.7L289.2,283.5L289.4,283.1L290.4,283.3L290.5,282.9L290.9,282.9L291.7,283.4L291.5,284.0L291.9,284.2L292.2,285.2L292.9,285.4L293.1,284.0L292.7,283.7L293.0,283.3L292.2,282.9L291.8,283.0L291.5,281.9L291.7,281.6L292.2,281.6L292.2,281.2L292.7,281.4L293.0,281.0L293.2,280.2L293.1,280.0L292.6,280.0L292.4,279.2L293.5,279.2L293.8,278.4L294.3,278.3L294.2,277.3L294.7,276.6L294.2,276.1L294.3,274.9L295.6,273.8L296.5,274.0L297.5,273.6L297.5,273.2L297.7,273.3L298.6,272.2L300.0,273.0L301.7,272.7L301.8,273.2L301.4,273.7L301.9,274.4L303.0,274.4L303.2,274.8L304.8,275.9L305.0,275.7L304.0,273.5L304.0,272.2L304.8,271.1L305.2,269.1L306.2,268.6L306.2,267.9L304.1,266.6L303.1,266.6L302.4,266.2L302.2,265.4L302.4,264.9L301.8,263.5L302.1,262.3L302.5,262.1L302.4,261.7L301.7,261.4L300.7,261.8L300.1,260.1L299.4,259.7L298.0,259.9L297.5,259.7L295.9,257.4L295.3,257.3L294.3,258.0L292.4,258.4L290.1,258.3L289.0,257.8L288.6,256.7L287.5,256.2L286.6,256.2L284.3,256.9L283.4,256.4L283.1,255.9L283.2,254.6L282.4,253.0L281.2,252.0L279.0,252.3L278.2,251.9L276.9,251.9L274.0,251.3L273.4,251.0L273.4,250.5L272.8,249.2L272.3,249.0L270.6,249.6L269.4,249.7L268.1,250.4L266.6,250.3L266.2,249.7L266.3,247.6L265.3,247.1L263.8,247.4L262.2,248.2L260.5,248.0ZM265.8,300.9L265.1,302.3L264.0,302.1L263.1,303.6L261.7,302.9L262.8,301.1L262.9,300.7L262.4,300.5L263.9,300.0L265.8,300.9ZM265.2,304.8L266.2,305.3L265.7,305.8L266.8,306.6L266.3,307.6L265.5,307.5L264.1,305.7L263.9,304.9L265.2,304.8Z",
+  "Guntur": "M231.7,310.3L231.5,311.8L231.7,312.1L231.4,312.6L231.0,312.5L230.4,314.0L230.5,315.1L231.2,315.2L231.1,316.1L231.8,316.7L231.6,316.9L229.9,316.7L229.6,317.0L228.9,316.8L228.7,317.7L228.2,317.6L228.1,318.0L226.7,317.8L226.5,317.5L225.1,317.7L224.8,318.3L224.6,318.3L224.3,320.0L222.9,319.7L222.3,320.9L220.5,320.5L219.3,321.8L219.2,322.1L219.9,322.5L219.6,323.3L220.0,323.5L219.7,324.2L219.2,324.4L219.3,324.8L219.1,325.1L218.4,325.0L217.8,324.1L217.0,323.9L216.6,326.0L215.7,325.9L215.6,326.6L215.9,326.7L215.6,327.2L213.6,326.8L213.4,327.4L213.8,329.2L215.3,329.9L215.9,329.2L216.8,329.6L216.7,328.7L217.6,328.8L217.6,329.3L219.3,329.9L219.2,330.4L219.9,330.6L220.8,329.0L222.9,329.4L223.7,328.6L224.7,328.2L224.8,327.4L225.8,326.5L226.3,326.6L226.4,326.9L226.2,327.1L226.5,327.4L227.0,326.5L227.2,327.4L226.8,327.7L227.0,327.9L226.4,329.1L225.9,329.4L225.5,330.3L225.0,330.5L223.4,332.4L222.9,332.3L222.7,333.0L222.6,333.4L223.9,334.0L223.6,335.5L222.4,336.0L222.8,336.8L222.5,337.6L222.0,337.8L223.5,339.1L222.9,339.7L221.5,339.4L221.5,339.7L221.2,339.6L220.2,340.3L219.7,340.0L219.9,340.3L219.8,341.0L220.0,341.6L219.8,342.0L219.9,343.0L220.3,343.0L220.5,342.1L221.8,342.5L221.8,342.1L224.1,342.3L224.2,341.9L225.1,342.6L224.9,343.5L225.7,343.7L225.6,344.1L226.2,344.3L226.8,343.5L227.6,343.6L227.5,344.0L228.3,344.5L231.5,345.3L231.6,346.4L233.1,346.3L233.4,345.6L233.1,345.2L233.5,344.6L235.4,344.7L236.0,344.9L235.6,345.4L235.8,345.4L236.7,345.1L237.3,344.4L237.7,344.4L237.5,345.2L238.1,345.4L238.3,344.6L238.8,344.9L238.9,344.5L239.6,344.4L239.7,343.4L240.8,343.8L241.2,343.2L240.9,342.8L241.8,342.4L241.4,341.6L241.7,339.2L241.3,339.1L240.7,338.3L240.1,338.0L240.3,336.3L239.7,336.2L239.2,337.3L238.5,336.8L239.0,336.4L239.1,335.6L238.6,335.4L238.9,334.9L239.2,334.6L239.8,334.8L239.4,333.2L240.2,333.1L240.9,331.6L241.2,331.8L241.4,331.1L242.3,331.3L242.4,332.0L242.9,332.1L243.2,331.8L243.2,332.2L243.9,332.6L244.5,332.5L244.9,333.7L246.3,333.7L247.1,333.4L247.4,331.7L248.8,331.5L249.1,330.7L249.8,330.7L250.1,331.3L250.8,331.5L251.1,330.8L250.8,330.8L250.9,330.5L251.3,330.6L251.4,330.1L252.4,330.4L252.8,330.0L252.6,330.6L253.9,330.9L254.1,330.1L253.7,328.4L252.9,328.1L250.8,325.6L249.4,322.6L246.4,320.0L246.4,319.0L245.9,319.1L245.7,318.6L246.1,317.7L245.8,317.2L239.3,313.6L239.2,313.1L237.7,311.8L235.9,310.8L234.0,310.1L231.7,310.3Z",
+  "Kakinada": "M340.2,290.4L340.4,289.6L341.5,289.3L341.4,288.4L341.6,287.8L341.8,287.6L342.3,287.6L342.3,287.3L341.8,287.2L341.9,286.8L342.4,286.9L342.0,286.5L342.1,286.1L342.2,286.4L342.9,284.4L344.4,282.3L351.9,275.3L357.6,271.1L357.5,270.2L356.5,269.4L356.3,268.1L357.3,267.6L357.3,266.4L358.5,266.6L358.8,266.2L358.8,265.5L359.1,265.5L359.2,265.0L358.5,264.9L357.7,263.6L358.5,262.7L358.8,261.6L360.1,260.6L361.1,259.5L361.4,258.5L360.3,258.0L359.2,256.6L358.8,256.7L358.7,254.9L358.3,254.5L358.0,255.4L357.5,255.7L356.2,256.1L355.5,256.0L355.3,255.6L354.8,256.1L354.4,256.2L354.0,256.1L353.8,255.0L353.5,254.9L353.8,254.6L353.2,254.1L353.3,254.3L352.8,254.4L353.3,255.0L353.1,255.5L352.2,255.5L352.5,256.5L352.3,257.3L351.5,257.5L351.5,257.9L349.8,258.1L348.6,257.4L347.6,257.4L347.3,256.8L347.9,255.7L347.8,255.5L346.8,255.7L345.9,256.5L345.1,256.0L345.3,255.5L345.1,255.5L342.6,257.5L342.4,259.4L340.5,260.3L338.3,262.3L338.4,262.7L337.2,263.3L336.4,262.9L335.6,263.5L335.3,263.3L334.2,264.0L333.7,264.1L334.3,264.3L334.0,264.9L334.6,265.1L333.9,265.6L332.8,265.4L332.7,266.7L332.2,266.3L331.3,266.5L331.8,265.7L331.0,265.6L330.8,265.2L331.1,264.7L331.6,264.6L332.1,264.1L332.0,263.6L332.7,263.3L332.6,262.9L332.3,263.0L332.4,262.7L332.2,262.6L331.4,263.0L331.2,262.7L331.5,262.5L331.3,262.4L331.3,262.0L330.6,262.8L330.3,261.9L329.8,262.0L329.6,262.3L330.2,262.4L329.8,263.0L329.6,263.0L329.4,262.7L328.5,263.6L328.6,264.1L329.1,264.4L328.7,265.4L329.1,266.2L328.6,267.1L329.2,267.8L330.5,267.9L330.8,268.3L329.6,267.9L328.9,268.4L328.8,268.1L327.6,268.3L327.5,267.7L326.8,267.4L326.0,267.5L325.9,267.2L325.3,267.5L323.8,267.1L324.0,267.9L323.2,268.1L323.3,268.5L322.7,268.5L322.5,268.9L321.9,269.2L320.9,269.2L320.8,269.5L320.3,269.4L320.9,267.2L320.1,267.8L318.9,267.0L318.3,267.2L318.3,268.2L317.5,268.8L317.2,268.5L317.0,268.7L316.8,268.2L316.2,268.0L316.0,267.5L315.2,267.5L314.8,268.7L315.1,270.5L313.9,270.4L313.8,271.2L313.3,271.4L312.4,271.1L311.9,271.3L311.9,271.9L312.4,272.4L312.3,273.0L313.0,272.7L314.1,273.0L313.6,274.1L314.3,274.3L314.4,274.0L314.7,274.0L314.6,274.7L315.9,274.8L316.3,274.4L317.7,274.2L317.8,272.8L318.2,272.8L317.9,273.0L318.0,273.2L319.3,272.7L319.3,273.1L320.5,273.2L320.7,274.1L319.9,274.4L319.6,274.9L320.2,276.0L320.5,276.1L320.3,277.5L320.8,279.8L321.8,279.6L322.9,278.8L325.3,278.7L328.2,280.4L328.2,281.5L327.3,282.1L327.3,283.6L329.8,283.4L330.0,283.6L330.0,284.2L329.6,284.5L329.5,285.1L329.0,285.1L329.2,285.8L328.9,286.2L329.3,286.3L329.7,288.2L330.6,288.0L331.4,288.3L331.5,287.5L332.3,287.6L332.9,286.7L334.1,287.1L334.6,286.9L334.9,286.3L335.9,286.5L336.4,287.2L336.7,286.9L337.1,287.0L337.3,286.7L337.9,286.9L336.4,288.9L335.4,288.7L335.2,289.2L334.3,290.0L334.6,290.6L334.0,292.1L333.3,292.4L332.7,292.0L332.3,292.5L331.6,292.4L331.8,292.8L330.9,293.2L331.9,294.0L330.4,294.5L330.9,295.3L330.7,295.7L331.1,295.7L331.4,295.2L331.8,295.2L332.0,295.6L332.9,295.8L333.1,296.3L334.0,296.0L334.5,295.2L334.3,294.0L334.0,293.9L334.4,293.7L336.0,294.3L336.1,294.7L337.2,294.6L337.9,292.7L338.6,292.8L339.4,291.3L339.9,291.4L340.2,290.4Z",
+  "Krishna": "M245.1,316.7L246.1,317.5L245.7,318.6L245.9,319.1L246.4,319.0L246.4,320.0L249.4,322.6L250.8,325.6L252.9,328.1L253.7,328.4L254.1,331.0L254.9,330.9L255.1,332.3L256.3,332.4L255.6,333.4L257.7,337.4L257.1,339.1L257.9,339.0L257.8,339.8L258.2,339.9L258.4,340.5L258.3,341.1L258.1,341.2L258.7,341.2L258.7,342.0L258.4,342.1L259.3,345.1L259.2,347.6L259.6,347.3L259.7,348.0L259.5,349.8L260.0,350.2L259.0,353.8L258.7,353.7L258.1,354.5L257.6,355.6L257.5,356.6L257.2,356.7L256.0,359.7L255.8,360.6L255.9,362.4L256.2,362.5L259.0,362.2L261.6,361.6L262.4,361.9L265.2,360.3L267.0,358.8L267.2,357.6L266.8,356.9L266.1,357.1L265.9,356.9L265.8,356.2L266.0,355.3L270.1,350.3L273.3,347.4L273.5,346.9L274.3,346.7L274.1,345.2L274.4,343.6L277.2,338.7L278.6,333.5L279.9,331.1L281.8,328.7L285.4,326.4L289.1,325.0L294.2,324.3L299.2,324.8L298.2,322.8L296.9,322.7L296.3,323.2L295.3,323.3L293.9,321.6L292.9,321.2L291.8,321.6L291.1,320.3L290.4,320.4L289.7,319.8L288.7,320.6L288.6,321.0L286.3,321.1L286.4,320.9L285.5,320.6L285.7,320.5L284.8,320.4L285.2,319.2L284.9,318.0L283.2,318.3L283.9,319.2L282.6,319.9L282.4,319.7L280.9,321.3L279.6,320.7L279.3,320.5L279.4,319.9L278.8,320.2L278.1,320.9L277.8,322.6L276.0,322.3L276.1,321.3L275.2,321.2L275.0,321.9L274.7,321.8L274.1,322.9L272.7,322.6L272.3,322.2L271.9,322.6L270.7,322.5L270.5,321.8L269.5,321.6L269.6,321.0L269.2,320.4L268.4,320.3L268.5,319.4L269.8,319.0L269.8,319.2L270.6,319.6L270.8,318.6L270.3,318.1L270.9,318.4L271.2,318.1L270.9,317.9L271.3,317.5L270.7,316.6L271.1,315.8L271.5,316.1L272.4,315.7L272.8,314.8L271.8,314.3L272.1,312.4L271.3,312.4L271.2,312.1L272.1,310.7L271.8,310.3L270.8,311.0L270.9,310.7L269.5,311.4L268.7,311.4L268.2,311.8L267.4,311.8L267.1,312.1L266.5,311.9L266.2,310.4L264.2,308.0L264.0,306.9L263.0,305.8L263.1,305.4L262.1,305.2L262.3,304.5L261.3,303.9L261.5,303.4L261.1,303.3L260.8,303.6L261.0,303.1L260.7,303.3L260.1,303.1L260.0,303.3L259.9,302.9L259.7,303.2L259.3,302.8L258.5,302.9L258.5,303.7L258.3,304.2L257.2,303.8L256.9,304.3L257.0,305.4L259.1,306.4L258.7,308.6L258.2,308.6L257.5,308.1L256.7,309.0L255.8,308.5L255.7,307.7L256.0,307.0L255.3,306.5L255.0,305.1L254.4,306.0L254.9,306.2L254.9,306.6L254.1,307.4L253.6,307.5L253.4,307.1L252.6,308.3L251.2,307.8L250.5,308.0L250.2,308.5L247.7,308.0L247.2,307.6L247.1,306.1L247.3,305.3L247.0,305.3L246.2,306.5L245.8,306.5L245.4,307.1L244.8,309.2L245.1,309.6L244.4,310.3L243.5,310.7L243.3,311.4L243.5,311.6L243.1,312.4L244.5,312.9L244.7,312.4L244.5,312.2L244.7,311.8L245.1,311.8L245.5,312.0L245.4,312.7L246.7,313.0L246.5,313.9L246.9,314.6L246.2,316.2L246.5,316.6L245.7,316.2L245.1,316.7ZM265.8,300.9L263.9,300.0L262.4,300.5L262.9,300.7L262.8,301.1L261.7,302.9L263.1,303.6L264.0,302.1L265.1,302.3L265.8,300.9ZM266.7,307.0L266.7,306.4L265.7,305.8L266.2,305.3L265.3,304.9L263.9,304.9L264.1,305.7L265.5,307.5L266.3,307.6L266.7,307.0Z",
+  "Kurnool": "M36.8,395.9L38.1,396.1L38.6,395.2L39.5,395.1L41.1,396.0L43.1,396.1L43.6,396.8L44.8,396.8L45.2,395.4L45.9,395.4L46.2,394.1L48.3,394.0L49.0,391.3L50.9,391.7L51.6,391.5L51.8,391.2L52.7,391.3L53.2,391.4L53.3,392.1L54.3,392.3L54.0,391.8L54.3,391.3L56.1,392.2L57.3,391.4L58.8,391.2L59.7,392.2L61.7,392.7L62.1,393.4L63.8,393.7L63.8,392.9L64.1,392.3L65.2,392.3L65.4,391.4L66.1,391.2L66.2,390.7L67.4,390.8L67.7,390.5L67.3,390.4L67.4,390.2L68.0,390.0L67.6,388.5L68.2,386.8L68.2,385.6L67.5,385.7L66.0,384.5L67.0,383.3L67.2,382.0L67.7,381.2L69.8,382.1L69.9,381.8L71.0,381.4L71.6,380.3L73.6,380.6L74.4,379.5L74.4,378.4L74.8,378.4L74.6,377.9L75.1,377.6L74.5,377.1L75.3,376.8L75.2,376.4L75.8,375.7L75.7,375.5L77.7,375.7L77.9,375.8L77.4,376.7L77.9,376.9L78.8,376.3L79.3,375.6L80.5,376.9L81.3,376.8L81.4,377.4L81.1,378.0L82.3,378.6L83.2,379.9L83.8,379.3L85.1,379.0L86.5,379.1L86.7,378.9L86.6,377.4L86.9,377.1L87.3,377.0L87.4,376.7L88.4,376.7L89.9,376.0L89.6,375.0L88.7,375.5L89.5,376.0L88.7,375.8L88.3,376.0L88.2,375.6L88.6,375.6L89.1,374.3L89.8,374.3L90.4,373.9L89.8,373.1L89.3,373.4L88.9,372.9L89.9,372.9L90.0,372.3L90.4,372.8L90.8,372.7L90.7,373.0L91.1,373.0L91.2,371.6L91.5,371.4L91.6,370.7L93.6,370.2L94.8,370.2L95.6,370.9L94.9,372.3L95.0,373.1L98.7,372.3L98.5,372.6L97.9,372.8L97.8,374.0L97.9,374.4L99.0,374.6L99.3,374.4L99.3,375.0L98.6,375.5L99.2,375.4L99.4,375.8L99.0,376.1L99.1,376.6L98.1,376.3L98.0,376.7L97.5,376.8L97.4,377.2L97.8,377.4L97.3,377.4L97.2,377.8L98.1,378.2L98.9,377.0L99.5,377.3L99.7,376.2L100.1,376.2L101.6,376.9L104.1,377.1L104.4,377.8L105.2,377.9L105.0,378.7L107.1,379.6L106.8,382.0L109.0,382.4L108.8,381.6L109.5,380.6L109.4,380.1L110.4,378.8L110.9,379.0L110.9,378.5L112.4,377.2L111.6,376.8L111.7,376.3L111.3,375.9L111.5,375.3L111.9,375.4L112.3,374.4L111.5,374.1L111.3,373.4L111.7,372.3L112.1,372.3L111.8,371.8L112.3,372.1L112.4,371.8L112.8,372.0L112.9,371.4L113.4,371.5L114.7,370.9L114.8,369.9L115.7,370.0L116.1,369.3L117.1,369.5L117.5,369.3L117.6,369.0L118.0,369.0L118.1,368.2L115.1,367.2L115.4,366.8L116.2,366.9L116.5,365.8L116.3,365.1L114.8,364.5L114.9,363.3L113.6,362.8L113.7,362.1L111.7,361.2L110.2,363.3L110.2,365.2L108.9,365.5L107.8,365.3L107.8,363.6L107.1,363.5L106.8,364.5L106.1,364.6L104.7,364.4L102.9,363.2L102.9,362.9L101.3,362.9L100.6,363.3L99.3,363.4L99.0,362.3L97.9,361.5L98.1,361.2L97.8,360.9L98.1,360.7L97.4,360.5L97.0,360.2L97.1,359.9L96.4,359.8L97.2,359.4L97.2,358.9L97.8,358.9L97.9,358.6L98.5,358.7L98.5,358.2L98.8,358.3L99.0,357.8L98.3,357.4L96.4,357.1L96.2,356.8L95.9,356.1L96.4,356.1L96.8,355.6L97.2,355.6L96.7,354.5L96.9,354.0L95.1,353.8L94.8,354.0L95.0,354.9L92.9,354.9L92.0,354.6L92.1,354.4L91.3,354.0L91.3,353.4L90.4,353.1L90.4,352.6L89.8,352.6L89.7,350.8L88.9,350.7L88.9,350.9L88.5,351.0L87.5,353.4L85.5,352.1L83.3,352.1L80.4,350.8L79.7,350.9L78.6,352.1L77.3,352.0L75.3,352.6L74.0,352.5L73.2,352.0L71.8,351.9L70.6,351.4L69.9,351.5L68.8,352.1L66.7,352.0L65.4,351.4L63.9,350.1L62.9,350.4L62.0,350.0L60.0,350.0L57.1,349.1L55.2,349.1L53.0,348.2L52.2,348.6L51.1,348.5L50.0,348.8L48.8,348.2L46.7,348.1L45.3,347.7L44.4,347.9L42.3,347.3L41.4,347.7L38.5,347.8L37.8,348.1L36.5,348.3L35.5,348.9L33.5,349.5L31.8,350.5L30.7,352.3L29.4,353.6L28.9,354.9L29.5,355.3L29.8,355.2L30.0,355.4L31.3,355.5L31.2,356.9L31.4,357.7L31.4,358.0L31.0,357.9L30.8,358.9L30.5,358.9L30.5,359.2L30.8,359.3L30.7,359.7L30.3,359.7L30.1,360.6L30.3,360.6L30.3,361.2L32.2,361.4L32.1,362.1L32.6,362.1L32.1,363.3L33.0,363.6L34.2,364.3L34.5,364.9L35.1,365.1L34.6,367.1L33.7,366.7L33.4,366.1L32.3,365.4L31.6,366.2L29.2,366.9L29.4,368.6L28.9,370.2L29.2,374.6L29.1,374.9L26.7,374.4L27.8,377.7L29.4,379.0L29.1,380.5L30.2,381.4L29.9,383.1L31.3,384.2L31.2,385.1L31.8,385.2L34.1,384.8L34.4,387.1L36.4,387.3L36.5,388.2L36.2,388.4L37.4,388.7L37.4,389.3L36.0,389.3L35.5,390.3L34.9,390.3L34.8,391.1L36.2,391.3L37.1,392.7L37.5,394.4L37.1,395.2L35.8,395.2L35.4,395.8L36.5,396.3L36.8,395.9Z",
+  "NTR District": "M247.3,305.3L249.4,302.4L252.5,297.1L252.5,295.7L252.0,295.0L252.2,294.7L253.5,294.2L253.7,292.9L255.4,293.0L256.5,292.6L257.1,291.3L256.0,290.4L255.3,290.1L255.6,287.8L255.4,286.5L253.8,285.8L252.6,284.6L253.8,282.2L251.7,281.9L250.2,281.1L248.5,281.0L247.8,280.9L247.5,281.4L246.3,281.9L245.0,281.7L245.2,280.7L246.1,279.8L244.4,278.9L244.5,278.5L243.1,278.2L240.7,276.7L239.8,278.0L239.1,277.9L237.6,278.9L236.8,278.6L236.8,279.2L236.2,280.5L236.6,280.8L236.2,281.9L235.7,282.2L235.4,282.8L234.2,282.9L233.8,284.0L232.3,283.6L231.9,282.5L231.0,281.5L231.1,280.4L230.5,280.4L230.3,280.9L229.1,281.8L229.9,282.7L229.7,283.7L230.4,284.3L230.4,284.9L229.2,285.3L227.9,287.3L232.9,288.5L235.6,290.2L235.8,288.5L236.2,288.4L237.5,288.9L238.0,288.1L240.7,289.6L241.0,290.1L242.0,290.7L241.1,291.6L241.6,291.8L241.7,292.7L240.6,293.0L240.0,293.6L240.1,294.9L239.7,295.8L239.9,296.1L240.5,296.1L241.6,297.6L242.6,298.1L241.7,298.2L240.1,299.6L239.0,299.2L236.9,299.2L235.6,298.7L235.1,298.2L233.8,298.0L233.8,296.5L231.7,295.5L231.6,294.8L229.0,293.8L228.7,294.0L229.0,294.3L228.7,294.6L230.5,294.9L230.2,295.8L229.1,296.2L228.9,296.8L228.4,296.0L228.8,295.3L228.4,295.3L228.4,294.6L226.5,294.1L226.7,293.3L225.3,293.0L225.5,291.6L224.8,290.8L225.0,288.9L224.2,288.6L224.5,287.4L223.6,287.2L223.7,286.1L222.9,285.4L221.9,286.0L220.5,285.7L219.6,284.9L219.4,285.3L218.6,285.2L218.0,284.2L218.3,283.5L217.8,283.2L217.3,284.6L216.3,284.9L216.1,285.5L215.3,285.4L214.7,286.4L213.4,286.4L213.4,286.6L212.9,286.6L212.0,286.4L211.7,287.7L209.6,287.5L209.6,288.0L209.1,288.8L209.3,289.5L208.6,290.6L207.2,290.8L206.3,293.5L206.4,294.1L207.3,294.5L209.0,294.6L209.1,295.8L210.5,296.6L212.8,296.3L213.7,297.2L214.8,301.6L214.6,303.4L215.0,304.4L214.4,305.4L214.3,306.2L214.7,306.7L215.6,307.0L216.9,307.1L219.3,308.3L221.2,308.9L225.9,308.9L227.9,310.0L228.1,310.3L230.6,310.5L234.0,310.2L237.7,311.8L239.2,313.1L239.3,313.6L245.1,316.7L245.7,316.2L246.5,316.6L246.2,316.2L246.9,314.6L246.5,313.9L246.7,313.0L245.4,312.7L245.5,312.0L245.1,311.8L244.7,311.8L244.5,312.2L244.7,312.4L244.5,312.9L243.1,312.4L243.5,311.6L243.3,311.4L243.5,310.7L244.4,310.3L245.1,309.6L244.8,309.2L245.4,307.1L245.8,306.5L246.2,306.5L247.0,305.3L247.3,305.3Z",
+  "Nandyal": "M141.9,337.9L141.9,339.1L140.0,340.2L139.0,336.7L138.0,336.4L136.7,336.6L137.2,339.6L136.8,341.0L134.1,343.8L131.7,344.3L131.1,344.7L130.1,344.0L127.6,343.2L125.8,341.0L125.8,340.5L124.1,340.0L122.9,340.2L122.0,341.4L120.0,342.7L114.4,340.9L111.3,340.7L110.0,341.4L108.8,342.4L107.5,342.4L106.5,342.9L106.2,343.4L106.2,344.1L105.7,344.5L104.9,344.5L103.3,343.6L102.5,343.7L102.2,344.3L102.5,345.4L102.0,346.8L102.0,349.0L100.7,349.7L98.2,350.4L97.7,351.0L98.3,351.6L97.5,352.5L97.4,353.6L96.7,353.8L97.2,355.6L96.8,355.6L96.4,356.1L95.9,356.1L96.4,357.1L98.3,357.4L99.0,357.8L98.8,358.3L98.5,358.2L98.5,358.7L97.9,358.6L97.8,358.9L97.2,358.9L97.2,359.4L96.4,359.8L97.1,359.9L97.0,360.2L97.4,360.5L98.1,360.7L97.8,360.9L98.1,361.2L97.9,361.5L99.0,362.3L99.3,363.4L100.6,363.3L101.3,362.9L102.9,362.9L102.9,363.2L104.7,364.4L106.1,364.6L106.8,364.5L107.1,363.5L107.8,363.6L107.8,365.3L108.3,365.6L110.2,365.2L110.2,363.3L111.7,361.2L113.7,362.1L113.6,362.8L114.9,363.3L114.8,364.5L116.3,365.1L116.5,365.8L116.2,366.9L115.4,366.8L115.1,367.2L118.1,368.3L118.0,369.0L117.6,369.0L117.5,369.3L117.1,369.5L116.1,369.3L115.7,370.0L114.8,369.9L114.7,370.9L113.4,371.5L112.9,371.4L112.8,372.0L112.4,371.8L112.3,372.1L111.8,371.8L112.1,372.3L111.7,372.3L111.3,373.4L111.5,374.1L112.3,374.4L111.9,375.4L111.5,375.3L111.3,375.9L111.7,376.3L111.6,376.8L112.4,377.2L110.9,378.5L110.9,379.0L110.4,378.8L109.4,380.1L109.5,380.6L108.8,381.6L109.0,382.4L106.8,382.0L107.1,379.6L105.0,378.7L105.2,377.9L104.4,377.8L104.1,377.1L101.6,376.9L100.1,376.2L99.7,376.2L99.5,377.3L98.9,377.0L98.1,378.2L97.2,377.8L97.3,377.4L97.8,377.4L97.4,377.2L97.5,376.8L98.0,376.7L98.1,376.3L99.1,376.6L99.0,376.1L99.4,375.8L99.2,375.4L98.6,375.5L99.3,375.0L99.3,374.4L99.0,374.6L97.9,374.4L97.8,374.0L97.9,372.8L98.5,372.6L98.6,372.2L95.0,373.1L94.9,372.3L95.6,370.9L94.8,370.2L93.3,370.2L91.6,370.7L91.5,371.4L91.2,371.6L91.1,373.0L90.7,373.0L90.8,372.7L90.4,372.8L90.0,372.3L89.9,372.9L88.9,372.9L89.3,373.4L89.8,373.1L90.4,373.9L89.8,374.3L89.1,374.3L88.6,375.6L88.2,375.6L88.3,376.0L88.7,375.8L89.5,376.0L88.7,375.5L89.6,375.0L89.9,376.0L88.4,376.7L87.4,376.7L87.3,377.0L86.9,377.1L86.6,377.4L86.7,378.9L86.5,379.1L85.1,379.0L83.8,379.3L83.2,379.9L82.3,378.6L81.1,378.0L81.4,377.4L81.3,376.8L80.5,376.9L79.3,375.6L78.8,376.3L77.9,376.9L77.4,376.7L77.9,375.8L77.7,375.7L75.7,375.5L75.8,375.7L75.2,376.4L75.3,376.8L74.5,377.1L75.1,377.6L74.6,377.9L74.8,378.4L74.4,378.4L74.4,379.5L73.6,380.6L71.6,380.3L71.0,381.4L69.9,381.8L69.8,382.1L67.7,381.2L67.2,382.0L67.0,383.3L66.0,384.5L67.5,385.7L68.2,385.6L68.2,386.8L67.6,388.5L68.0,390.0L67.7,389.9L67.3,390.4L67.7,390.5L67.4,390.8L67.7,391.0L67.8,391.7L69.0,392.3L68.7,393.7L69.2,393.9L69.8,393.5L70.1,394.4L71.1,394.6L70.9,395.6L71.9,396.2L72.0,396.9L73.5,397.2L73.4,397.8L74.1,397.8L74.6,398.3L74.9,397.5L75.7,396.9L75.7,396.5L76.0,396.1L77.4,396.0L77.6,396.9L78.3,396.5L79.6,396.5L80.1,394.0L82.2,394.2L82.5,395.8L81.6,396.3L81.5,396.6L81.9,396.9L81.5,396.8L81.4,397.3L83.0,397.9L84.7,398.1L85.5,396.3L86.6,396.7L86.9,397.2L87.4,397.3L87.9,397.9L87.3,399.7L86.9,399.8L86.7,400.8L87.6,401.5L87.6,402.9L88.6,403.6L89.0,404.6L90.2,405.0L90.6,404.4L90.9,404.9L92.3,405.6L92.2,406.2L94.9,406.9L95.2,407.7L96.0,407.6L96.1,407.0L96.9,406.7L97.7,406.7L99.5,407.4L100.1,407.2L101.1,404.3L101.5,404.6L102.5,403.0L103.9,402.7L103.4,401.1L104.3,400.2L105.6,400.5L106.4,400.3L108.1,400.9L108.0,401.3L108.7,401.5L109.1,400.3L109.8,400.5L109.5,401.2L110.8,401.7L109.5,402.3L109.0,403.1L108.1,402.7L107.4,404.4L108.4,405.4L110.4,406.4L111.4,406.1L111.9,402.7L113.0,402.6L113.1,402.4L114.2,402.7L114.5,402.2L115.3,402.4L115.7,402.0L115.9,402.4L116.0,401.6L115.7,401.5L115.2,400.8L115.7,400.8L115.7,400.3L116.0,400.3L117.2,400.4L117.7,401.0L117.5,402.2L117.7,403.8L117.3,404.3L117.8,404.7L117.1,407.2L116.7,407.2L115.5,410.3L115.9,410.4L116.7,409.1L118.0,407.9L118.0,407.3L118.2,407.4L118.5,406.9L119.2,406.6L119.9,406.8L119.6,408.5L120.0,408.7L120.8,408.5L121.6,407.8L122.3,408.1L122.8,407.3L123.3,407.6L124.5,407.7L124.5,409.0L127.8,408.2L128.2,406.4L129.8,406.4L129.3,403.3L130.4,403.1L131.6,402.5L132.3,401.3L131.9,400.1L132.3,399.8L131.7,398.6L131.6,396.6L132.1,393.6L131.2,393.7L130.9,392.7L130.9,385.2L131.5,382.8L133.0,379.7L132.9,377.0L133.2,372.9L132.8,367.4L133.0,365.2L135.3,353.1L136.9,350.7L141.2,347.1L142.4,339.7L141.9,337.9Z",
+  "Palnadu": "M231.7,310.3L230.6,310.5L228.1,310.3L227.9,310.0L225.9,308.9L221.2,308.9L219.3,308.3L216.9,307.1L215.9,307.1L214.6,306.6L214.3,305.5L215.0,304.4L214.5,303.1L214.7,301.6L214.2,300.0L213.9,297.6L213.2,296.5L212.6,296.3L210.5,296.6L210.2,298.4L209.4,299.7L209.3,301.2L208.5,301.9L208.0,302.8L206.6,303.1L206.1,303.5L204.2,306.9L203.1,307.5L202.1,307.7L200.7,307.5L199.8,306.5L199.4,304.6L198.9,303.8L197.3,303.3L195.3,304.1L194.2,303.0L193.8,302.1L192.8,301.8L190.9,302.5L189.8,304.2L187.2,304.0L186.0,304.5L185.3,305.4L184.4,306.0L182.3,305.2L180.8,306.7L179.0,307.6L177.9,307.7L176.6,307.4L175.4,308.2L173.3,308.4L172.8,308.8L172.4,310.1L171.5,310.8L169.1,310.6L167.6,310.8L166.9,310.6L165.0,311.1L163.8,311.9L162.0,311.6L161.6,312.0L161.4,313.5L160.3,314.0L159.9,314.4L159.4,316.3L159.5,316.8L160.5,317.9L159.2,318.6L159.0,322.4L159.2,323.0L159.2,324.2L160.6,325.3L159.8,331.2L159.4,331.7L159.4,334.3L159.7,335.5L161.4,334.5L161.9,333.7L165.9,331.6L168.6,331.4L173.2,327.2L174.7,327.9L176.2,327.9L178.0,327.5L178.5,327.0L179.4,328.3L180.3,328.8L180.0,329.7L179.9,330.8L180.2,331.6L179.7,332.5L179.9,333.7L179.5,334.6L178.7,335.0L178.5,335.5L178.8,336.0L178.6,337.3L179.6,338.6L179.7,339.3L179.2,340.7L179.2,341.3L180.2,343.3L180.0,343.5L180.4,344.2L180.1,344.5L180.7,344.9L179.9,348.3L180.7,349.0L181.8,348.8L183.2,349.2L183.1,349.8L184.5,350.8L185.7,349.9L186.1,350.1L186.8,350.9L187.9,351.3L187.7,352.6L188.6,352.8L189.4,353.4L189.3,354.4L188.9,354.9L190.3,355.0L190.9,355.6L192.5,355.6L192.7,354.6L191.5,354.3L191.1,353.6L191.6,352.4L191.6,351.2L192.1,351.2L193.4,350.2L193.8,348.7L197.2,349.5L197.1,349.8L198.4,350.2L198.9,349.7L198.8,349.1L199.4,348.7L199.9,348.8L200.0,348.4L200.4,348.7L200.7,347.9L200.9,347.2L200.1,346.9L200.4,346.2L199.7,346.0L199.7,345.5L199.0,345.3L198.0,345.6L198.4,343.4L199.0,342.9L201.2,342.4L201.4,341.7L201.2,340.8L199.9,340.6L199.9,340.0L199.2,340.1L199.1,339.7L198.3,339.5L198.7,337.6L198.2,337.2L198.9,336.1L200.3,336.4L202.2,337.4L202.4,337.0L203.1,336.7L203.4,336.2L203.4,335.5L204.5,336.1L204.8,336.3L204.6,336.6L206.2,336.9L206.1,337.1L206.9,337.7L206.8,338.1L207.4,338.4L209.2,337.5L209.2,338.1L208.6,339.7L209.0,340.2L210.3,339.6L210.6,339.8L210.4,340.7L211.1,341.5L210.9,341.9L211.2,342.2L211.3,344.0L212.0,344.6L213.3,344.0L214.5,344.3L214.1,344.1L214.4,342.5L215.4,342.5L215.4,342.8L217.0,343.2L217.2,343.7L217.4,343.7L217.5,342.9L219.9,343.3L219.8,342.0L220.0,341.6L219.8,341.0L219.9,340.3L219.7,340.0L220.2,340.3L221.2,339.6L221.5,339.7L221.5,339.4L223.1,339.7L223.5,339.1L222.0,337.8L222.5,337.6L222.8,336.8L222.4,336.0L223.6,335.5L223.9,334.0L222.6,333.4L222.7,333.0L222.9,332.3L223.4,332.4L225.0,330.5L225.5,330.3L225.9,329.4L226.4,329.1L227.0,327.9L226.8,327.7L227.2,327.4L227.0,326.5L226.5,327.4L226.2,327.1L226.4,326.9L226.3,326.6L225.8,326.5L224.8,327.4L224.7,328.2L223.7,328.6L222.9,329.4L220.8,329.0L219.9,330.6L219.2,330.4L219.3,329.9L217.6,329.3L217.6,328.8L216.7,328.7L216.8,329.6L215.9,329.2L215.3,329.9L213.8,329.2L213.5,327.1L213.6,326.8L215.6,327.2L215.9,326.7L215.6,326.6L215.7,325.9L216.6,326.0L217.0,323.9L217.8,324.1L218.4,325.0L219.1,325.1L219.3,324.8L219.2,324.4L219.7,324.2L220.0,323.5L219.6,323.3L219.9,322.5L219.2,322.1L219.3,321.8L220.5,320.5L222.3,320.9L222.9,319.7L224.3,320.0L224.6,318.3L224.8,318.3L225.1,317.7L226.5,317.5L226.7,317.8L228.1,318.0L228.2,317.6L228.7,317.7L228.9,316.8L229.6,317.0L229.9,316.7L231.6,316.9L231.8,316.7L231.1,316.1L231.2,315.2L230.5,315.1L230.4,314.0L231.0,312.5L231.4,312.6L231.7,312.1L231.5,311.8L231.7,310.3Z",
+  "Parvathipuram Manyam": "M399.2,209.6L399.4,209.1L399.7,209.3L400.2,208.9L400.6,208.0L401.0,208.1L401.1,207.6L401.4,207.6L401.1,206.5L401.9,206.5L402.3,206.1L404.1,206.3L404.4,206.0L404.4,205.6L403.7,205.5L403.4,204.8L403.5,204.0L403.3,203.5L403.8,202.9L403.9,201.0L403.3,201.7L402.2,201.7L401.9,201.3L400.9,200.9L400.3,201.4L399.3,201.8L398.6,201.6L397.6,202.0L397.0,201.7L397.3,200.4L397.0,200.2L398.0,200.4L398.8,199.7L399.0,200.1L399.3,200.0L399.5,199.4L400.0,199.3L400.0,198.9L400.7,198.5L400.5,198.1L400.1,198.0L399.4,198.8L398.8,197.7L398.5,197.5L398.2,198.0L398.0,197.5L398.2,196.7L399.9,194.4L401.3,194.2L401.4,193.8L400.0,193.3L400.0,192.8L400.5,192.5L400.3,192.1L400.6,191.8L399.7,191.5L400.4,191.0L401.7,189.3L402.2,189.2L402.3,189.7L403.5,189.0L404.3,187.3L404.9,187.4L405.7,188.4L405.6,190.3L406.9,190.9L407.5,190.1L409.2,190.5L409.3,189.8L409.7,189.5L409.8,190.1L410.5,190.2L410.4,190.6L410.7,190.5L410.8,189.8L411.5,189.3L412.5,189.4L412.8,189.8L413.3,189.8L414.3,190.7L414.5,191.4L414.1,192.4L413.2,192.2L413.2,192.9L413.7,193.2L414.6,193.2L414.8,194.2L415.8,194.5L415.8,195.7L416.5,195.3L416.7,194.9L417.2,195.2L417.6,194.6L417.0,194.3L416.9,193.8L416.3,193.7L417.2,192.7L417.3,192.1L417.8,192.1L419.0,191.3L418.8,191.1L417.8,191.1L417.9,189.8L417.7,189.3L418.1,188.9L417.8,188.0L418.4,186.8L418.0,185.9L417.2,185.4L417.0,184.3L417.5,184.2L419.0,185.1L419.2,186.3L419.7,186.6L420.1,187.2L421.0,187.4L421.0,187.9L422.0,188.4L422.1,189.1L422.8,189.8L422.9,190.5L423.5,191.3L424.4,191.9L425.6,191.8L426.7,192.6L427.9,192.6L427.9,193.1L428.2,193.2L429.3,191.8L429.8,191.9L430.1,192.0L430.0,192.6L430.7,192.8L430.8,192.2L431.3,191.9L431.4,190.9L431.9,190.8L432.3,190.4L432.3,190.0L431.8,190.1L431.6,189.7L432.2,189.1L432.4,189.3L432.5,188.7L434.2,190.0L434.6,190.7L434.6,192.8L434.1,193.0L434.1,193.3L434.9,194.4L435.2,194.1L436.1,194.9L436.8,194.5L436.3,194.5L436.7,194.2L436.7,193.9L437.2,193.9L437.4,193.6L437.7,194.4L438.7,194.8L439.5,194.3L439.5,193.7L438.9,193.1L439.4,192.7L439.1,191.6L438.5,191.2L438.6,190.8L438.2,191.0L438.2,190.1L437.8,189.9L437.7,189.5L438.2,189.6L438.0,188.8L437.5,188.6L436.1,187.3L435.6,185.8L435.0,185.3L434.9,183.6L434.7,183.4L434.9,182.9L436.3,182.8L436.8,182.2L437.2,182.6L437.5,182.5L438.0,183.3L437.5,182.1L436.9,181.8L436.8,181.1L436.3,181.1L435.9,180.8L435.7,181.0L434.8,180.6L434.9,180.2L435.5,179.6L436.5,179.7L437.9,179.2L437.8,178.8L437.3,178.8L437.3,178.0L438.0,178.3L438.2,178.1L438.1,177.4L436.7,175.9L435.6,175.3L435.2,174.5L435.6,173.1L435.4,172.1L435.0,171.9L434.3,172.2L434.1,171.9L434.4,171.3L433.8,170.6L434.0,169.7L433.2,167.5L432.4,166.9L432.3,166.0L431.3,166.0L431.6,166.6L429.8,167.1L429.4,167.7L429.6,168.6L430.0,168.8L430.2,170.0L430.9,169.8L431.0,170.4L431.3,170.4L431.4,170.8L431.8,171.0L432.0,172.1L431.3,172.3L430.8,172.2L430.5,171.4L429.9,171.5L429.1,170.1L428.7,167.8L427.6,167.5L427.3,166.9L427.3,166.7L428.1,166.5L428.5,165.8L426.8,165.6L425.8,163.6L425.1,162.8L424.6,162.6L424.3,162.1L424.5,161.2L423.5,160.1L423.7,159.8L424.0,159.9L424.0,159.4L422.9,159.3L422.6,158.8L423.0,158.0L422.8,157.6L422.3,157.5L422.4,158.1L422.0,158.7L420.8,159.1L421.4,159.5L420.8,159.1L420.6,160.0L421.4,161.4L420.3,161.6L419.9,162.0L419.8,163.7L419.2,163.5L418.6,163.7L418.4,163.3L418.8,162.8L418.4,161.9L417.7,162.4L418.2,163.8L417.3,164.6L417.0,166.5L414.9,165.9L414.6,165.0L415.3,165.0L415.7,165.4L415.9,164.8L415.6,164.2L415.8,163.7L415.5,162.9L414.9,163.2L414.8,163.5L413.6,162.4L413.8,161.7L412.9,161.6L412.8,161.9L413.4,162.0L413.5,162.4L412.8,162.4L412.5,163.3L413.0,163.5L413.0,164.6L413.8,165.1L413.5,166.6L412.5,166.4L411.8,166.5L412.2,167.6L412.8,167.6L412.6,168.3L412.9,168.3L413.0,169.0L412.6,169.8L411.5,169.5L411.6,169.1L411.1,168.6L409.7,167.7L410.0,167.1L409.5,167.1L408.8,166.6L407.9,167.0L407.2,167.0L406.8,166.7L406.9,166.2L405.5,166.0L405.1,166.7L405.2,167.3L404.5,167.0L403.5,167.2L404.2,168.9L404.9,169.0L404.8,169.6L405.2,170.0L405.2,170.2L404.5,170.4L404.4,171.2L404.9,171.6L405.8,171.5L405.5,170.5L405.9,170.5L405.8,169.5L406.0,169.0L406.8,169.3L407.1,170.5L408.1,171.1L407.5,171.6L406.9,171.3L407.0,170.5L406.1,170.5L406.0,170.9L406.6,172.1L406.4,172.2L407.0,172.6L407.7,172.2L408.4,172.5L407.5,173.2L407.7,173.5L408.7,174.3L409.7,174.6L409.1,175.3L409.2,176.5L407.5,177.2L407.1,176.4L406.8,176.4L405.7,177.4L404.6,177.9L404.6,178.6L403.4,178.4L402.0,179.1L401.4,180.0L401.8,180.5L401.2,181.1L398.4,180.5L398.5,181.6L397.9,182.3L397.6,183.1L397.3,181.9L396.5,181.8L395.6,180.7L394.3,180.9L393.2,179.9L391.9,180.9L392.2,181.1L392.3,181.5L391.7,181.8L391.0,183.0L390.6,183.1L390.5,183.5L389.3,184.6L389.2,184.8L389.5,184.8L388.7,185.9L388.4,187.0L386.0,187.9L385.8,188.1L386.1,188.8L384.9,189.7L385.0,190.4L385.9,190.5L385.8,191.2L386.4,191.5L388.1,190.8L388.1,191.6L387.4,191.6L386.7,192.4L387.7,194.2L388.6,194.3L389.8,193.6L390.3,193.6L390.6,194.0L390.5,194.4L389.6,195.2L389.5,195.9L388.3,197.0L388.3,197.7L386.2,199.4L386.5,199.9L387.0,199.9L387.4,200.3L387.2,200.7L387.5,201.3L388.5,200.6L389.0,200.9L388.9,201.3L388.4,201.6L388.8,202.2L389.8,202.6L390.3,202.0L391.3,202.0L390.8,203.1L389.6,204.5L389.8,205.9L390.6,206.2L390.7,205.5L391.3,205.3L391.7,205.8L393.0,205.7L394.4,206.3L394.8,206.6L395.3,208.1L396.6,207.3L398.4,206.9L398.6,207.6L398.0,208.8L399.2,209.6ZM422.4,193.2L421.2,193.3L419.1,192.8L418.3,193.3L418.3,194.5L419.2,195.1L420.0,194.9L422.6,195.2L422.8,193.8L422.4,193.2Z",
+  "Prakasam": "M211.4,391.7L211.2,388.7L212.5,385.4L212.9,383.8L214.5,381.3L218.1,377.0L219.9,372.3L219.8,371.0L220.6,368.3L216.7,367.7L216.6,367.1L216.9,366.7L216.4,366.0L217.0,363.8L217.3,363.9L217.8,363.0L217.4,362.5L218.7,360.4L218.8,360.0L218.4,359.5L218.5,359.2L217.9,359.0L217.3,359.5L217.5,359.8L217.3,360.9L216.5,361.6L216.1,361.5L215.2,363.1L214.6,363.1L214.4,363.6L213.7,363.0L212.8,363.0L212.9,363.7L213.8,364.1L213.5,364.9L212.0,364.5L212.2,364.2L211.4,363.8L210.3,364.1L210.0,363.3L209.4,363.3L208.3,362.5L207.6,364.0L207.3,363.9L207.4,363.6L205.0,363.0L204.5,362.2L204.1,362.6L203.6,362.5L203.3,363.1L202.8,363.0L202.5,363.8L200.9,363.0L200.2,363.0L199.7,362.3L200.6,361.7L200.7,361.1L201.2,360.9L201.4,360.4L200.7,359.3L201.3,357.6L201.3,355.7L201.5,355.4L202.9,355.2L202.8,354.7L203.1,353.9L202.4,353.9L200.6,352.9L200.8,352.5L199.9,351.9L199.7,351.1L199.9,351.0L198.9,349.7L198.4,350.2L198.1,350.1L197.1,349.8L197.2,349.5L193.8,348.7L193.4,350.2L192.1,351.2L191.6,351.2L191.6,352.4L191.1,353.6L191.5,354.3L192.7,354.6L192.5,355.6L192.1,355.7L190.6,355.5L190.3,355.0L188.9,354.9L189.3,354.4L189.4,353.4L188.6,352.8L187.7,352.6L187.9,351.3L186.8,350.9L186.1,350.1L185.7,349.9L184.5,350.8L183.1,349.8L183.2,349.2L181.8,348.8L180.7,349.0L179.9,348.3L180.7,344.9L180.1,344.5L180.4,344.2L180.0,343.5L180.2,343.3L179.2,341.3L179.2,340.7L179.7,339.3L179.6,338.6L178.6,337.3L178.8,336.0L178.5,335.5L178.7,335.0L179.5,334.6L179.9,333.7L179.7,332.5L180.2,331.6L179.9,330.8L180.0,329.7L180.3,328.8L179.4,328.3L178.5,327.0L178.0,327.5L176.2,327.9L174.7,327.9L173.2,327.2L168.6,331.4L165.9,331.6L161.9,333.7L161.4,334.5L159.7,335.5L159.4,334.3L159.4,331.7L156.1,332.8L153.9,331.4L152.5,331.9L151.6,331.5L150.8,331.7L149.8,331.1L148.3,330.8L147.1,331.0L145.7,332.7L144.6,332.7L142.5,333.4L141.0,334.3L140.9,334.7L141.5,336.4L142.1,337.0L141.9,337.9L142.4,339.7L141.2,347.1L136.9,350.7L135.3,353.1L133.0,365.2L132.8,367.4L133.2,372.9L132.9,377.0L133.0,379.7L131.5,382.8L130.9,385.2L130.9,392.7L131.2,393.7L132.2,393.6L133.3,392.7L138.9,392.9L141.8,393.5L142.3,391.0L143.5,391.0L143.5,392.5L144.1,394.2L145.0,394.6L145.5,394.8L147.1,394.6L147.6,394.0L151.5,394.3L151.0,394.8L150.9,396.3L151.1,398.5L151.9,401.6L152.2,401.3L152.2,400.6L152.6,400.2L152.6,399.5L154.3,399.4L154.3,398.6L155.7,398.7L156.2,399.1L157.4,399.4L159.4,399.5L161.4,398.3L162.2,398.2L162.4,398.8L164.0,398.7L165.0,399.0L164.9,399.4L165.3,399.0L165.3,398.5L166.2,397.9L166.1,397.7L166.6,397.6L166.6,398.6L166.2,398.6L166.1,399.0L167.1,399.5L167.5,398.1L167.4,397.8L167.6,397.6L168.0,398.0L167.9,398.5L168.5,399.5L169.6,399.5L170.0,399.1L169.9,400.1L170.7,400.0L171.6,400.2L171.4,401.1L171.8,401.2L172.7,401.3L173.4,400.9L174.1,400.9L174.5,400.6L175.0,401.2L176.5,401.2L176.7,401.8L177.5,402.3L178.1,402.4L179.0,403.1L179.9,403.3L180.2,402.0L181.1,402.0L181.2,402.4L182.9,402.2L184.0,402.5L184.1,402.0L182.8,401.2L184.3,398.7L183.8,395.8L185.2,395.7L185.3,395.4L185.1,394.4L184.4,394.1L184.2,394.6L183.7,394.8L183.6,394.4L185.5,390.0L187.1,389.8L187.2,390.3L187.7,390.7L191.5,392.7L192.7,393.1L194.9,392.3L195.1,391.8L196.6,392.1L197.7,388.2L198.3,388.0L198.0,387.6L198.3,387.4L198.1,386.3L199.1,386.0L199.5,386.6L199.9,386.7L200.8,384.9L201.3,386.1L201.3,386.8L202.1,386.8L202.8,385.8L203.6,385.9L203.5,387.4L205.2,388.4L204.5,391.6L204.8,392.3L204.8,392.8L205.4,393.0L206.1,392.6L206.6,392.9L207.0,391.8L207.4,392.0L208.6,391.9L209.7,392.7L210.3,392.7L210.3,391.9L211.4,391.7Z",
+  "Sri Potti Sriramulu Nellore": "M214.4,448.7L214.9,446.4L216.3,442.8L217.0,433.4L218.0,429.1L217.7,428.5L216.8,428.1L216.2,427.1L214.6,421.8L214.0,420.8L212.9,419.7L212.2,418.0L211.4,414.7L211.3,412.0L210.3,408.9L209.5,404.7L209.1,398.9L210.1,395.5L211.3,393.2L211.4,391.7L210.3,391.9L210.3,392.7L209.7,392.7L208.6,391.9L207.4,392.0L207.0,391.8L206.6,392.9L206.1,392.6L205.4,393.0L204.8,392.8L204.8,392.3L204.5,391.6L205.2,388.4L203.5,387.4L203.6,385.9L202.8,385.8L202.1,386.8L201.3,386.8L201.3,386.1L200.8,384.9L199.9,386.7L199.5,386.6L199.1,386.0L198.1,386.3L198.3,387.4L198.0,387.6L198.3,388.0L197.7,388.2L196.6,392.1L195.1,391.8L194.9,392.3L192.7,393.1L191.5,392.7L187.7,390.7L187.2,390.3L187.1,389.8L185.5,390.0L183.6,394.4L183.7,394.8L184.2,394.6L184.4,394.1L185.1,394.4L185.3,395.4L185.2,395.7L183.8,395.8L184.3,398.7L182.8,401.2L184.1,402.0L183.9,402.6L182.9,402.2L181.2,402.4L181.1,402.0L180.2,402.0L179.9,403.3L179.0,403.1L178.1,402.4L177.5,402.3L176.7,401.8L176.5,401.2L175.0,401.2L174.5,400.6L174.1,400.9L173.4,400.9L172.7,401.3L171.8,401.2L171.4,401.1L171.6,400.2L170.7,400.0L169.9,400.1L170.0,399.1L169.6,399.5L168.5,399.5L167.9,398.5L168.0,398.0L167.6,397.6L167.4,397.8L167.5,398.1L167.1,399.5L166.1,399.0L166.2,398.6L166.6,398.6L166.6,397.6L166.1,397.7L166.2,397.9L165.3,398.5L165.3,399.0L165.0,399.4L165.0,399.0L163.4,398.6L162.4,398.8L162.4,398.3L161.7,398.2L159.4,399.5L156.3,399.2L154.7,398.5L154.2,398.6L154.3,399.4L152.6,399.5L152.6,400.2L152.2,400.6L152.2,401.3L151.8,401.7L151.6,403.6L151.8,404.3L151.4,405.7L152.7,410.2L152.8,410.5L153.2,410.5L153.0,410.7L154.5,412.4L155.5,416.7L156.1,417.5L156.6,419.7L157.6,421.7L157.6,423.0L156.9,423.4L157.3,423.6L157.3,424.5L157.7,424.8L157.4,425.7L157.9,427.3L158.5,427.5L158.7,428.0L159.1,428.1L159.7,429.0L160.3,428.1L161.0,428.7L161.4,430.0L163.2,432.3L164.1,435.1L164.8,435.2L166.6,433.8L168.4,433.1L170.5,431.8L174.3,430.7L175.0,432.3L175.7,432.7L175.6,433.0L174.5,433.5L174.2,434.9L173.6,435.4L173.4,436.3L175.0,436.1L175.3,435.2L175.6,435.1L176.6,435.6L176.7,436.1L176.5,436.7L177.5,436.9L177.8,436.0L178.7,435.2L179.8,435.1L180.6,435.3L180.5,437.0L181.4,437.1L181.6,438.3L180.8,439.6L180.9,440.9L182.2,441.7L181.8,442.7L184.4,442.8L184.4,444.3L185.2,444.2L185.4,444.6L185.2,445.4L184.6,445.8L184.4,446.6L184.6,447.4L185.0,447.5L185.3,447.1L185.7,447.2L186.1,445.8L187.1,445.1L189.4,445.6L189.7,444.7L190.7,444.9L190.9,444.6L191.8,445.2L192.9,445.4L192.8,446.9L194.0,447.5L194.3,448.2L195.3,448.8L195.0,449.1L195.4,449.5L195.3,450.6L197.1,451.5L197.6,453.5L199.6,454.6L200.4,454.5L201.0,455.1L202.2,455.6L202.7,455.1L202.7,454.4L203.0,454.4L203.4,454.9L204.7,454.2L204.8,453.0L205.1,453.0L205.4,452.5L205.5,453.2L206.0,452.7L206.4,453.0L206.5,452.7L207.0,452.3L207.4,452.5L207.4,453.0L207.6,453.0L208.4,452.5L208.0,452.3L208.0,452.0L209.0,452.3L209.7,450.9L209.8,451.5L210.1,451.6L210.4,450.7L212.4,450.1L212.5,449.9L212.1,449.0L212.2,448.9L213.6,449.1L214.4,448.7Z",
+  "Sri Satya Sai": "M94.7,476.8L95.8,477.0L96.0,476.7L96.7,476.8L98.2,476.5L99.4,477.0L101.1,477.1L102.0,476.4L102.6,476.4L102.7,476.0L102.2,475.5L102.3,473.8L101.4,473.2L101.5,472.9L102.8,472.5L102.7,472.1L103.0,471.9L103.6,470.6L103.3,470.2L103.7,470.1L104.3,470.4L104.8,470.3L104.9,469.5L105.2,469.5L106.0,468.7L106.8,468.9L107.1,467.8L107.7,467.9L109.1,466.6L109.4,466.8L109.2,467.3L110.1,467.6L110.8,466.8L112.1,466.2L112.5,465.2L114.0,465.0L114.9,464.3L115.0,463.6L114.3,463.5L113.3,462.9L113.2,461.4L113.8,460.9L113.4,459.2L113.5,459.0L114.1,459.0L114.5,457.6L113.4,455.8L113.2,456.0L112.4,455.7L112.1,455.2L112.0,454.0L112.6,453.1L112.6,452.3L111.6,452.3L111.2,452.0L111.3,450.5L112.3,447.7L112.1,447.2L111.8,447.5L110.5,447.5L108.3,446.6L107.2,446.9L106.2,446.5L104.0,446.7L103.5,445.9L102.1,445.9L100.6,445.3L100.0,444.5L98.4,443.6L98.2,443.2L97.2,442.9L95.2,441.5L93.4,440.7L92.1,439.3L92.1,439.0L90.8,438.2L87.0,434.9L86.9,434.4L85.4,432.4L85.6,432.1L84.7,430.7L83.7,430.1L85.0,429.1L85.5,430.2L86.4,430.3L85.9,428.7L86.5,427.7L85.8,427.1L84.9,426.9L84.5,426.3L81.0,425.8L80.7,425.5L79.8,425.8L79.3,425.2L78.1,426.1L78.4,427.5L77.5,427.6L78.4,427.8L78.2,428.4L76.6,428.0L76.1,428.3L75.3,427.4L74.8,427.6L73.5,428.6L71.3,428.8L71.3,429.8L70.8,429.9L70.4,429.6L70.0,429.8L69.4,431.6L68.7,432.1L67.2,431.9L66.4,432.2L66.1,433.2L67.6,433.8L67.7,434.4L67.2,435.1L66.6,435.3L66.2,435.2L66.0,435.6L65.7,435.7L65.9,436.6L65.2,437.4L65.7,438.2L65.0,438.9L65.1,439.4L64.8,439.5L65.1,439.8L64.5,440.4L66.9,440.6L67.2,441.9L68.5,441.9L69.2,441.3L69.5,441.4L71.2,443.7L71.1,444.1L70.6,444.1L70.7,444.7L71.9,444.6L72.2,445.3L72.2,444.6L73.7,444.4L75.1,443.8L75.0,444.6L76.5,445.8L77.7,445.8L78.1,446.2L77.7,446.8L77.9,447.5L77.7,448.3L76.7,449.1L76.1,448.0L74.3,447.9L73.9,447.8L73.9,447.5L73.1,447.5L72.8,447.8L72.6,448.6L72.2,448.6L72.0,449.0L69.8,449.0L68.4,449.6L66.9,449.8L66.3,450.3L63.8,450.4L62.7,450.9L61.2,450.9L61.0,452.4L60.3,453.0L58.1,453.1L57.4,454.7L55.3,454.2L55.2,453.8L53.0,453.9L52.4,453.5L50.9,453.7L50.9,454.5L50.3,454.9L50.0,455.9L48.4,456.2L48.3,457.9L49.0,457.2L50.7,456.5L51.3,456.9L50.6,458.1L50.1,458.2L49.8,459.3L49.1,459.7L48.9,460.3L47.7,460.4L47.2,462.2L50.6,463.0L50.0,464.6L50.1,465.5L51.0,465.0L52.8,464.9L52.9,465.2L53.5,465.5L53.3,467.2L51.9,467.2L52.2,468.5L53.3,468.8L53.3,469.1L51.5,470.6L51.1,470.7L51.1,469.6L48.5,469.7L48.4,469.2L48.1,469.0L49.6,466.8L48.2,466.5L48.9,464.6L47.4,464.3L47.5,463.7L46.6,462.2L45.7,462.1L45.2,462.7L43.8,463.3L44.0,462.1L43.6,462.0L42.0,463.3L40.5,463.2L39.6,463.6L37.8,463.3L37.6,463.3L37.7,464.0L36.4,464.0L35.9,463.8L35.1,461.3L32.2,461.5L31.9,461.4L32.0,460.9L29.3,460.6L29.0,460.1L29.2,458.8L28.3,458.1L28.9,457.3L28.7,456.7L29.0,456.6L29.0,456.3L28.7,456.3L28.7,454.7L29.0,453.6L27.8,453.1L26.4,453.4L25.1,453.2L24.3,452.2L24.0,452.4L24.0,453.7L22.8,454.0L22.6,454.3L21.4,454.0L21.1,454.2L20.9,455.5L20.6,455.8L22.2,456.4L22.9,455.9L24.2,457.0L24.6,458.1L24.3,458.5L25.0,458.6L25.9,459.2L26.1,459.8L25.7,460.5L23.4,460.8L23.3,462.2L24.1,462.2L24.4,463.1L25.4,463.4L27.4,464.6L27.0,466.2L28.3,466.7L28.9,467.6L29.9,468.0L30.2,469.6L28.8,469.8L28.4,470.9L28.5,471.6L28.2,471.7L28.3,472.3L27.8,472.8L26.9,473.0L26.8,473.7L26.1,474.3L26.0,474.9L26.8,475.1L26.9,475.7L26.5,476.5L27.5,479.4L28.4,479.8L28.7,479.8L28.9,479.1L28.5,478.5L28.9,477.1L30.0,477.2L30.0,477.6L30.9,478.3L30.8,478.7L31.5,479.5L32.7,479.4L32.4,478.5L32.8,477.9L33.7,477.8L35.6,478.4L35.8,478.0L36.4,477.9L37.7,478.2L38.1,477.0L36.8,475.5L37.1,475.4L36.9,474.9L37.4,474.6L37.5,474.1L36.6,473.9L36.7,473.3L35.3,473.2L35.1,472.6L35.5,472.5L36.2,471.8L37.5,472.1L37.5,470.6L37.1,469.6L37.5,468.7L38.4,468.5L38.8,469.3L38.2,471.8L39.4,472.2L40.1,470.8L40.4,471.0L40.2,471.9L40.5,471.9L41.2,469.8L41.5,469.7L42.2,469.9L42.1,471.9L42.9,472.2L42.7,473.1L44.1,472.9L44.6,473.1L45.0,472.5L46.0,472.0L46.6,472.6L46.8,473.9L47.5,473.9L49.0,472.7L49.8,472.8L50.2,473.6L53.2,473.3L52.3,475.5L53.0,475.4L52.7,475.9L53.4,476.1L54.0,475.2L55.1,475.4L54.6,476.5L54.9,476.6L55.2,478.3L55.5,478.3L55.1,479.8L55.1,481.2L54.2,481.2L54.6,482.9L56.7,482.4L56.3,480.9L58.1,481.1L58.0,482.0L58.7,482.3L59.2,481.5L59.4,480.0L58.5,479.2L58.7,478.7L59.7,478.5L60.1,478.7L60.1,479.4L60.8,480.5L61.5,479.6L62.4,479.8L63.2,478.8L64.0,478.7L64.8,479.8L65.6,479.3L65.7,479.0L64.9,478.6L64.3,478.5L64.4,477.7L66.2,476.8L67.9,476.7L67.9,477.5L67.4,478.2L68.9,477.6L69.3,477.7L69.6,479.4L70.2,479.4L70.5,477.7L70.3,475.9L70.9,475.8L71.5,475.2L74.0,474.8L74.4,474.5L74.4,474.0L74.0,473.2L75.1,472.9L75.8,473.0L76.2,472.2L77.3,471.7L76.7,471.4L77.2,471.1L77.0,470.1L76.3,469.9L75.9,469.0L76.0,468.0L76.7,467.3L77.4,467.8L80.8,467.5L81.0,468.1L80.8,468.7L82.7,469.6L83.8,467.8L84.5,467.8L85.1,466.4L86.3,466.6L85.8,468.3L86.2,469.8L86.1,470.1L84.0,470.7L84.4,473.8L84.2,474.3L85.6,474.2L86.5,471.8L87.0,471.5L87.7,471.6L88.2,472.1L89.7,472.2L90.0,471.3L89.9,470.1L90.1,470.2L91.7,471.0L91.9,472.2L92.5,472.0L93.8,472.1L94.5,474.0L93.8,475.4L94.7,476.8Z",
+  "Srikakulam": "M424.6,221.8L431.2,218.1L436.2,216.1L438.0,214.8L441.0,213.9L448.7,210.1L452.2,207.7L452.2,206.7L453.9,203.9L459.8,198.2L465.7,193.5L466.0,192.0L466.5,191.1L470.8,187.2L471.2,185.8L473.9,182.5L477.5,179.4L477.9,177.8L478.8,176.7L479.4,175.3L480.2,174.1L485.4,168.9L489.5,163.5L490.2,162.5L486.5,160.1L486.5,159.7L486.2,159.6L486.6,158.8L486.3,158.5L487.0,158.4L487.2,157.8L484.5,157.3L484.4,157.9L484.7,158.3L484.4,159.4L483.0,159.2L482.2,159.6L480.5,159.4L480.9,161.1L481.4,161.2L481.5,160.9L481.8,161.2L481.7,161.8L482.3,161.9L483.8,161.6L484.4,162.5L484.0,162.7L483.9,163.4L483.5,163.1L482.8,163.1L482.3,163.5L482.1,163.2L481.4,163.2L481.6,163.7L481.1,163.7L480.4,165.6L479.6,165.6L479.2,164.9L479.3,164.6L479.0,164.7L479.3,164.2L479.3,162.7L478.9,163.1L478.6,163.0L478.7,162.8L478.3,163.0L477.7,163.7L476.8,163.8L476.0,164.4L475.3,164.2L474.7,165.2L474.1,165.3L473.3,166.1L473.3,166.9L472.9,167.7L470.9,166.9L470.3,166.3L469.8,166.3L469.9,165.9L469.7,165.8L469.7,166.3L470.3,166.7L470.3,167.4L471.0,167.6L471.0,168.0L471.5,168.4L471.0,168.9L470.2,168.9L470.3,169.5L469.9,170.1L470.2,170.9L470.0,171.1L470.7,171.2L470.7,171.8L470.1,172.5L469.5,172.0L469.4,172.2L469.7,172.7L469.5,173.2L468.4,173.3L468.0,172.8L467.5,173.0L467.1,172.8L467.5,173.3L468.3,173.6L468.3,174.0L467.9,174.4L467.7,174.0L467.3,173.8L467.3,174.1L466.0,173.4L466.8,174.3L467.5,174.5L466.9,175.3L466.1,175.3L464.6,173.6L465.2,176.1L466.3,176.7L466.0,177.1L465.6,177.1L465.4,177.7L464.3,177.9L465.1,178.8L464.1,179.0L463.7,179.7L461.8,178.7L461.6,179.4L460.1,180.0L459.0,179.6L458.8,179.1L458.5,179.3L458.1,179.0L457.3,179.2L457.6,179.5L456.2,179.4L455.9,180.3L455.5,180.0L455.0,180.1L454.7,179.7L454.1,179.7L454.0,180.0L452.9,180.3L453.0,181.1L452.8,181.2L451.8,180.9L449.9,181.5L449.9,181.1L449.1,181.1L448.6,180.0L448.1,180.0L448.1,179.0L447.5,179.0L447.3,178.2L446.9,178.0L446.5,178.3L445.5,177.9L445.5,178.4L444.9,178.4L444.1,178.1L443.8,178.3L442.5,178.1L442.1,178.2L441.9,178.7L441.5,178.7L441.1,178.5L441.1,178.0L440.5,178.0L439.6,177.3L438.9,177.3L438.0,178.3L437.3,178.0L437.3,178.8L437.8,178.8L437.9,179.2L436.5,179.7L435.5,179.6L434.9,180.2L434.8,180.6L435.2,180.9L436.8,181.1L437.0,182.0L437.5,182.1L438.0,183.2L437.5,182.5L437.2,182.6L436.8,182.2L436.3,182.8L434.9,182.9L434.7,183.3L434.9,183.8L434.8,184.5L436.1,187.3L437.5,188.6L438.0,188.8L438.2,189.6L437.7,189.5L437.8,189.9L438.2,190.1L438.2,191.0L438.6,190.8L438.5,191.2L439.1,191.6L439.4,192.7L438.9,193.1L439.5,193.7L439.5,194.2L438.8,194.8L437.7,194.4L437.4,193.6L437.2,193.9L436.7,193.9L436.7,194.2L436.3,194.5L436.8,194.5L436.1,194.9L435.2,194.1L434.9,194.4L434.1,193.3L434.1,193.0L434.6,192.8L434.6,191.8L434.6,190.7L434.2,190.0L432.5,188.7L432.4,189.3L432.2,189.1L431.6,189.7L431.8,190.1L432.3,190.0L432.3,190.4L431.9,190.8L431.4,190.9L431.3,191.9L430.8,192.2L430.7,192.8L431.2,193.1L431.7,194.3L432.5,193.9L432.8,194.1L431.9,196.4L432.3,197.1L433.8,198.3L433.2,200.5L433.4,200.9L434.6,201.6L434.7,201.8L434.0,202.5L434.5,203.5L432.9,203.0L432.5,203.3L432.5,203.8L432.8,204.1L432.6,204.6L431.2,204.0L430.7,204.2L430.4,203.3L429.0,202.4L428.4,201.5L428.4,201.1L427.6,201.1L428.1,200.9L428.0,200.4L427.6,200.6L427.2,200.1L426.5,200.5L426.4,201.0L426.7,201.4L426.7,202.1L427.0,202.5L427.0,203.5L423.7,203.6L422.7,204.1L420.9,203.7L420.5,204.3L420.7,204.5L420.2,204.7L419.8,205.3L420.7,206.1L421.3,206.3L420.8,206.9L422.1,206.6L422.0,207.3L424.8,207.6L426.1,208.4L426.5,208.3L426.9,209.0L425.1,209.7L424.6,210.4L424.5,212.7L423.7,213.9L422.3,213.5L421.7,214.1L420.9,214.1L421.0,215.0L421.4,215.1L421.6,215.9L421.6,216.5L420.9,216.7L420.9,217.1L421.3,218.0L422.1,218.7L421.9,219.6L422.8,220.3L423.4,220.3L424.6,221.4L424.6,221.8Z",
+  "Tirupati": "M193.0,505.2L193.8,506.0L194.4,505.6L194.8,504.6L197.1,504.7L197.5,504.6L197.5,504.3L198.0,504.6L198.4,503.7L199.2,504.2L199.2,503.6L201.1,502.8L201.1,502.0L202.2,502.6L203.0,501.8L203.2,501.1L203.0,500.8L203.7,501.0L204.0,500.1L202.9,499.9L202.7,499.7L203.0,499.3L202.3,498.7L202.7,498.7L202.6,498.3L203.7,498.4L204.6,497.9L204.6,495.5L205.2,495.5L205.5,494.6L206.5,494.1L206.9,493.9L206.9,494.6L207.1,493.8L208.9,494.0L209.1,493.0L208.4,492.7L207.9,492.9L207.4,492.6L207.3,492.0L206.3,492.2L205.9,491.0L206.3,491.3L207.2,490.9L207.6,491.0L207.9,491.4L209.5,491.6L209.9,491.1L211.1,490.8L211.5,491.6L210.8,492.1L210.9,494.4L212.2,494.4L212.4,494.1L212.7,494.3L212.9,493.4L214.0,493.7L214.4,493.5L214.8,493.7L214.8,494.3L218.7,494.5L219.0,494.3L218.9,494.6L219.6,494.6L220.6,495.4L221.9,490.0L222.1,489.8L220.7,486.9L220.1,483.9L220.3,481.2L221.3,477.1L219.4,471.6L214.9,461.4L213.8,455.3L213.9,451.4L214.4,448.7L213.6,449.1L212.2,448.9L212.1,449.0L212.5,449.9L212.4,450.1L210.4,450.7L210.1,451.6L209.8,451.5L209.7,450.9L209.0,452.3L208.0,452.0L208.0,452.3L208.4,452.5L207.6,453.0L207.4,453.0L207.4,452.5L207.0,452.3L206.5,452.7L206.4,453.0L206.0,452.7L205.5,453.2L205.4,452.5L205.1,453.0L204.8,453.0L204.7,454.2L203.4,454.9L203.0,454.4L202.7,454.4L202.7,455.1L202.3,455.6L201.0,455.1L200.4,454.5L199.6,454.6L197.6,453.5L197.1,451.5L195.3,450.6L195.4,449.5L195.0,449.1L195.3,448.8L194.3,448.2L194.0,447.5L192.8,446.9L192.9,445.4L191.8,445.2L190.9,444.6L190.7,444.9L189.7,444.7L189.4,445.6L187.1,445.1L186.1,445.8L185.7,447.2L185.3,447.1L185.0,447.5L184.6,447.4L184.4,446.6L184.6,445.8L185.2,445.4L185.4,444.6L185.2,444.2L184.4,444.3L184.4,442.8L181.8,442.7L182.2,441.7L180.9,440.9L180.8,439.6L181.6,438.3L181.4,437.1L180.5,437.0L180.6,435.3L179.8,435.1L178.7,435.2L177.8,436.0L177.5,436.9L176.5,436.7L176.7,436.1L176.6,435.6L175.6,435.1L175.3,435.2L175.0,436.1L173.4,436.3L173.6,435.4L174.2,434.8L174.5,434.0L174.3,433.8L174.6,433.4L175.6,433.2L175.7,432.7L175.0,432.3L174.3,430.7L172.8,431.0L170.4,431.8L168.4,433.1L166.6,433.8L164.8,435.2L165.5,435.6L166.1,436.8L166.3,438.6L168.3,441.5L168.4,443.1L169.8,443.7L171.8,447.4L171.6,448.2L172.6,449.5L171.8,451.7L172.2,452.5L173.1,457.1L173.7,458.0L173.5,459.5L173.0,460.3L173.0,461.6L172.6,462.5L173.0,464.1L173.7,464.7L173.4,465.6L173.5,466.5L173.9,467.2L173.7,468.6L172.8,469.7L173.0,470.5L172.5,471.4L172.7,472.6L173.7,474.4L173.9,475.9L174.7,476.1L173.3,477.1L171.6,476.8L171.3,477.2L171.6,477.2L171.6,477.7L171.3,478.1L168.8,478.6L164.8,480.5L164.0,478.4L161.0,478.3L161.0,478.8L159.9,478.4L159.6,477.5L158.0,476.3L158.2,475.7L158.7,475.3L159.2,475.5L159.4,475.2L157.5,473.9L156.8,473.1L156.0,472.7L155.4,472.0L154.1,473.0L152.3,472.9L151.5,471.2L148.3,470.6L148.0,469.8L147.1,469.5L146.9,469.8L148.0,470.3L147.9,471.1L148.7,471.5L149.2,472.1L149.6,472.1L149.4,472.6L147.8,472.5L148.1,473.0L147.2,473.3L147.4,474.4L147.9,474.4L148.2,474.9L148.8,474.8L149.1,475.0L149.0,475.7L148.0,475.9L148.0,477.4L148.8,477.6L149.7,477.2L151.7,476.9L152.0,477.4L151.5,479.5L152.1,480.2L152.1,480.8L151.2,482.7L151.0,484.3L149.7,485.1L149.5,486.7L149.9,487.0L152.2,487.1L156.0,487.7L156.9,487.6L157.1,488.4L156.7,489.8L157.3,491.1L155.2,492.4L153.2,492.4L153.3,492.7L152.5,492.9L151.6,492.6L151.5,491.8L150.4,492.0L149.2,491.3L148.8,490.0L147.9,490.0L147.5,491.1L146.8,491.3L146.3,491.0L145.1,491.4L144.7,491.2L143.7,491.2L144.5,491.8L145.3,492.0L145.6,492.8L145.5,494.2L146.6,494.2L147.3,494.9L148.8,495.5L149.9,496.8L150.9,496.7L152.0,497.3L152.1,498.2L154.0,498.3L154.3,498.6L154.5,498.3L155.1,498.4L155.1,499.1L155.5,499.1L155.5,498.8L155.8,498.8L155.7,499.2L156.2,499.6L155.7,500.4L155.1,500.6L155.2,500.9L155.9,500.5L156.1,500.8L157.4,500.9L157.1,500.4L157.4,500.0L157.9,500.2L158.5,499.7L159.6,500.8L160.0,500.8L160.1,500.0L160.5,500.2L160.7,500.0L160.9,500.2L160.9,501.0L161.5,501.1L161.5,499.7L159.8,499.9L160.1,499.6L160.2,499.0L159.0,498.9L158.8,498.6L159.2,498.0L159.8,498.6L160.2,498.3L160.5,498.6L162.0,498.3L161.0,498.1L160.9,497.4L160.5,497.6L160.2,497.4L159.6,497.5L160.1,496.8L160.3,497.1L160.9,497.2L161.0,496.8L161.8,496.4L162.1,495.5L163.9,494.8L167.3,494.6L167.4,494.3L168.1,494.5L167.8,494.4L168.5,494.2L169.4,494.1L169.6,494.4L170.7,493.5L171.3,493.6L171.2,494.2L171.6,494.6L171.6,494.2L173.0,493.7L172.7,493.1L173.0,492.5L174.1,492.0L174.3,489.9L175.3,489.9L175.5,489.4L175.9,489.2L176.3,489.3L176.6,490.1L177.3,490.2L177.4,489.8L178.1,490.0L178.6,489.5L178.2,488.5L178.6,487.7L179.2,488.6L179.9,488.6L180.1,489.4L180.5,489.4L179.7,490.8L179.3,490.9L179.5,491.7L178.6,492.5L178.4,493.4L178.9,492.9L180.2,493.1L180.3,494.4L181.1,495.2L181.4,495.0L182.0,495.4L181.8,495.7L181.0,495.9L181.7,496.6L181.2,497.2L179.9,497.2L179.9,498.7L180.8,498.2L180.7,499.7L181.1,500.1L182.3,499.7L183.9,499.8L184.2,500.3L184.5,500.0L184.5,500.3L185.3,499.7L185.3,499.0L186.6,499.0L186.7,497.4L187.2,497.1L187.9,497.2L188.0,497.0L189.1,497.3L189.2,498.5L188.8,498.8L188.4,500.3L189.5,500.5L189.6,501.6L189.9,501.6L190.6,502.3L191.7,504.3L192.3,504.3L193.0,505.2Z",
+  "Visakhapatnam": "M398.9,233.8L398.6,234.9L399.2,235.3L399.1,236.6L400.7,236.9L400.3,237.9L398.9,238.7L399.0,240.2L398.2,241.1L397.1,240.3L396.8,240.9L397.8,243.0L396.9,243.0L397.6,243.2L397.1,243.8L396.7,243.7L396.7,243.3L396.3,243.4L396.0,242.9L394.2,242.4L394.0,243.2L393.1,243.7L392.2,243.6L392.3,244.5L391.8,244.4L391.7,244.7L391.9,245.1L392.6,245.3L392.2,246.0L392.6,246.4L392.5,246.7L393.7,246.9L394.1,247.3L392.8,249.4L391.8,253.4L394.7,252.6L395.3,251.8L397.7,250.8L397.8,250.4L399.1,249.5L398.8,249.0L399.1,248.4L401.8,246.6L402.6,245.8L402.8,245.1L402.5,245.0L402.8,244.8L402.6,244.7L403.2,244.7L403.2,245.0L403.4,244.4L402.9,244.5L403.4,244.0L405.6,242.8L405.5,242.0L406.1,240.9L408.0,239.7L408.3,238.8L409.4,237.7L409.8,237.0L409.8,236.3L409.4,236.0L409.8,235.2L411.5,234.0L412.2,233.0L412.2,232.4L412.9,231.7L416.4,229.5L414.5,229.8L413.8,228.7L412.7,228.4L411.9,228.8L411.8,229.7L411.0,229.7L411.5,230.0L411.7,230.7L411.4,230.9L410.2,230.0L409.2,228.5L409.6,228.2L409.6,227.3L410.5,226.6L410.5,225.8L409.0,225.6L408.7,223.6L407.1,223.2L406.0,222.5L405.4,222.8L405.4,223.3L404.5,224.0L404.0,224.9L403.2,224.6L403.6,225.1L403.3,225.3L403.6,225.5L403.7,226.1L402.4,226.0L402.6,226.7L401.3,226.1L400.9,227.4L400.1,228.2L400.1,228.6L399.5,229.4L398.7,229.7L399.1,230.9L399.8,230.9L400.6,231.4L399.5,232.2L398.9,233.8Z",
+  "Vizianagaram": "M398.9,233.8L399.5,232.2L400.6,231.4L399.8,230.9L399.1,230.9L398.7,229.7L399.5,229.4L400.1,228.6L400.1,228.2L400.9,227.4L401.3,226.1L402.6,226.7L402.4,226.0L403.7,226.1L403.6,225.5L403.3,225.3L403.6,225.1L403.2,224.6L404.0,224.9L404.5,224.0L405.4,223.3L405.5,222.8L406.1,222.6L407.1,223.2L408.7,223.6L409.0,225.6L410.5,225.8L410.5,226.6L409.6,227.3L409.6,228.2L409.2,228.5L410.2,230.0L411.4,230.9L411.7,230.7L411.5,230.0L411.0,229.7L411.8,229.7L411.9,228.8L412.7,228.4L413.8,228.7L414.5,229.8L416.6,229.4L418.2,227.5L418.4,226.6L418.8,225.9L424.6,221.8L424.6,221.4L423.4,220.3L422.8,220.3L421.9,219.6L422.1,218.7L421.3,218.0L420.9,217.1L420.9,216.7L421.6,216.5L421.6,215.9L421.4,215.1L421.0,215.0L420.9,214.1L421.7,214.1L422.3,213.5L423.7,213.9L424.5,212.7L424.6,210.4L425.1,209.7L426.9,209.1L426.5,208.3L426.1,208.4L424.8,207.6L422.0,207.3L422.1,206.6L420.8,206.9L421.3,206.3L420.7,206.1L419.8,205.3L420.2,204.7L420.7,204.5L420.5,204.3L420.7,203.8L422.7,204.1L423.7,203.6L426.0,203.3L426.8,203.5L427.0,202.5L426.7,202.1L426.7,201.4L426.4,201.0L426.5,200.5L427.2,200.1L427.6,200.6L428.0,200.4L428.1,200.9L427.6,201.1L428.4,201.1L428.4,201.5L429.0,202.4L430.4,203.3L430.7,204.2L431.2,204.0L432.6,204.6L432.8,204.1L432.5,203.8L432.5,203.3L432.9,203.0L434.5,203.5L434.0,202.5L434.7,201.8L434.6,201.6L433.4,200.9L433.2,200.5L433.8,198.3L432.3,197.1L431.9,196.4L432.3,195.0L432.8,194.4L432.7,193.9L431.6,194.3L431.2,193.1L430.0,192.6L429.9,191.9L429.3,191.8L428.1,193.2L427.9,193.1L427.9,192.6L426.7,192.6L425.8,191.9L424.8,192.0L423.6,191.4L422.9,190.5L422.5,189.4L422.1,189.1L422.0,188.5L421.5,188.0L421.0,188.0L421.0,187.4L420.1,187.2L419.7,186.6L419.3,186.5L419.1,185.2L417.6,184.2L417.0,184.3L417.2,185.4L418.0,185.9L418.4,186.8L417.8,188.0L418.1,188.9L417.7,189.3L417.9,189.8L417.8,191.1L418.8,191.1L419.0,191.3L417.8,192.1L417.3,192.0L417.2,192.7L416.4,193.6L416.4,193.7L417.0,193.8L417.1,194.4L417.6,194.5L417.2,195.2L416.7,194.9L416.5,195.3L415.8,195.7L415.8,194.5L414.8,194.2L414.6,193.2L413.7,193.2L413.2,192.9L413.2,192.2L414.1,192.4L414.5,191.4L414.3,190.7L413.3,189.8L412.8,189.8L412.5,189.4L411.5,189.3L410.8,189.8L410.7,190.5L410.4,190.6L410.5,190.2L409.8,190.1L409.7,189.5L409.3,189.8L409.2,190.5L407.5,190.1L406.9,190.9L405.6,190.3L405.7,188.4L404.6,187.3L404.1,187.4L403.5,189.0L402.3,189.7L402.2,189.2L401.7,189.3L400.4,191.0L399.7,191.5L400.6,191.8L400.3,192.1L400.5,192.5L400.0,192.8L400.0,193.3L401.4,193.8L401.3,194.2L399.9,194.4L398.2,196.7L398.0,197.5L398.2,198.0L398.5,197.5L398.8,197.7L399.4,198.8L400.1,198.0L400.5,198.1L400.7,198.5L400.0,198.9L400.0,199.3L399.5,199.4L399.3,200.0L399.0,200.1L398.8,199.7L398.0,200.4L397.0,200.2L397.3,200.4L397.0,201.7L397.6,202.0L398.6,201.6L399.3,201.8L400.3,201.4L400.9,200.9L401.9,201.3L402.2,201.7L403.3,201.7L403.9,201.0L403.8,202.9L403.3,203.5L403.5,204.0L403.4,204.8L403.7,205.5L404.4,205.6L404.4,206.0L404.1,206.3L402.3,206.1L401.9,206.5L401.1,206.5L401.4,207.6L401.1,207.6L401.0,208.1L400.6,208.0L400.2,209.0L399.7,209.3L399.4,209.1L399.2,209.6L400.8,210.5L400.5,212.2L400.8,213.6L399.8,212.8L399.3,213.2L399.3,214.4L398.5,214.2L398.4,213.4L398.0,213.1L398.2,214.0L397.8,214.5L398.3,215.0L397.8,215.2L396.4,214.8L395.4,213.1L395.2,213.5L394.4,213.7L394.8,214.4L394.7,215.2L395.1,215.2L395.2,215.5L395.0,215.8L394.3,216.1L393.2,215.7L393.2,214.6L392.5,214.5L392.3,214.1L391.5,214.2L391.1,214.6L391.2,215.3L392.2,216.8L392.7,216.9L393.8,216.8L394.9,217.5L395.0,218.0L392.7,217.6L392.1,218.6L392.5,219.0L392.1,219.6L392.8,219.8L392.7,220.2L390.5,221.2L390.0,221.1L389.0,222.0L388.0,221.6L388.1,222.6L386.5,222.9L385.6,224.0L385.8,224.6L385.4,224.9L385.4,226.1L385.8,226.6L385.4,227.0L385.5,227.8L386.3,228.2L387.3,228.3L388.3,228.8L389.3,229.8L390.4,230.1L391.5,230.2L391.6,231.1L392.2,231.5L392.6,232.1L392.4,233.0L392.8,234.0L393.3,233.9L393.8,234.3L394.0,235.6L394.5,235.8L394.6,236.0L395.0,235.5L396.2,235.7L396.3,235.3L397.2,235.5L397.7,234.8L397.4,234.6L397.7,233.6L398.6,234.0L398.9,233.8ZM422.4,193.2L422.8,193.8L422.6,195.2L420.0,194.9L419.2,195.1L418.3,194.5L418.3,193.3L419.1,192.8L421.2,193.3L422.4,193.2Z",
+  "West Godavari": "M289.7,319.8L290.4,320.4L291.1,320.3L291.8,321.6L292.9,321.2L293.9,321.6L295.3,323.3L296.3,323.2L296.9,322.7L298.1,322.8L299.2,324.8L306.6,325.6L307.1,325.8L307.2,326.5L307.2,326.0L307.5,326.3L307.4,326.0L308.1,326.3L308.5,326.0L308.2,325.3L308.5,324.5L308.4,323.8L307.3,320.8L308.2,318.8L308.6,318.6L309.1,318.8L309.7,320.1L310.8,320.1L312.4,318.5L312.6,317.7L313.4,316.9L314.6,316.1L316.1,315.9L316.4,315.5L316.2,313.8L316.7,312.1L317.0,309.7L315.9,306.7L313.5,304.0L312.7,304.0L312.8,304.5L311.6,304.7L311.5,305.2L311.0,305.2L311.0,304.0L310.4,303.4L310.6,302.0L308.7,302.0L309.0,299.5L308.8,299.5L308.8,299.9L306.9,299.7L306.8,300.0L306.4,299.7L306.3,300.0L306.1,299.6L305.7,299.7L305.6,299.2L304.4,299.0L304.3,298.7L303.6,298.6L303.0,298.0L303.4,297.7L303.9,296.0L304.5,295.7L305.0,294.7L304.1,294.3L303.7,294.5L303.0,292.3L302.1,291.9L302.0,291.5L300.0,291.7L299.7,291.1L298.8,290.7L298.7,289.6L298.0,289.0L297.4,289.2L296.3,288.5L295.9,288.5L295.1,287.5L295.2,288.4L294.8,289.2L294.8,291.2L294.0,292.0L293.3,291.9L293.1,293.5L294.1,293.9L294.3,295.2L294.8,296.2L294.8,296.6L295.5,296.9L295.0,297.9L294.6,297.9L293.9,298.9L294.4,300.2L293.8,300.1L293.4,300.4L292.0,300.2L292.2,301.6L292.5,301.6L292.6,302.3L293.8,302.1L294.3,301.5L295.8,302.1L296.3,301.9L296.5,301.5L296.9,301.8L297.5,301.4L298.1,301.6L298.4,301.5L298.8,299.9L299.4,300.1L299.8,301.2L299.5,301.6L299.7,302.3L301.2,302.3L301.5,303.3L301.4,303.5L300.6,303.5L300.3,304.1L299.8,304.2L299.8,304.7L298.9,304.9L298.8,305.6L299.4,306.3L298.7,307.1L297.9,306.5L297.9,305.7L297.5,305.7L297.5,305.3L296.4,305.3L296.0,305.9L295.5,305.8L295.6,305.4L295.1,305.2L295.3,304.3L294.0,304.4L293.9,305.0L292.8,305.1L292.2,305.8L291.5,306.0L289.3,305.6L287.2,305.8L286.3,306.2L286.2,305.2L286.8,304.9L286.8,304.1L285.4,304.4L285.7,305.5L285.3,308.4L286.3,309.2L286.9,309.0L287.1,309.8L286.7,309.8L286.9,310.1L286.5,310.2L286.6,311.5L286.2,313.7L286.0,314.0L286.0,314.8L285.6,314.9L286.2,315.3L287.4,315.1L287.9,315.6L287.7,317.0L288.4,317.5L288.0,318.0L288.9,318.7L288.8,318.9L289.8,319.2L289.7,319.8Z",
+  "YSR Kadapa": "M132.1,393.6L131.6,396.6L131.7,398.6L132.3,399.8L131.9,400.1L132.3,401.4L131.6,402.5L130.4,403.1L129.3,403.3L129.8,406.4L128.2,406.4L127.8,408.2L126.7,408.4L126.3,408.7L124.5,409.0L124.5,407.7L123.3,407.6L122.8,407.3L122.3,408.1L121.6,407.8L120.8,408.5L120.0,408.7L119.6,408.5L119.9,406.8L119.2,406.6L118.5,406.9L118.2,407.4L118.0,407.3L117.9,408.0L116.7,409.1L115.9,410.4L115.7,410.4L115.5,410.3L115.8,409.1L116.7,407.2L117.1,407.2L117.8,404.7L117.3,404.3L117.7,403.8L117.5,402.2L117.7,401.0L117.3,400.6L115.7,400.3L115.7,400.8L115.3,400.8L115.7,401.5L116.0,401.6L115.9,402.4L115.7,402.0L115.3,402.4L114.5,402.2L114.2,402.7L113.1,402.4L113.0,402.6L111.9,402.7L111.4,406.1L110.4,406.4L108.4,405.4L107.4,404.4L108.1,402.7L109.0,403.1L109.5,402.3L110.8,401.7L109.5,401.2L109.8,400.5L109.1,400.3L108.7,401.5L108.0,401.3L108.1,400.9L106.4,400.3L105.6,400.5L104.9,400.2L104.0,400.3L103.4,401.3L103.9,402.7L102.5,403.0L101.5,404.6L101.1,404.3L100.1,407.2L99.5,407.4L97.7,406.7L96.4,406.8L96.0,407.6L95.2,407.6L94.8,408.5L94.4,408.3L93.8,408.6L92.3,412.8L92.3,413.0L93.8,413.5L93.0,415.5L91.6,414.9L90.9,416.6L89.8,418.0L91.6,419.3L91.6,419.7L90.8,421.3L91.0,421.5L91.6,421.3L92.6,421.6L92.8,422.3L93.5,422.3L93.5,422.9L94.0,422.9L94.1,422.6L95.0,422.7L94.7,425.4L94.1,426.3L94.4,426.6L94.3,426.9L92.3,426.5L91.4,429.0L90.9,430.0L89.3,430.3L89.6,431.9L89.4,432.3L89.0,432.5L87.8,432.0L86.2,431.9L86.0,431.6L86.0,430.3L85.2,429.9L85.0,429.1L83.7,430.1L84.7,430.7L85.6,432.1L85.4,432.4L86.9,434.4L87.0,434.9L90.8,438.2L92.1,439.0L92.1,439.3L93.3,440.6L95.2,441.5L97.2,442.9L98.2,443.2L98.4,443.6L100.0,444.5L100.6,445.3L102.1,445.9L103.5,445.9L104.0,446.7L106.2,446.5L107.2,446.9L108.3,446.6L110.5,447.5L111.8,447.5L112.1,447.2L112.3,447.7L111.3,450.5L111.2,452.0L111.6,452.3L112.6,452.3L112.6,453.1L112.0,453.9L112.0,454.7L112.3,455.6L113.2,456.0L115.4,454.3L116.7,453.9L118.0,453.9L118.3,454.0L118.5,454.9L119.7,454.8L120.7,455.9L119.6,456.1L119.4,456.5L119.9,456.7L119.7,457.1L120.3,456.9L120.3,457.2L120.8,457.2L121.7,456.1L120.5,455.5L120.7,455.0L121.3,454.5L121.1,454.2L120.7,454.5L120.7,453.7L121.3,453.2L121.5,453.5L122.0,453.5L122.2,452.7L124.3,451.5L123.7,450.1L122.7,449.2L122.4,447.8L122.9,447.2L123.4,447.5L123.9,447.2L125.3,447.9L125.7,447.8L126.3,448.3L125.9,449.2L126.9,449.4L127.2,449.3L127.6,448.3L126.7,447.5L126.7,446.4L127.0,446.3L130.7,446.6L131.6,446.2L131.4,445.6L132.0,445.8L132.9,445.2L135.5,446.7L136.2,446.7L137.0,446.3L138.9,446.3L139.4,444.8L140.8,444.9L140.6,443.9L141.2,442.7L140.2,440.2L140.4,438.1L138.6,435.0L138.5,432.3L139.4,432.7L140.2,433.5L141.5,433.9L143.0,435.5L143.3,435.3L143.3,435.5L146.3,435.8L147.2,436.5L148.2,436.5L149.3,437.2L152.3,435.6L151.2,435.9L151.1,435.5L151.1,435.8L150.9,435.9L150.7,435.7L150.9,435.3L150.4,435.0L150.6,434.8L150.2,434.8L149.8,434.5L150.5,434.5L150.3,433.5L150.9,433.5L151.2,433.0L151.3,433.7L151.4,433.4L151.5,433.7L151.6,433.5L151.9,434.3L152.3,434.7L152.5,434.6L153.7,436.0L154.0,435.6L154.3,436.5L154.8,437.1L156.3,437.4L156.8,436.7L157.9,436.4L158.6,436.8L159.6,436.7L160.7,437.7L161.4,437.7L161.0,437.8L160.4,439.4L162.4,440.7L163.2,440.5L164.8,442.6L165.3,441.4L164.6,440.7L164.5,439.9L164.9,439.5L164.9,439.8L165.2,439.7L164.9,439.1L165.1,437.8L164.3,436.6L164.5,436.0L163.8,435.6L164.2,435.3L164.6,435.5L164.4,435.3L164.6,435.2L164.1,435.1L163.2,432.3L162.5,431.2L161.8,430.6L160.7,428.3L160.3,428.1L159.7,429.0L159.1,428.1L158.7,428.0L158.5,427.5L157.9,427.3L157.4,425.7L157.7,424.8L157.3,424.5L157.3,423.6L156.9,423.4L157.6,423.0L157.6,421.7L156.6,419.7L156.1,417.5L155.5,416.7L154.5,412.4L153.0,410.7L153.2,410.5L152.8,410.5L152.1,408.5L151.4,405.5L151.8,404.3L151.6,403.6L151.9,401.6L151.1,398.5L150.9,396.0L151.0,394.8L151.5,394.3L147.6,394.0L147.1,394.6L145.5,394.8L144.1,394.2L143.5,392.5L143.5,391.0L142.9,391.0L142.3,391.0L141.8,393.5L138.9,392.9L133.3,392.7L132.1,393.6Z",
+};
+
+    const districtLabelPos = {
+  "Alluri Sitaramaraju": [355.6, 223.9],
+  "Anakapalli": [367.6, 245.6],
+  "Anantapur": [56.5, 415.4],
+  "Annamayya": [123.1, 475.7],
+  "Bapatla": [233.0, 348.5],
+  "Chittoor": [150.8, 506.0],
+  "Dr. B.R. Ambedkar Konaseema": [324.9, 306.9],
+  "East Godavari": [306.6, 284.2],
+  "Eluru": [274.7, 290.1],
+  "Guntur": [229.5, 329.9],
+  "Kakinada": [337.5, 280.6],
+  "Krishna": [264.4, 320.0],
+  "Kurnool": [68.9, 370.5],
+  "NTR District": [233.4, 292.7],
+  "Nandyal": [99.7, 374.1],
+  "Palnadu": [201.5, 326.0],
+  "Parvathipuram Manyam": [409.0, 181.8],
+  "Prakasam": [196.7, 368.4],
+  "Sri Potti Sriramulu Nellore": [195.3, 429.1],
+  "Sri Satya Sai": [66.3, 455.7],
+  "Srikakulam": [450.3, 187.6],
+  "Tirupati": [178.6, 474.2],
+  "Visakhapatnam": [399.0, 241.0],
+  "Vizianagaram": [406.3, 211.1],
+  "West Godavari": [296.3, 304.2],
+  "YSR Kadapa": [129.4, 432.5]
+};
+
+    function buildMapSVG() {
+      const now = new Date();
+      let svg = `<svg viewBox="8 152 487 398" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 4px 20px rgba(99,102,241,0.1));">`;
+      
+      // Defs for effects
+      svg += `<defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+        <filter id="innerShadow">
+          <feOffset dx="0" dy="2"/>
+          <feGaussianBlur stdDeviation="2" result="offset-blur"/>
+          <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+          <feFlood flood-color="black" flood-opacity="0.15" result="color"/>
+          <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
+          <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
+        </filter>
+      </defs>`;
+
+      // Background outline for the whole state
+      let allPaths = '';
+      for (const [name, path] of Object.entries(districtPaths)) {
+        const hcr = districtData[name] ? getCurrentHCR(name, now) : 5;
+        const color = getHCRColor(hcr);
+        allPaths += `<path d="${path}" fill="${color}" class="district-path" data-district="${name}" 
+                  fill-opacity="0.85" fill-rule="evenodd" filter="url(#innerShadow)" />`;
+      }
+      svg += allPaths;
+
+      // Labels with background
+      for (const [name, [x, y]] of Object.entries(districtLabelPos)) {
+        const shortNames = {
+          'Parvathipuram Manyam': 'P. Manyam',
+          'Dr. B.R. Ambedkar Konaseema': 'Konaseema',
+          'Sri Potti Sriramulu Nellore': 'Nellore',
+          'Alluri Sitaramaraju': 'A. Sitaramaraju',
+          'Sri Satya Sai': 'S. Sai',
+          'NTR District': 'NTR',
+          'YSR Kadapa': 'Kadapa',
+          'East Godavari': 'E. Godavari',
+          'West Godavari': 'W. Godavari',
+          'Visakhapatnam': 'Vizag',
+        };
+        const shortName = shortNames[name] || name;
+        svg += `<text x="${x}" y="${y}" class="district-label" style="font-size:8px; text-shadow: 0 1px 4px rgba(0,0,0,0.6);">${shortName}</text>`;
+      }
+
+      svg += `</svg>`;
+      return svg;
+    }
+
+    // Build legend
+    function buildLegend() {
+      const legendData = [
+        { color: '#064e3b', label: '0%' },
+        { color: '#047857', label: '≤1%' },
+        { color: '#059669', label: '1-2%' },
+        { color: '#10b981', label: '2-3%' },
+        { color: '#34d399', label: '3-4%' },
+        { color: '#6ee7b7', label: '4-5%' },
+        { color: '#a7f3d0', label: '5-7%' },
+        { color: '#d1fae5', label: '7-9%' },
+        { color: '#fee2e2', label: '9-11%' },
+        { color: '#fecaca', label: '11-13%' },
+        { color: '#fca5a5', label: '13-15%' },
+        { color: '#f87171', label: '15-18%' },
+        { color: '#ef4444', label: '18-22%' },
+        { color: '#991b1b', label: '>22%' },
+      ];
+
+      const legend = document.getElementById('mapLegend');
+      legend.innerHTML = legendData.map(l => 
+        `<div class="legend-item"><div class="legend-color" style="background:${l.color}"></div>${l.label}</div>`
+      ).join('');
+    }
+
+    // ===== MAP INTERACTIVITY =====
+    let selectedDistrict = null;
+
+    function setupMapEvents() {
+      const paths = document.querySelectorAll('.district-path');
+      const tooltip = document.getElementById('mapTooltip');
+
+      paths.forEach(path => {
+        path.addEventListener('mouseenter', (e) => {
+          const name = path.dataset.district;
+          const d = districtData[name];
+          if (!d) return;
+
+          const now = new Date();
+          let dd;
+          if (viewMode === 'live') {
+            dd = getDistrictLiveData(name, now);
+          } else {
+            dd = getDistrictYearData(name, viewMode);
+          }
+
+          document.getElementById('tooltipTitle').textContent = name;
+          document.getElementById('tooltipContent').innerHTML = `
+            <div class="tooltip-row"><span class="label">HCR</span><span class="value" style="color:${getHCRColor(dd.hcr)}">${dd.hcr.toFixed(2)}%</span></div>
+            <div class="tooltip-row"><span class="label">People in Poverty</span><span class="value" style="color:var(--accent-4)">${formatPeople(dd.poverty)}</span></div>
+            <div class="tooltip-row"><span class="label">Population</span><span class="value">${formatPeople(dd.population)}</span></div>
+            <div class="tooltip-row"><span class="label">2015 HCR</span><span class="value">${d.hcr[0].toFixed(2)}%</span></div>
+            <div class="tooltip-row"><span class="label">Status</span><span class="value" style="color:${getHCRColor(dd.hcr)}">${getHCRColorName(dd.hcr)}</span></div>
+          `;
+          tooltip.classList.add('visible');
+        });
+
+        path.addEventListener('mousemove', (e) => {
+          tooltip.style.left = (e.clientX + 16) + 'px';
+          tooltip.style.top = (e.clientY - 10) + 'px';
+        });
+
+        path.addEventListener('mouseleave', () => {
+          tooltip.classList.remove('visible');
+        });
+
+        path.addEventListener('click', () => {
+          const name = path.dataset.district;
+          // Remove old selection
+          document.querySelectorAll('.district-path.selected').forEach(p => p.classList.remove('selected'));
+          path.classList.add('selected');
+          selectedDistrict = name;
+          updateDistrictPanel(name);
+        });
+      });
+    }
+
+    function updateDistrictPanel(name) {
+      const d = districtData[name];
+      if (!d) return;
+
+      const now = new Date();
+      let dd;
+      if (viewMode === 'live') {
+        dd = getDistrictLiveData(name, now);
+      } else {
+        dd = getDistrictYearData(name, viewMode);
+      }
+
+      const hcr2015 = d.hcr[0]; // baseline
+      const progressToZero = Math.max(0, Math.min(100, (1 - dd.hcr / hcr2015) * 100));
+      const viewLabel = viewMode === 'live' ? 'Live (' + now.getFullYear() + ')' : viewMode;
+
+      document.getElementById('panelInstruction').style.display = 'none';
+      const content = document.getElementById('panelContent');
+      content.style.display = 'block';
+
+      // Build year-by-year mini-table (show a few key years)
+      const keyYears = [2015, 2020, 2025, 2029];
+      let yearRows = keyYears.map(y => {
+        const idx = yearIndex(y);
+        return `
+          <div class="panel-stat-row">
+            <span class="panel-stat-label">${y}</span>
+            <span class="panel-stat-value">${formatPeople(d.poverty[idx])} <small style="color:var(--text-muted)">(${d.hcr[idx].toFixed(2)}%)</small></span>
+          </div>`;
+      }).join('');
+
+      content.innerHTML = `
+        <div class="panel-district-name">${name}</div>
+        <div class="panel-stat-row">
+          <span class="panel-stat-label">${viewLabel} — People in Poverty</span>
+          <span class="panel-stat-value" style="color:var(--accent-4);font-size:18px">${formatPeople(dd.poverty)}</span>
+        </div>
+        <div class="panel-stat-row">
+          <span class="panel-stat-label">HCR</span>
+          <span class="panel-stat-value" style="color:${getHCRColor(dd.hcr)}">${dd.hcr.toFixed(3)}%</span>
+        </div>
+        <div class="panel-stat-row">
+          <span class="panel-stat-label">Population</span>
+          <span class="panel-stat-value">${formatPeople(dd.population)}</span>
+        </div>
+        <div style="margin:10px 0 6px;font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Year-by-Year Snapshots</div>
+        ${yearRows}
+        <div class="panel-progress">
+          <div class="panel-progress-label">
+            <span>Progress to Zero Poverty</span>
+            <span>${progressToZero.toFixed(1)}%</span>
+          </div>
+          <div class="panel-progress-bar">
+            <div class="panel-progress-fill" style="width:${progressToZero}%"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ===== DISTRICT LIST =====
+    let currentSort = 'poverty';
+
+    function renderDistrictList() {
+      const now = new Date();
+      const allData = getAllDistrictData(now);
+      let sorted = allData.map(dd => ({
+        ...dd,
+        hcr2015: districtData[dd.name].hcr[0],
+      }));
+
+      switch (currentSort) {
+        case 'hcr':
+          sorted.sort((a, b) => b.hcr - a.hcr);
+          break;
+        case 'poverty':
+          sorted.sort((a, b) => b.poverty - a.poverty);
+          break;
+        case 'change':
+          sorted.sort((a, b) => {
+            const aRed = (a.hcr2015 > 0) ? (a.hcr2015 - a.hcr) / a.hcr2015 : 1;
+            const bRed = (b.hcr2015 > 0) ? (b.hcr2015 - b.hcr) / b.hcr2015 : 1;
+            return bRed - aRed;
+          });
+          break;
+        case 'alpha':
+          sorted.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case 'population':
+          sorted.sort((a, b) => b.population - a.population);
+          break;
+      }
+
+      const list = document.getElementById('districtList');
+      list.innerHTML = sorted.map((d, i) => {
+        const color = getHCRColor(d.hcr);
+        const reductionPct = d.hcr2015 > 0 ? ((d.hcr2015 - d.hcr) / d.hcr2015 * 100).toFixed(1) : '100.0';
+        const barWidth = Math.min(100, (d.poverty / 500000) * 100); // scaled to max ~830K
+        const zeroTag = d.poverty <= 0 ? ' <span style="color:var(--accent-5);font-weight:700">✓ ZERO</span>' : '';
+        return `
+          <div class="district-item" data-district="${d.name}">
+            <div class="district-rank">${i + 1}</div>
+            <div class="district-name-cell">
+              <div class="district-name-text">${d.name}${zeroTag}</div>
+              <div class="district-name-sub">Pop: ${formatNumber(d.population)}</div>
+            </div>
+            <div>
+              <div class="district-hcr" style="color:${color};font-size:16px;font-weight:800">${formatPeople(d.poverty)}</div>
+              <div class="district-hcr-label">People in Poverty</div>
+            </div>
+            <div>
+              <div class="district-hcr" style="color:${color}">${d.hcr.toFixed(2)}%</div>
+              <div class="district-hcr-label">HCR</div>
+            </div>
+            <div class="col-hide">
+              <div class="district-change" style="color:var(--accent-5)">▼ ${reductionPct}%</div>
+              <div class="district-hcr-label">Since 2015</div>
+            </div>
+            <div class="col-hide">
+              <div class="district-mini-bar">
+                <div class="district-mini-fill" style="width:${barWidth}%;background:${color}"></div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Click events for list items
+      document.querySelectorAll('.district-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const name = item.dataset.district;
+          selectedDistrict = name;
+          document.querySelectorAll('.district-path.selected').forEach(p => p.classList.remove('selected'));
+          const mapPath = document.querySelector(`.district-path[data-district="${name}"]`);
+          if (mapPath) {
+            mapPath.classList.add('selected');
+            mapPath.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          updateDistrictPanel(name);
+        });
+      });
+    }
+
+    // Sort buttons
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentSort = btn.dataset.sort;
+        renderDistrictList();
+      });
+    });
+
+    // ===== TIMELINE MODE TOGGLE (GFST-style) =====
+    const modeLiveBtn = document.getElementById('modeLive');
+    const modeTimelineBtn = document.getElementById('modeTimeline');
+    const timelineSliderWrap = document.getElementById('timelineSliderWrap');
+    const timelineRange = document.getElementById('timelineRange');
+    const timelineYearDisplay = document.getElementById('timelineYearDisplay');
+
+    function activateMode(mode) {
+      if (mode === 'live') {
+        modeLiveBtn.classList.add('active');
+        modeTimelineBtn.classList.remove('active');
+        timelineSliderWrap.classList.remove('visible');
+        viewMode = 'live';
+      } else {
+        modeTimelineBtn.classList.add('active');
+        modeLiveBtn.classList.remove('active');
+        timelineSliderWrap.classList.add('visible');
+        viewMode = parseInt(timelineRange.value);
+        timelineYearDisplay.textContent = viewMode + (viewMode === 2029 ? ' ✨' : '');
+        updateSliderLabels();
+      }
+      updateClock();
+      renderDistrictList();
+      updateMapColors();
+      if (selectedDistrict) updateDistrictPanel(selectedDistrict);
+    }
+
+    function updateSliderLabels() {
+      document.querySelectorAll('#timelineLabels span').forEach(span => {
+        span.classList.toggle('active-label', parseInt(span.dataset.year) === parseInt(timelineRange.value));
+      });
+    }
+
+    modeLiveBtn.addEventListener('click', () => activateMode('live'));
+    modeTimelineBtn.addEventListener('click', () => activateMode('timeline'));
+
+    timelineRange.addEventListener('input', () => {
+      viewMode = parseInt(timelineRange.value);
+      timelineYearDisplay.textContent = viewMode + (viewMode === 2029 ? ' ✨' : '');
+      updateSliderLabels();
+      updateClock();
+      renderDistrictList();
+      updateMapColors();
+      if (selectedDistrict) updateDistrictPanel(selectedDistrict);
+    });
+
+    // Click on year labels to jump
+    document.querySelectorAll('#timelineLabels span').forEach(span => {
+      span.addEventListener('click', () => {
+        const year = parseInt(span.dataset.year);
+        timelineRange.value = year;
+        activateMode('timeline');
+      });
+    });
+
+    // Position year labels to align with slider thumb positions
+    // ===== MAIN UPDATE LOOP =====
+    function updateClock() {
+      const now = new Date();
+      let state, isLive;
+
+      if (viewMode === 'live') {
+        state = getLiveStateData(now);
+        isLive = true;
+      } else {
+        state = getYearStateData(viewMode);
+        isLive = false;
+      }
+
+      // Hero counter — show people in poverty as the big ticking number
+      const poorDisplay = formatPeople(state.poor);
+      document.getElementById('heroCounter').textContent = poorDisplay;
+
+      // Sub-info: HCR and total population
+      document.getElementById('heroHCR').textContent = state.rate.toFixed(4) + '%';
+      document.getElementById('heroTotalPop').textContent = formatPeople(state.pop);
+
+      // Rate badge
+      if (state.daily > 0 && state.poor > 0) {
+        document.getElementById('rateText').textContent = `−${Math.round(state.daily).toLocaleString('en-IN')} people/day`;
+      } else if (state.poor <= 0) {
+        document.getElementById('rateText').textContent = '✨ Zero Poverty Achieved!';
+      } else {
+        document.getElementById('rateText').textContent = 'Baseline year';
+      }
+
+      // View badge
+      const viewBadge = document.getElementById('viewBadge');
+      if (isLive) {
+        viewBadge.innerHTML = '<span class="live-indicator"></span> LIVE — ' + now.getFullYear();
+        viewBadge.style.display = '';
+      } else {
+        if (viewMode === 2029 && state.poor === 0) {
+          viewBadge.innerHTML = '✨ ZERO POVERTY ACHIEVED';
+          viewBadge.style.display = '';
+        } else {
+          viewBadge.innerHTML = '📅 Viewing Year ' + viewMode;
+          viewBadge.style.display = '';
+        }
+      }
+
+      // Stats cards
+      document.getElementById('statHCR').textContent = state.rate.toFixed(3) + '%';
+      document.getElementById('statPeople').textContent = poorDisplay;
+      document.getElementById('statRate').textContent = state.daily > 0 ? '−' + Math.round(state.daily).toLocaleString('en-IN') : '—';
+      document.getElementById('statZeroDistricts').textContent = getZeroDistricts(now);
+
+      // Days remaining to target
+      const msRemaining = TARGET_DATE - now;
+      const daysRemaining = Math.max(0, Math.ceil(msRemaining / (24 * 60 * 60 * 1000)));
+      document.getElementById('statDays').textContent = daysRemaining.toLocaleString();
+
+      // Countdown boxes
+      const totalSeconds = Math.max(0, Math.floor(msRemaining / 1000));
+      const cdDays = Math.floor(totalSeconds / 86400);
+      const cdHours = Math.floor((totalSeconds % 86400) / 3600);
+      const cdMins = Math.floor((totalSeconds % 3600) / 60);
+      const cdSecs = totalSeconds % 60;
+      document.getElementById('cdDays').textContent = cdDays.toLocaleString();
+      document.getElementById('cdHours').textContent = String(cdHours).padStart(2, '0');
+      document.getElementById('cdMins').textContent = String(cdMins).padStart(2, '0');
+      document.getElementById('cdSecs').textContent = String(cdSecs).padStart(2, '0');
+
+      // Timeline bar progress
+      const timelineStart = new Date(2015, 0, 1).getTime();
+      const timelineEnd = TARGET_DATE.getTime();
+      let timePoint;
+      if (isLive) {
+        timePoint = now.getTime();
+      } else {
+        timePoint = new Date(viewMode, 0, 1).getTime();
+      }
+      const progress = Math.min(100, Math.max(0, ((timePoint - timelineStart) / (timelineEnd - timelineStart)) * 100));
+      document.getElementById('timelineFill').style.width = progress + '%';
+
+      // Update district panel if selected
+      if (selectedDistrict) {
+        updateDistrictPanel(selectedDistrict);
+      }
+    }
+
+    // Update map colors based on current view
+    function updateMapColors() {
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      document.querySelectorAll('.district-path').forEach(path => {
+        const name = path.dataset.district;
+        if (!districtData[name]) return;
+        let hcr;
+        if (viewMode === 'live' || viewMode === currentYear) {
+          hcr = getCurrentHCR(name, now);
+        } else {
+          const idx = yearIndex(viewMode);
+          hcr = districtData[name].hcr[Math.max(0, Math.min(14, idx))];
+        }
+        path.setAttribute('fill', getHCRColor(hcr));
+      });
+    }
+
+    // ===== INITIALIZE =====
+    function init() {
+      buildLegend();
+      document.getElementById('mapSvgContainer').innerHTML = buildMapSVG();
+      setupMapEvents();
+      renderDistrictList();
+      updateClock();
+      updateMapColors();
+
+      // Update every 100ms for smooth counter in live mode or when viewing current year
+      setInterval(() => {
+        const currentYear = new Date().getFullYear();
+        if (viewMode === 'live' || viewMode === currentYear) updateClock();
+      }, 100);
+      // Update map colors and district list periodically
+      setInterval(() => {
+        updateMapColors();
+        renderDistrictList();
+      }, 30000);
+
+      // Auto-hide district panel when scrolling away from map on mobile
+      if (window.innerWidth <= 768) {
+        const mapContainer = document.querySelector('.map-container');
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+          if (!selectedDistrict) return;
+          const rect = mapContainer.getBoundingClientRect();
+          // Hide panel if map container is mostly out of viewport
+          if (rect.bottom < 80 || rect.top > window.innerHeight - 80) {
+            document.getElementById('panelInstruction').style.display = '';
+            document.getElementById('panelContent').style.display = 'none';
+            const prev = document.querySelector('.district-path.selected');
+            if (prev) prev.classList.remove('selected');
+            selectedDistrict = null;
+          }
+        }, { passive: true });
+      }
+    }
+
+    // ===== PARTICLE SYSTEM =====
+    function initParticles() {
+      const canvas = document.getElementById('particleCanvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      const PARTICLE_COUNT = 50;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 0.3;
+          this.vy = (Math.random() - 0.5) * 0.3;
+          this.radius = Math.random() * 2 + 0.5;
+          this.opacity = Math.random() * 0.3 + 0.1;
+          const colors = ['99,102,241', '139,92,246', '6,182,212', '16,185,129'];
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.life = Math.random() * 200 + 100;
+          this.age = 0;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.age++;
+          if (this.age > this.life || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+            this.reset();
+          }
+        }
+        draw() {
+          const fade = 1 - (this.age / this.life);
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${this.color}, ${this.opacity * fade})`;
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw connections
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(99, 102, 241, ${0.03 * (1 - dist / 150)})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+    }
+
+    // Start
+    document.addEventListener('DOMContentLoaded', () => {
+      init();
+      initParticles();
+    });
+  </script>
+</body>
+</html>

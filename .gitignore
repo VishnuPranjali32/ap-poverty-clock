@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Allow deployment files
+!.gitignore
+!vercel.json
+!public/
+!public/**
