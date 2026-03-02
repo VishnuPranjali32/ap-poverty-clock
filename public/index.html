@@ -88,6 +88,7 @@
       scroll-behavior: smooth;
       scrollbar-width: thin;
       scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+      overflow-x: hidden;
     }
 
     body {
@@ -96,6 +97,8 @@
       color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
       transition: background 0.4s ease, color 0.4s ease;
     }
 
@@ -1206,55 +1209,25 @@
 
     /* Phones */
     @media (max-width: 640px) {
-      .container { padding: 0 12px; }
+      /* Prevent ANY horizontal overflow */
+      html, body { overflow-x: hidden !important; max-width: 100vw !important; }
+      .container { padding: 0 12px; max-width: 100%; overflow-x: hidden; }
 
       /* Header */
-      .header-inner { flex-wrap: wrap; gap: 6px; padding: 8px 0; }
-      .header-left { gap: 10px; }
-      .logo-img { width: 36px; height: 36px; border-radius: 8px; }
-      .header-title h1 { font-size: 14px; }
+      .header { overflow: hidden; }
+      .header-inner { flex-wrap: wrap; gap: 6px; padding: 8px 0; max-width: 100%; }
+      .header-left { gap: 10px; min-width: 0; overflow: hidden; }
+      .header-title { min-width: 0; overflow: hidden; }
+      .logo-img { width: 36px; height: 36px; flex-shrink: 0; border-radius: 8px; }
+      .header-title h1 { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .org-name { font-size: 7px; letter-spacing: 1px; }
       .header-title span { font-size: 8px; }
       .header-sources { display: none; }
-      .header-right { gap: 8px; }
+      .header-right { gap: 8px; flex-shrink: 0; }
       .live-badge { padding: 4px 10px; font-size: 10px; }
       .theme-toggle { width: 46px; height: 24px; }
       .toggle-thumb { width: 18px; height: 18px; font-size: 10px; }
       [data-theme="light"] .toggle-thumb { transform: translateX(22px); }
-
-      /* Timeline */
-      .timeline-section { padding: 14px 0 8px; }
-      .mode-btn { padding: 8px 20px; font-size: 11px; letter-spacing: 1px; }
-      .timeline-sub { font-size: 11px; margin-bottom: 8px; }
-      .timeline-slider-labels span { font-size: 9px; }
-      .timeline-range::-webkit-slider-thumb { width: 18px; height: 18px; border-width: 2px; }
-      .timeline-range::-moz-range-thumb { width: 18px; height: 18px; border-width: 2px; }
-      .timeline-slider-labels { padding: 0 9px; }
-      .timeline-year-display { font-size: 13px; }
-
-      /* Hero Counter */
-      .hero-section { padding: 20px 0 14px; }
-      .hero-section-label { font-size: 10px; letter-spacing: 2px; margin-bottom: 2px; }
-      .hero-context-line { font-size: 11px; }
-      .hero-view-badge { font-size: 9px; padding: 3px 10px; margin-bottom: 6px; display: flex; justify-content: center; }
-      .hero-counter { font-size: 36px !important; display: block; text-align: center; }
-      .sparkle-container { display: block; text-align: center; }
-      .hero-approx { font-size: 13px; margin-bottom: 10px; }
-      .hero-rate { font-size: 12px; padding: 6px 14px; }
-      .hero-rate .arrow { font-size: 13px; }
-
-      /* Countdown */
-      .countdown-box { padding: 10px 14px; min-width: 60px; border-radius: 10px; }
-      .countdown-value { font-size: 20px; }
-      .countdown-label { font-size: 8px; letter-spacing: 0.5px; }
-
-      /* Stats */
-      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 14px 0 24px; }
-      .stat-card { padding: 12px; border-radius: 12px; }
-      .stat-icon { font-size: 18px; margin-bottom: 4px; }
-      .stat-label { font-size: 9px; margin-bottom: 4px; }
-      .stat-value { font-size: 18px; }
-      .stat-sub { font-size: 10px; }
 
       /* Center all content on mobile */
       .hero-section { text-align: center; }
@@ -1267,14 +1240,53 @@
       .district-list-section { text-align: center; }
       .list-controls { justify-content: center; }
 
+      /* Timeline */
+      .timeline-section { padding: 14px 0 8px; }
+      .timeline-slider-wrap { max-width: 100%; overflow: hidden; }
+      .mode-btn { padding: 8px 20px; font-size: 11px; letter-spacing: 1px; }
+      .timeline-sub { font-size: 11px; margin-bottom: 8px; }
+      .timeline-slider-labels span { font-size: 9px; }
+      .timeline-range { width: 100%; max-width: 100%; }
+      .timeline-range::-webkit-slider-thumb { width: 18px; height: 18px; border-width: 2px; }
+      .timeline-range::-moz-range-thumb { width: 18px; height: 18px; border-width: 2px; }
+      .timeline-slider-labels { padding: 0 9px; }
+      .timeline-year-display { font-size: 13px; }
+
+      /* Hero Counter */
+      .hero-section { padding: 20px 0 14px; overflow: hidden; }
+      .hero-section-label { font-size: 10px; letter-spacing: 2px; margin-bottom: 2px; }
+      .hero-context-line { font-size: 11px; word-wrap: break-word; }
+      .hero-view-badge { font-size: 9px; padding: 3px 10px; margin-bottom: 6px; display: flex; justify-content: center; }
+      .hero-counter { font-size: 36px !important; display: block; text-align: center; }
+      .hero-counter::after { inset: -10px -15px; } /* Reduce glow spillover */
+      .sparkle-container { display: block; text-align: center; overflow: hidden; }
+      .hero-approx { font-size: 13px; margin-bottom: 10px; }
+      .hero-rate { font-size: 12px; padding: 6px 14px; }
+      .hero-rate .arrow { font-size: 13px; }
+
+      /* Countdown */
+      .countdown-box { padding: 10px 14px; min-width: 60px; border-radius: 10px; }
+      .countdown-value { font-size: 20px; }
+      .countdown-label { font-size: 8px; letter-spacing: 0.5px; }
+
+      /* Stats */
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 14px 0 24px; max-width: 100%; }
+      .stat-card { padding: 12px; border-radius: 12px; overflow: hidden; }
+      .stat-icon { font-size: 18px; margin-bottom: 4px; }
+      .stat-label { font-size: 9px; margin-bottom: 4px; }
+      .stat-value { font-size: 18px; word-break: break-all; }
+      .stat-sub { font-size: 10px; }
+
       /* Map */
-      .map-section { padding: 16px 0; }
-      .map-container { grid-template-columns: 1fr; gap: 16px; }
-      .map-wrapper { padding: 12px; border-radius: 14px; }
-      .map-legend { gap: 6px; padding: 8px 10px; border-radius: 8px; flex-wrap: wrap; }
+      .map-section { padding: 16px 0; overflow: hidden; }
+      .map-container { grid-template-columns: 1fr; gap: 16px; max-width: 100%; }
+      .map-wrapper { padding: 12px; border-radius: 14px; overflow: hidden; }
+      .map-wrapper::after { display: none; } /* Remove glowing border that can overflow */
+      .map-svg-container { max-width: 100%; overflow: hidden; }
+      .map-legend { gap: 6px; padding: 8px 10px; border-radius: 8px; flex-wrap: wrap; justify-content: center; }
       .legend-item { font-size: 9px; gap: 4px; }
       .legend-color { width: 12px; height: 8px; }
-      .district-info-panel { padding: 16px; border-radius: 14px; }
+      .district-info-panel { padding: 16px; border-radius: 14px; overflow: hidden; }
       .panel-title { font-size: 14px; margin-bottom: 12px; }
       .panel-instruction { padding: 24px 12px; font-size: 12px; }
       .panel-district-name { font-size: 16px; margin-bottom: 12px; }
@@ -1282,7 +1294,8 @@
       .panel-stat-value { font-size: 13px; }
 
       /* District List */
-      .district-list-section { padding: 20px 0 40px; }
+      .district-list-section { padding: 20px 0 40px; overflow: hidden; }
+      .district-list { max-width: 100%; overflow-x: hidden; }
       .list-controls { gap: 6px; margin-bottom: 14px; }
       .sort-btn { padding: 6px 12px; font-size: 10px; }
       .district-item {
@@ -1290,6 +1303,8 @@
         padding: 12px;
         gap: 6px;
         border-radius: 10px;
+        max-width: 100%;
+        overflow: hidden;
       }
       .district-item > div:nth-child(n+3) {
         grid-column: 2;
@@ -1305,14 +1320,14 @@
       .district-hcr-label { font-size: 8px; }
 
       /* Footer */
-      .footer { padding: 16px 0; font-size: 10px; }
+      .footer { padding: 16px 0; font-size: 10px; overflow: hidden; }
 
-      /* Map tooltip - fullwidth on mobile */
-      .map-tooltip { min-width: 180px; padding: 12px; border-radius: 10px; }
+      /* Map tooltip - constrain on mobile */
+      .map-tooltip { min-width: 180px; max-width: calc(100vw - 24px); padding: 12px; border-radius: 10px; }
 
       /* Reduce background effects for performance */
-      .bg-orbs::before { width: 300px; height: 300px; }
-      .bg-orbs::after { width: 250px; height: 250px; }
+      .bg-orbs::before { width: 200px; height: 200px; top: -50px; right: -50px; }
+      .bg-orbs::after { width: 180px; height: 180px; bottom: -50px; left: -50px; }
       .bg-grid { background-size: 40px 40px; }
     }
 
@@ -2205,10 +2220,6 @@
           const mapPath = document.querySelector(`.district-path[data-district="${name}"]`);
           if (mapPath) {
             mapPath.classList.add('selected');
-            // Only scroll to map on desktop, not mobile (prevents unwanted auto-scroll)
-            if (window.innerWidth > 768) {
-              mapPath.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
           }
           updateDistrictPanel(name);
         });
@@ -2407,12 +2418,13 @@
 
       // Auto-hide district panel when scrolling away from map on mobile
       if (window.innerWidth <= 768) {
-        const districtPanel = document.getElementById('districtPanel');
+        const mapSvgContainer = document.getElementById('mapSvgContainer');
+        let lastScrollY = window.scrollY;
         window.addEventListener('scroll', () => {
           if (!selectedDistrict) return;
-          const panelRect = districtPanel.getBoundingClientRect();
-          // Hide panel as soon as it starts going off-screen (top or bottom)
-          if (panelRect.bottom < 0 || panelRect.top > window.innerHeight) {
+          const scrollDelta = Math.abs(window.scrollY - lastScrollY);
+          // If user scrolled more than 150px away from where they clicked
+          if (scrollDelta > 150) {
             document.getElementById('panelInstruction').style.display = '';
             document.getElementById('panelContent').style.display = 'none';
             const prev = document.querySelector('.district-path.selected');
@@ -2420,6 +2432,12 @@
             selectedDistrict = null;
           }
         }, { passive: true });
+        // Update lastScrollY when a district is selected
+        const origUpdatePanel = updateDistrictPanel;
+        updateDistrictPanel = function(name) {
+          lastScrollY = window.scrollY;
+          origUpdatePanel(name);
+        };
       }
     }
 
