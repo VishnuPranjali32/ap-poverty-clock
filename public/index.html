@@ -1256,11 +1256,16 @@
       .stat-value { font-size: 18px; }
       .stat-sub { font-size: 10px; }
 
-      /* Section titles centered on mobile */
+      /* Center all content on mobile */
+      .hero-section { text-align: center; }
       .section-title, .section-subtitle { text-align: center; }
-
-      /* Stat card content centered */
       .stat-card { text-align: center; }
+      .hero-view-badge { margin-left: auto; margin-right: auto; }
+      .hero-rate { margin-left: auto; margin-right: auto; }
+      .timeline-section { text-align: center; }
+      .timeline-mode-toggle { justify-content: center; }
+      .district-list-section { text-align: center; }
+      .list-controls { justify-content: center; }
 
       /* Map */
       .map-section { padding: 16px 0; }
@@ -2200,7 +2205,10 @@
           const mapPath = document.querySelector(`.district-path[data-district="${name}"]`);
           if (mapPath) {
             mapPath.classList.add('selected');
-            mapPath.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Only scroll to map on desktop, not mobile (prevents unwanted auto-scroll)
+            if (window.innerWidth > 768) {
+              mapPath.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
           }
           updateDistrictPanel(name);
         });
@@ -2324,9 +2332,10 @@
       document.getElementById('statRate').textContent = state.daily > 0 ? '−' + Math.round(state.daily).toLocaleString('en-IN') : '—';
       document.getElementById('statZeroDistricts').textContent = getZeroDistricts(now);
 
-      // Days remaining to target
-      const msRemaining = TARGET_DATE - now;
-      const daysRemaining = Math.max(0, Math.ceil(msRemaining / (24 * 60 * 60 * 1000)));
+      // Days remaining to target — use current time for live, or Jan 1 of selected year for timeline
+      const countdownFrom = isLive ? now : new Date(viewMode, 0, 1);
+      const msRemaining = Math.max(0, TARGET_DATE - countdownFrom);
+      const daysRemaining = Math.ceil(msRemaining / (24 * 60 * 60 * 1000));
       document.getElementById('statDays').textContent = daysRemaining.toLocaleString();
 
       // Countdown boxes
@@ -2398,13 +2407,12 @@
 
       // Auto-hide district panel when scrolling away from map on mobile
       if (window.innerWidth <= 768) {
-        const mapContainer = document.querySelector('.map-container');
-        let scrollTimeout;
+        const districtPanel = document.getElementById('districtPanel');
         window.addEventListener('scroll', () => {
           if (!selectedDistrict) return;
-          const rect = mapContainer.getBoundingClientRect();
-          // Hide panel if map container is mostly out of viewport
-          if (rect.bottom < 80 || rect.top > window.innerHeight - 80) {
+          const panelRect = districtPanel.getBoundingClientRect();
+          // Hide panel as soon as it starts going off-screen (top or bottom)
+          if (panelRect.bottom < 0 || panelRect.top > window.innerHeight) {
             document.getElementById('panelInstruction').style.display = '';
             document.getElementById('panelContent').style.display = 'none';
             const prev = document.querySelector('.district-path.selected');
