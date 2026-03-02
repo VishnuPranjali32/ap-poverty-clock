@@ -2041,38 +2041,43 @@
       const tooltip = document.getElementById('mapTooltip');
 
       paths.forEach(path => {
-        path.addEventListener('mouseenter', (e) => {
-          const name = path.dataset.district;
-          const d = districtData[name];
-          if (!d) return;
+        // Tooltip only on desktop (not touch devices)
+        const isMobile = window.innerWidth <= 768;
 
-          const now = new Date();
-          let dd;
-          if (viewMode === 'live') {
-            dd = getDistrictLiveData(name, now);
-          } else {
-            dd = getDistrictYearData(name, viewMode);
-          }
+        if (!isMobile) {
+          path.addEventListener('mouseenter', (e) => {
+            const name = path.dataset.district;
+            const d = districtData[name];
+            if (!d) return;
 
-          document.getElementById('tooltipTitle').textContent = name;
-          document.getElementById('tooltipContent').innerHTML = `
-            <div class="tooltip-row"><span class="label">HCR</span><span class="value" style="color:${getHCRColor(dd.hcr)}">${dd.hcr.toFixed(2)}%</span></div>
-            <div class="tooltip-row"><span class="label">People in Poverty</span><span class="value" style="color:var(--accent-4)">${formatPeople(dd.poverty)}</span></div>
-            <div class="tooltip-row"><span class="label">Population</span><span class="value">${formatPeople(dd.population)}</span></div>
-            <div class="tooltip-row"><span class="label">2015 HCR</span><span class="value">${d.hcr[0].toFixed(2)}%</span></div>
-            <div class="tooltip-row"><span class="label">Status</span><span class="value" style="color:${getHCRColor(dd.hcr)}">${getHCRColorName(dd.hcr)}</span></div>
-          `;
-          tooltip.classList.add('visible');
-        });
+            const now = new Date();
+            let dd;
+            if (viewMode === 'live') {
+              dd = getDistrictLiveData(name, now);
+            } else {
+              dd = getDistrictYearData(name, viewMode);
+            }
 
-        path.addEventListener('mousemove', (e) => {
-          tooltip.style.left = (e.clientX + 16) + 'px';
-          tooltip.style.top = (e.clientY - 10) + 'px';
-        });
+            document.getElementById('tooltipTitle').textContent = name;
+            document.getElementById('tooltipContent').innerHTML = `
+              <div class="tooltip-row"><span class="label">HCR</span><span class="value" style="color:${getHCRColor(dd.hcr)}">${dd.hcr.toFixed(2)}%</span></div>
+              <div class="tooltip-row"><span class="label">People in Poverty</span><span class="value" style="color:var(--accent-4)">${formatPeople(dd.poverty)}</span></div>
+              <div class="tooltip-row"><span class="label">Population</span><span class="value">${formatPeople(dd.population)}</span></div>
+              <div class="tooltip-row"><span class="label">2015 HCR</span><span class="value">${d.hcr[0].toFixed(2)}%</span></div>
+              <div class="tooltip-row"><span class="label">Status</span><span class="value" style="color:${getHCRColor(dd.hcr)}">${getHCRColorName(dd.hcr)}</span></div>
+            `;
+            tooltip.classList.add('visible');
+          });
 
-        path.addEventListener('mouseleave', () => {
-          tooltip.classList.remove('visible');
-        });
+          path.addEventListener('mousemove', (e) => {
+            tooltip.style.left = (e.clientX + 16) + 'px';
+            tooltip.style.top = (e.clientY - 10) + 'px';
+          });
+
+          path.addEventListener('mouseleave', () => {
+            tooltip.classList.remove('visible');
+          });
+        }
 
         path.addEventListener('click', () => {
           const name = path.dataset.district;
@@ -2080,7 +2085,16 @@
           document.querySelectorAll('.district-path.selected').forEach(p => p.classList.remove('selected'));
           path.classList.add('selected');
           selectedDistrict = name;
+          // Hide tooltip on mobile click
+          if (isMobile) tooltip.classList.remove('visible');
           updateDistrictPanel(name);
+          // On mobile, scroll to the district panel so user sees details
+          if (isMobile) {
+            const panel = document.getElementById('districtPanel');
+            setTimeout(() => {
+              panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+          }
         });
       });
     }
