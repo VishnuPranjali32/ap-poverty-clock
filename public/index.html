@@ -2041,7 +2041,6 @@
       const tooltip = document.getElementById('mapTooltip');
 
       paths.forEach(path => {
-        // Tooltip only on desktop (not touch devices)
         const isMobile = window.innerWidth <= 768;
 
         if (!isMobile) {
@@ -2079,24 +2078,87 @@
           });
         }
 
-        path.addEventListener('click', () => {
+        path.addEventListener('click', (e) => {
           const name = path.dataset.district;
           // Remove old selection
           document.querySelectorAll('.district-path.selected').forEach(p => p.classList.remove('selected'));
           path.classList.add('selected');
           selectedDistrict = name;
-          // Hide tooltip on mobile click
-          if (isMobile) tooltip.classList.remove('visible');
           updateDistrictPanel(name);
-          // On mobile, scroll to the district panel so user sees details
+
+          // On mobile: show tooltip popup near the tapped district with smart positioning
           if (isMobile) {
-            const panel = document.getElementById('districtPanel');
-            setTimeout(() => {
-              panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
+            const d = districtData[name];
+            if (!d) return;
+            const now = new Date();
+            let dd;
+            if (viewMode === 'live') {
+              dd = getDistrictLiveData(name, now);
+            } else {
+              dd = getDistrictYearData(name, viewMode);
+            }
+
+            document.getElementById('tooltipTitle').textContent = name;
+            document.getElementById('tooltipContent').innerHTML = `
+              <div class="tooltip-row"><span class="label">HCR</span><span class="value" style="color:${getHCRColor(dd.hcr)}">${dd.hcr.toFixed(2)}%</span></div>
+              <div class="tooltip-row"><span class="label">People in Poverty</span><span class="value" style="color:var(--accent-4)">${formatPeople(dd.poverty)}</span></div>
+              <div class="tooltip-row"><span class="label">Population</span><span class="value">${formatPeople(dd.population)}</span></div>
+            `;
+
+            // Smart positioning: keep tooltip within viewport
+            const tooltipW = 200;
+            const tooltipH = 140;
+            const pad = 12;
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+
+            // Get touch/click coordinates
+            let cx, cy;
+            if (e.touches && e.touches[0]) {
+              cx = e.touches[0].clientX;
+              cy = e.touches[0].clientY;
+            } else {
+              cx = e.clientX;
+              cy = e.clientY;
+            }
+
+            // Calculate left: prefer right of tap, shift left if would overflow
+            let left = cx + 12;
+            if (left + tooltipW > vw - pad) {
+              left = cx - tooltipW - 12;
+            }
+            if (left < pad) left = pad;
+
+            // Calculate top: prefer above tap, shift below if would overflow
+            let top = cy - tooltipH - 8;
+            if (top < pad) {
+              top = cy + 16;
+            }
+            if (top + tooltipH > vh - pad) {
+              top = vh - tooltipH - pad;
+            }
+
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+            tooltip.classList.add('visible');
+
+            // Auto-hide tooltip after 3 seconds
+            if (window._tooltipTimer) clearTimeout(window._tooltipTimer);
+            window._tooltipTimer = setTimeout(() => {
+              tooltip.classList.remove('visible');
+            }, 3000);
           }
         });
       });
+
+      // On mobile: hide tooltip when tapping outside the map
+      if (window.innerWidth <= 768) {
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.map-svg-container')) {
+            tooltip.classList.remove('visible');
+          }
+        });
+      }
     }
 
     function updateDistrictPanel(name) {
