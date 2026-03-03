@@ -180,7 +180,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 0;
+      padding: 12px 24px;
     }
 
     .header-left {
@@ -1215,7 +1215,7 @@
 
       /* Header */
       .header { overflow: hidden; }
-      .header-inner { flex-wrap: wrap; gap: 6px; padding: 8px 0; max-width: 100%; }
+      .header-inner { flex-wrap: wrap; gap: 6px; padding: 8px 16px; max-width: 100%; }
       .header-left { gap: 10px; min-width: 0; overflow: hidden; }
       .header-title { min-width: 0; overflow: hidden; }
       .logo-img { width: 36px; height: 36px; flex-shrink: 0; border-radius: 8px; }
@@ -1334,6 +1334,7 @@
     /* Very small phones */
     @media (max-width: 380px) {
       .container { padding: 0 8px; }
+      .header-inner { padding: 8px 10px; }
       .header-title h1 { font-size: 12px; }
       .hero-counter { font-size: 30px !important; }
       .hero-approx { font-size: 11px; }
