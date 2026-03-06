@@ -7,6 +7,211 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+    /* ===== LANDING PAGE ===== */
+    .landing {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-primary);
+      overflow: hidden;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .landing.hide {
+      opacity: 0;
+      transform: scale(1.05);
+      pointer-events: none;
+    }
+    .landing-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .landing-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.4;
+      animation: orbFloat 8s ease-in-out infinite alternate;
+    }
+    .landing-orb:nth-child(1) {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #6366f1, transparent 70%);
+      top: -10%; left: -10%;
+      animation-duration: 10s;
+    }
+    .landing-orb:nth-child(2) {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #8b5cf6, transparent 70%);
+      bottom: -15%; right: -5%;
+      animation-duration: 12s;
+      animation-delay: -4s;
+    }
+    .landing-orb:nth-child(3) {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, #06b6d4, transparent 70%);
+      top: 30%; right: 20%;
+      animation-duration: 9s;
+      animation-delay: -2s;
+    }
+    .landing-orb:nth-child(4) {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, #10b981, transparent 70%);
+      bottom: 20%; left: 15%;
+      animation-duration: 11s;
+      animation-delay: -6s;
+    }
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, -30px) scale(1.15); }
+    }
+    .landing-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 760px;
+      padding: 32px 24px;
+      animation: fadeInUp 1.2s ease-out;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .landing-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 28px;
+      object-fit: cover;
+      box-shadow: 0 0 60px rgba(99, 102, 241, 0.3), 0 8px 32px rgba(0,0,0,0.4);
+      margin-bottom: 28px;
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+    @keyframes logoPulse {
+      0%, 100% { box-shadow: 0 0 60px rgba(99, 102, 241, 0.3), 0 8px 32px rgba(0,0,0,0.4); }
+      50% { box-shadow: 0 0 80px rgba(99, 102, 241, 0.5), 0 8px 40px rgba(0,0,0,0.5); }
+    }
+    .landing-org {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent-1);
+      margin-bottom: 12px;
+    }
+    .landing-title {
+      font-family: var(--font-sans);
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.1;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+    }
+    .landing-desc {
+      font-family: var(--font-sans);
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 16px;
+    }
+    .landing-built {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      letter-spacing: 0.5px;
+    }
+    .landing-built span {
+      color: var(--accent-4);
+    }
+    .landing-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .landing-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 16px;
+      padding: 16px 36px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .landing-btn.primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 4px 24px rgba(99, 102, 241, 0.4);
+    }
+    .landing-btn.primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.6);
+    }
+    .landing-btn.primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .landing-btn.primary:hover::after {
+      opacity: 1;
+    }
+    .landing-btn.secondary {
+      background: var(--bg-glass);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(12px);
+    }
+    .landing-btn.secondary:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-1);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+    }
+    .landing-features {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 48px;
+    }
+    .landing-feature {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .landing-feature-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent-5);
+      box-shadow: 0 0 8px var(--accent-5);
+    }
+    @media (max-width: 640px) {
+      .landing-logo { width: 90px; height: 90px; border-radius: 22px; }
+      .landing-btn { padding: 14px 28px; font-size: 14px; }
+      .landing-features { gap: 12px; }
+      .landing-feature { font-size: 11px; }
+      .landing-orb { display: none; }
+    }
+
     /* ===== CSS VARIABLES ===== */
     :root {
       --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -1558,6 +1763,42 @@
   </style>
 </head>
 <body>
+  <!-- Landing Page -->
+  <div class="landing" id="landingPage">
+    <div class="landing-orb"></div>
+    <div class="landing-orb"></div>
+    <div class="landing-orb"></div>
+    <div class="landing-orb"></div>
+    <div class="landing-content">
+      <img src="GFST logo.jpeg" alt="GFST" class="landing-logo" />
+      <div class="landing-org">Global Forum For Sustainable Transformation</div>
+      <h1 class="landing-title">Andhra Pradesh<br/>Poverty Clock</h1>
+      <p class="landing-desc">
+        A real-time data-driven dashboard tracking Andhra Pradesh's journey toward
+        <strong>Zero Poverty by 2029</strong>. Powered by NFHS-4 &amp; NFHS-5 survey data,
+        district-level MPI analysis, and 670+ mandal boundaries — visualising the impact of
+        governance at every level.
+      </p>
+      <p class="landing-built">Built by <span>GFST</span> — Next Era of Governance</p>
+      <div class="landing-actions">
+        <button class="landing-btn primary" id="launchClockBtn">
+          Launch the Clock
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <a class="landing-btn secondary" href="https://gfst.in/" target="_blank" rel="noopener noreferrer">
+          Visit GFST
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+      <div class="landing-features">
+        <div class="landing-feature"><div class="landing-feature-dot"></div>Real-Time Ticking Counter</div>
+        <div class="landing-feature"><div class="landing-feature-dot"></div>26 Districts · 670+ Mandals</div>
+        <div class="landing-feature"><div class="landing-feature-dot"></div>2015–2029 Timeline</div>
+        <div class="landing-feature"><div class="landing-feature-dot"></div>Interactive SVG Maps</div>
+      </div>
+    </div>
+  </div>
+
   <canvas id="particleCanvas"></canvas>
   <div class="bg-grid"></div>
   <div class="bg-orbs"></div>
@@ -2838,18 +3079,17 @@
         return;
       }
 
-      const oldDist = typeof newToOldDistrict !== 'undefined' ? newToOldDistrict[districtName] : null;
-      if (!oldDist || typeof mandalMapData === 'undefined' || !mandalMapData[oldDist]) {
-        console.warn('No mandal data for', districtName, '→', oldDist);
+      if (typeof mandalMapData === 'undefined' || !mandalMapData[districtName]) {
+        console.warn('No mandal data for', districtName);
         return;
       }
 
-      const dData = mandalMapData[oldDist];
+      const dData = mandalMapData[districtName];
       const mandals = dData.mandals;
 
       document.getElementById('mandalDistrictTitle').textContent = districtName;
       document.getElementById('mandalDistrictSub').textContent =
-        `${mandals.length} mandals · Region: ${oldDist}`;
+        `${mandals.length} mandals`;
 
       // Build SVG
       let svg = `<svg viewBox="${dData.viewBox}" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;">`;
@@ -2881,10 +3121,10 @@
       document.body.style.overflow = 'hidden';
 
       // Setup map events
-      setupMandalMapEvents(districtName, oldDist);
+      setupMandalMapEvents(districtName);
     }
 
-    function setupMandalMapEvents(districtName, oldDist) {
+    function setupMandalMapEvents(districtName) {
       const paths = mandalMapWrap.querySelectorAll('.mandal-path');
       const isMobile = window.innerWidth <= 768;
 
@@ -3005,6 +3245,16 @@
     document.addEventListener('DOMContentLoaded', () => {
       init();
       initParticles();
+
+      // Landing page launch
+      const landingPage = document.getElementById('landingPage');
+      const launchBtn = document.getElementById('launchClockBtn');
+      if (launchBtn && landingPage) {
+        launchBtn.addEventListener('click', () => {
+          landingPage.classList.add('hide');
+          setTimeout(() => { landingPage.style.display = 'none'; }, 900);
+        });
+      }
     });
   </script>
 </body>
