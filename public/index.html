@@ -14,8 +14,6 @@
       z-index: 10000;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
       background: var(--bg-primary);
       overflow-y: auto;
       overflow-x: hidden;
@@ -26,16 +24,30 @@
       transform: scale(1.05);
       pointer-events: none;
     }
-    .landing-canvas {
+
+    /* Hero Section */
+    .lp-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      overflow: hidden;
+    }
+    .lp-hero-bg {
       position: absolute;
       inset: 0;
       z-index: 0;
+      overflow: hidden;
     }
     .landing-orb {
       position: absolute;
       border-radius: 50%;
       filter: blur(100px);
-      opacity: 0.4;
+      opacity: 0.35;
       animation: orbFloat 8s ease-in-out infinite alternate;
     }
     .landing-orb:nth-child(1) {
@@ -69,14 +81,10 @@
       0% { transform: translate(0, 0) scale(1); }
       100% { transform: translate(40px, -30px) scale(1.15); }
     }
-    .landing-content {
+    .lp-hero-content {
       position: relative;
       z-index: 1;
-      text-align: center;
-      max-width: 760px;
-      width: 100%;
-      padding: 60px 24px 48px;
-      margin: auto;
+      max-width: 800px;
       animation: fadeInUp 1.2s ease-out;
     }
     @keyframes fadeInUp {
@@ -84,12 +92,12 @@
       100% { opacity: 1; transform: translateY(0); }
     }
     .landing-logo {
-      width: 120px;
-      height: 120px;
-      border-radius: 28px;
+      width: 100px;
+      height: 100px;
+      border-radius: 24px;
       object-fit: cover;
       box-shadow: 0 0 60px rgba(99, 102, 241, 0.3), 0 8px 32px rgba(0,0,0,0.4);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       animation: logoPulse 3s ease-in-out infinite;
     }
     @keyframes logoPulse {
@@ -98,47 +106,38 @@
     }
     .landing-org {
       font-family: var(--font-sans);
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 5px;
       text-transform: uppercase;
       color: var(--accent-1);
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
     .landing-title {
       font-family: var(--font-sans);
-      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-size: clamp(2.4rem, 6vw, 4rem);
       font-weight: 900;
-      line-height: 1.1;
+      line-height: 1.08;
       background: var(--gradient-hero);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
     .landing-desc {
       font-family: var(--font-sans);
-      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
-      line-height: 1.7;
+      font-size: clamp(0.95rem, 2.5vw, 1.12rem);
+      line-height: 1.75;
       color: var(--text-secondary);
-      max-width: 600px;
-      margin: 0 auto 16px;
-    }
-    .landing-built {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 40px;
-      letter-spacing: 0.5px;
-    }
-    .landing-built span {
-      color: var(--accent-4);
+      max-width: 620px;
+      margin: 0 auto 32px;
     }
     .landing-actions {
       display: flex;
       gap: 16px;
       justify-content: center;
       flex-wrap: wrap;
+      margin-bottom: 48px;
     }
     .landing-btn {
       display: inline-flex;
@@ -187,32 +186,261 @@
       border-color: var(--accent-1);
       box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
     }
-    .landing-features {
+
+    /* Hero stats row */
+    .lp-stats {
       display: flex;
-      gap: 24px;
+      gap: 32px;
       justify-content: center;
       flex-wrap: wrap;
-      margin-top: 48px;
     }
-    .landing-feature {
+    .lp-stat {
+      text-align: center;
+    }
+    .lp-stat-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .lp-stat-value {
+      font-family: var(--font-mono);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .lp-stat-value .lp-accent { color: var(--accent-1); }
+    .lp-stat-value .lp-green { color: var(--accent-5); }
+    .lp-stat-value .lp-cyan { color: var(--accent-3); }
+
+    .lp-scroll-hint {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-family: var(--font-sans);
+      letter-spacing: 1px;
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ===== LANDING SECTIONS ===== */
+    .lp-section {
+      position: relative;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .lp-section:nth-child(even) {
+      background: var(--bg-secondary);
+    }
+    .lp-section-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .lp-section-title {
+      font-family: var(--font-sans);
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    .lp-section-sub {
+      font-family: var(--font-sans);
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 640px;
+      margin: 0 auto 48px;
+    }
+
+    /* Features grid */
+    .lp-features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      text-align: left;
+    }
+    .lp-feature-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px 24px;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .lp-feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-1);
+    }
+    .lp-feature-icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+    .lp-feature-card h3 {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0 0 8px;
+    }
+    .lp-feature-card p {
       font-family: var(--font-sans);
       font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* About GFST section */
+    .lp-about {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      text-align: left;
+    }
+    .lp-about-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 22px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    .lp-about-text h3 {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-1);
+      margin: 0 0 8px;
+    }
+    .lp-about-text h2 {
+      font-family: var(--font-sans);
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0 0 14px;
+    }
+    .lp-about-text p {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin: 0 0 20px;
+    }
+    .lp-about-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .lp-about-actions .landing-btn {
+      font-size: 14px;
+      padding: 12px 28px;
+      border-radius: 12px;
+    }
+
+    /* Tech strip */
+    .lp-tech-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .lp-tech-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px 16px;
+    }
+    .lp-tech-icon {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .lp-tech-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       color: var(--text-muted);
+      margin-bottom: 6px;
     }
-    .landing-feature-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent-5);
-      box-shadow: 0 0 8px var(--accent-5);
+    .lp-tech-value {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
     }
-    @media (max-width: 640px) {
-      .landing-logo { width: 90px; height: 90px; border-radius: 22px; }
+
+    /* CTA Section */
+    .lp-cta {
+      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.08));
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 20px;
+      padding: 48px 32px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .lp-cta h2 {
+      font-family: var(--font-sans);
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0 0 12px;
+    }
+    .lp-cta p {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 0 0 28px;
+      line-height: 1.6;
+    }
+    .lp-cta-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Landing footer */
+    .lp-footer {
+      padding: 32px 24px;
+      text-align: center;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
+    }
+
+    @media (max-width: 768px) {
+      .lp-hero { padding: 60px 20px 48px; min-height: auto; }
+      .landing-logo { width: 80px; height: 80px; border-radius: 20px; }
       .landing-btn { padding: 14px 28px; font-size: 14px; }
-      .landing-features { gap: 12px; }
-      .landing-feature { font-size: 11px; }
+      .lp-stats { gap: 20px; }
+      .lp-stat-value { font-size: 1.5rem; }
+      .lp-features { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .lp-tech-grid { grid-template-columns: 1fr 1fr; }
+      .lp-about { flex-direction: column; text-align: center; }
+      .lp-about-logo { width: 80px; height: 80px; }
+      .lp-section { padding: 56px 20px; }
+      .lp-scroll-hint { display: none; }
+    }
+    @media (max-width: 480px) {
+      .lp-features { grid-template-columns: 1fr; }
+      .lp-tech-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .landing-btn { padding: 12px 24px; font-size: 13px; }
       .landing-orb { display: none; }
     }
 
@@ -1769,37 +1997,175 @@
 <body>
   <!-- Landing Page -->
   <div class="landing" id="landingPage">
-    <div class="landing-orb"></div>
-    <div class="landing-orb"></div>
-    <div class="landing-orb"></div>
-    <div class="landing-orb"></div>
-    <div class="landing-content">
-      <img src="GFST logo.jpeg" alt="GFST" class="landing-logo" />
-      <div class="landing-org">Global Forum For Sustainable Transformation</div>
-      <h1 class="landing-title">Andhra Pradesh<br/>Poverty Clock</h1>
-      <p class="landing-desc">
-        A real-time data-driven dashboard tracking Andhra Pradesh's journey toward
-        <strong>Zero Poverty by 2029</strong>. Powered by NFHS-4 &amp; NFHS-5 survey data,
-        district-level MPI analysis, and 670+ mandal boundaries — visualising the impact of
-        governance at every level.
-      </p>
-      <p class="landing-built">Built by <span>GFST</span> — Next Era of Governance</p>
-      <div class="landing-actions">
-        <button class="landing-btn primary" id="launchClockBtn">
-          Launch the Clock
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </button>
-        <a class="landing-btn secondary" href="https://gfst.in/" target="_blank" rel="noopener noreferrer">
-          Visit GFST
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </a>
+
+    <!-- HERO -->
+    <section class="lp-hero">
+      <div class="lp-hero-bg">
+        <div class="landing-orb"></div>
+        <div class="landing-orb"></div>
+        <div class="landing-orb"></div>
+        <div class="landing-orb"></div>
       </div>
-      <div class="landing-features">
-        <div class="landing-feature"><div class="landing-feature-dot"></div>Real-Time Ticking Counter</div>
-        <div class="landing-feature"><div class="landing-feature-dot"></div>26 Districts · 670+ Mandals</div>
-        <div class="landing-feature"><div class="landing-feature-dot"></div>2015–2029 Timeline</div>
-        <div class="landing-feature"><div class="landing-feature-dot"></div>Interactive SVG Maps</div>
+      <div class="lp-hero-content">
+        <img src="GFST logo.jpeg" alt="GFST" class="landing-logo" />
+        <div class="landing-org">A GFST Initiative</div>
+        <h1 class="landing-title">Andhra Pradesh's Journey to<br/>Zero Poverty by 2029</h1>
+        <p class="landing-desc">
+          Track poverty reduction in real-time across all 26 districts and 670+ mandals.
+          An interactive live clock powered by NFHS-4 &amp; NFHS-5 data, projecting Andhra Pradesh's
+          path from 11.6% poverty in 2015 to <strong>Zero by 2029</strong>.
+        </p>
+        <div class="landing-actions">
+          <button class="landing-btn primary" id="launchClockBtn">
+            View the Live Clock
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <a class="landing-btn secondary" href="https://gfst.in/" target="_blank" rel="noopener noreferrer">
+            Learn about GFST
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+        <div class="lp-stats">
+          <div class="lp-stat">
+            <div class="lp-stat-label">2015 Poverty</div>
+            <div class="lp-stat-value"><span class="lp-accent">11.6%</span></div>
+          </div>
+          <div class="lp-stat">
+            <div class="lp-stat-label">2029 Target</div>
+            <div class="lp-stat-value"><span class="lp-green">0%</span></div>
+          </div>
+          <div class="lp-stat">
+            <div class="lp-stat-label">Districts</div>
+            <div class="lp-stat-value"><span class="lp-cyan">26</span></div>
+          </div>
+        </div>
       </div>
+      <div class="lp-scroll-hint">
+        <span>SCROLL TO EXPLORE</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+      </div>
+    </section>
+
+    <!-- WHAT IS -->
+    <section class="lp-section">
+      <div class="lp-section-inner">
+        <h2 class="lp-section-title">What is the AP Poverty Clock?</h2>
+        <p class="lp-section-sub">
+          A real-time visualization of Andhra Pradesh's poverty elimination mission, built for
+          policymakers, researchers, and citizens.
+        </p>
+        <div class="lp-features">
+          <div class="lp-feature-card">
+            <div class="lp-feature-icon">⏱️</div>
+            <h3>Real-Time Poverty Clock</h3>
+            <p>Watch the poverty count tick downward every second, computed from NFHS survey data and demographic projections.</p>
+          </div>
+          <div class="lp-feature-card">
+            <div class="lp-feature-icon">🗺️</div>
+            <h3>Interactive District Map</h3>
+            <p>Explore all 26 districts with color-coded HCR data, population stats, and year-by-year poverty trends.</p>
+          </div>
+          <div class="lp-feature-card">
+            <div class="lp-feature-icon">📊</div>
+            <h3>District Rankings</h3>
+            <p>Sort districts by poverty count, HCR, or population. Track progress with live progress bars toward zero.</p>
+          </div>
+          <div class="lp-feature-card">
+            <div class="lp-feature-icon">📍</div>
+            <h3>670+ Mandal Maps</h3>
+            <p>Drill down into every district to see mandal-level boundaries, codes, and administrative detail.</p>
+          </div>
+          <div class="lp-feature-card">
+            <div class="lp-feature-icon">📅</div>
+            <h3>2015–2029 Timeline</h3>
+            <p>Scrub through every year from baseline (NFHS-4) to target (2029) and watch data change in real-time.</p>
+          </div>
+          <div class="lp-feature-card">
+            <div class="lp-feature-icon">📱</div>
+            <h3>Mobile Responsive</h3>
+            <p>Fully optimized for phones, tablets, and desktops. Touch-friendly maps with adaptive layouts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT GFST -->
+    <section class="lp-section">
+      <div class="lp-section-inner">
+        <div class="lp-about">
+          <img src="GFST logo.jpeg" alt="GFST" class="lp-about-logo" />
+          <div class="lp-about-text">
+            <h3>About the Organization</h3>
+            <h2>Global Forum for Sustainable Transformation</h2>
+            <p>
+              GFST is a pioneering organization dedicated to the Next Era of Governance.
+              We work at the intersection of technology, policy, and data to build tools
+              that empower transparent, accountable, and forward-looking governance systems
+              across India and beyond.
+            </p>
+            <p>
+              The AP Poverty Clock is one of GFST's flagship initiatives — making poverty
+              data accessible, real-time, and visual for every citizen, policymaker, and researcher.
+            </p>
+            <div class="lp-about-actions">
+              <a class="landing-btn secondary" href="https://gfst.in/" target="_blank" rel="noopener noreferrer">Visit GFST.in</a>
+              <button class="landing-btn primary lp-launch-btn">Explore the Clock →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUILT WITH -->
+    <section class="lp-section">
+      <div class="lp-section-inner">
+        <h2 class="lp-section-title">Built with Modern Technology</h2>
+        <p class="lp-section-sub">Powered by real data sources and cutting-edge web technology.</p>
+        <div class="lp-tech-grid">
+          <div class="lp-tech-card">
+            <div class="lp-tech-icon">📡</div>
+            <div class="lp-tech-label">Data Sources</div>
+            <div class="lp-tech-value">NFHS-4 · NFHS-5 · Census 2011 · MPI</div>
+          </div>
+          <div class="lp-tech-card">
+            <div class="lp-tech-icon">🧮</div>
+            <div class="lp-tech-label">Methodology</div>
+            <div class="lp-tech-value">Piecewise-linear · District interpolation · Real-time</div>
+          </div>
+          <div class="lp-tech-card">
+            <div class="lp-tech-icon">🗺️</div>
+            <div class="lp-tech-label">Mapping</div>
+            <div class="lp-tech-value">GeoJSON ·  SVG · 670 mandal boundaries</div>
+          </div>
+          <div class="lp-tech-card">
+            <div class="lp-tech-icon">⚡</div>
+            <div class="lp-tech-label">Platform</div>
+            <div class="lp-tech-value">Vanilla JS · Vercel Edge · Serverless</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="lp-section">
+      <div class="lp-section-inner">
+        <div class="lp-cta">
+          <h2>Ready to explore AP's poverty data?</h2>
+          <p>Dive into real-time district-level data, mandal maps, and year-by-year poverty projections.</p>
+          <div class="lp-cta-actions">
+            <button class="landing-btn primary lp-launch-btn">
+              View the Live Clock
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+            <a class="landing-btn secondary" href="https://gfst.in/" target="_blank" rel="noopener noreferrer">Visit GFST</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Landing footer -->
+    <div class="lp-footer">
+      © GFST — Global Forum for Sustainable Transformation · Mission Zero Poverty · Andhra Pradesh 2029
     </div>
   </div>
 
@@ -3247,13 +3613,21 @@
       init();
       initParticles();
 
+      // Preload mandal data immediately so it's ready when user clicks
+      loadMandalData().catch(() => {});
+
       // Landing page launch
       const landingPage = document.getElementById('landingPage');
       const launchBtn = document.getElementById('launchClockBtn');
+      const dismissLanding = () => {
+        landingPage.classList.add('hide');
+        setTimeout(() => { landingPage.style.display = 'none'; }, 900);
+      };
       if (launchBtn && landingPage) {
-        launchBtn.addEventListener('click', () => {
-          landingPage.classList.add('hide');
-          setTimeout(() => { landingPage.style.display = 'none'; }, 900);
+        launchBtn.addEventListener('click', dismissLanding);
+        // Also bind all secondary launch buttons
+        document.querySelectorAll('.lp-launch-btn').forEach(btn => {
+          btn.addEventListener('click', dismissLanding);
         });
       }
     });
