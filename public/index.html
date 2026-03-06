@@ -1566,7 +1566,7 @@
     .mandal-overlay {
       position: fixed;
       inset: 0;
-      z-index: 200;
+      z-index: 9999;
       background: var(--bg-primary);
       display: none;
       flex-direction: column;
@@ -2684,7 +2684,7 @@
           font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px;
           transition:opacity 0.2s;
         " onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">
-          View Mandals →
+          View Mandal-wise Data →
         </button>
       `;
     }
@@ -2761,7 +2761,6 @@
             mapPath.classList.add('selected');
           }
           updateDistrictPanel(name);
-          openMandalView(name);
         });
       });
     }
