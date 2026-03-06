@@ -791,7 +791,7 @@
     .map-svg-container {
       position: relative;
       width: 100%;
-      max-width: 600px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
@@ -993,85 +993,102 @@
 
     .district-list {
       display: grid;
-      gap: 8px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
     }
 
     .district-item {
-      display: grid;
-      grid-template-columns: 40px 1fr 120px 120px 120px 100px;
-      align-items: center;
-      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 20px;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 14px;
+      border-radius: 16px;
       transition: all 0.3s ease;
       cursor: pointer;
-      gap: 12px;
+      gap: 8px;
     }
 
     .district-item:hover {
       background: var(--bg-card-hover);
       border-color: var(--border-glow);
-      transform: translateX(4px);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .district-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2px;
+    }
+
+    .district-card-name {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
     }
 
     .district-rank {
       font-family: var(--font-mono);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-muted);
-    }
-
-    .district-name-cell {
-      display: flex;
-      flex-direction: column;
+      flex-shrink: 0;
     }
 
     .district-name-text {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .district-name-sub {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .district-hcr {
+    .district-card-hcr {
       font-family: var(--font-mono);
-      font-size: 16px;
+      font-size: 13px;
       font-weight: 700;
+      color: var(--text-secondary);
+      flex-shrink: 0;
     }
 
-    .district-hcr-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .district-change {
-      display: flex;
-      align-items: center;
-      gap: 4px;
+    .district-card-value {
       font-family: var(--font-mono);
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.2;
     }
 
-    .district-mini-bar {
+    .district-card-bar {
       width: 100%;
-      height: 6px;
+      height: 5px;
       background: var(--timeline-bg);
       border-radius: 3px;
       overflow: hidden;
     }
 
-    .district-mini-fill {
+    .district-card-bar-fill {
       height: 100%;
       border-radius: 3px;
       transition: width 0.5s ease;
+    }
+
+    .district-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .district-card-change {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-5);
     }
 
     /* ===== FOOTER ===== */
@@ -1186,16 +1203,12 @@
       .container { padding: 0 16px; }
       .map-container { grid-template-columns: 1fr; }
       .district-info-panel { order: 2; }
+      .district-list { grid-template-columns: repeat(3, 1fr); }
     }
 
     /* Small tablets / large phones */
     @media (max-width: 768px) {
-      .district-item {
-        grid-template-columns: 30px 1fr 80px 80px;
-        padding: 12px 14px;
-        gap: 8px;
-      }
-      .district-item .col-hide { display: none; }
+      .district-list { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .district-name-text { font-size: 13px; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .stat-card { padding: 16px; }
@@ -1295,29 +1308,16 @@
 
       /* District List */
       .district-list-section { padding: 20px 0 40px; overflow: hidden; }
-      .district-list { max-width: 100%; overflow-x: hidden; }
+      .district-list { grid-template-columns: repeat(2, 1fr); gap: 8px; max-width: 100%; overflow-x: hidden; }
       .list-controls { gap: 6px; margin-bottom: 14px; }
       .sort-btn { padding: 6px 12px; font-size: 10px; }
-      .district-item {
-        grid-template-columns: 28px 1fr;
-        padding: 12px;
-        gap: 6px;
-        border-radius: 10px;
-        max-width: 100%;
-        overflow: hidden;
-      }
-      .district-item > div:nth-child(n+3) {
-        grid-column: 2;
-        display: flex;
-        gap: 8px;
-        align-items: baseline;
-      }
-      .district-item .col-hide { display: none; }
-      .district-rank { font-size: 12px; }
-      .district-name-text { font-size: 13px; }
-      .district-name-sub { font-size: 9px; }
-      .district-hcr { font-size: 14px; }
-      .district-hcr-label { font-size: 8px; }
+      .district-item { padding: 14px; border-radius: 12px; }
+      .district-card-value { font-size: 20px; }
+      .district-rank { font-size: 11px; }
+      .district-name-text { font-size: 12px; }
+      .district-card-hcr { font-size: 11px; }
+      .district-card-footer { font-size: 10px; }
+      .district-card-change { font-size: 11px; }
 
       /* Footer */
       .footer { padding: 16px 0; font-size: 10px; overflow: hidden; }
@@ -1343,10 +1343,9 @@
       .mode-btn { padding: 6px 14px; font-size: 10px; }
       .stat-value { font-size: 16px; }
       .stats-grid { gap: 6px; }
-      .district-item {
-        grid-template-columns: 24px 1fr;
-        padding: 10px;
-      }
+      .district-list { grid-template-columns: 1fr; }
+      .district-item { padding: 12px; }
+      .district-card-value { font-size: 18px; }
       .timeline-slider-labels span { font-size: 8px; }
     }
   </style>
@@ -2241,31 +2240,25 @@
       list.innerHTML = sorted.map((d, i) => {
         const color = getHCRColor(d.hcr);
         const reductionPct = d.hcr2015 > 0 ? ((d.hcr2015 - d.hcr) / d.hcr2015 * 100).toFixed(1) : '100.0';
-        const barWidth = Math.min(100, (d.poverty / 500000) * 100); // scaled to max ~830K
+        const barWidth = Math.min(100, (d.poverty / 500000) * 100);
         const zeroTag = d.poverty <= 0 ? ' <span style="color:var(--accent-5);font-weight:700">✓ ZERO</span>' : '';
+        const popShare = d.population > 0 ? (d.poverty / d.population * 100).toFixed(1) : '0.0';
         return `
           <div class="district-item" data-district="${d.name}">
-            <div class="district-rank">${i + 1}</div>
-            <div class="district-name-cell">
-              <div class="district-name-text">${d.name}${zeroTag}</div>
-              <div class="district-name-sub">Pop: ${formatNumber(d.population)}</div>
-            </div>
-            <div>
-              <div class="district-hcr" style="color:${color};font-size:16px;font-weight:800">${formatPeople(d.poverty)}</div>
-              <div class="district-hcr-label">People in Poverty</div>
-            </div>
-            <div>
-              <div class="district-hcr" style="color:${color}">${d.hcr.toFixed(2)}%</div>
-              <div class="district-hcr-label">HCR</div>
-            </div>
-            <div class="col-hide">
-              <div class="district-change" style="color:var(--accent-5)">▼ ${reductionPct}%</div>
-              <div class="district-hcr-label">Since 2015</div>
-            </div>
-            <div class="col-hide">
-              <div class="district-mini-bar">
-                <div class="district-mini-fill" style="width:${barWidth}%;background:${color}"></div>
+            <div class="district-card-header">
+              <div class="district-card-name">
+                <span class="district-rank">${i + 1}</span>
+                <span class="district-name-text">${d.name}${zeroTag}</span>
               </div>
+              <span class="district-card-hcr">${d.hcr.toFixed(1)}%</span>
+            </div>
+            <div class="district-card-value" style="color:${color}">${formatPeople(d.poverty)}</div>
+            <div class="district-card-bar">
+              <div class="district-card-bar-fill" style="width:${barWidth}%;background:${color}"></div>
+            </div>
+            <div class="district-card-footer">
+              <span>Share: ${popShare}%</span>
+              <span class="district-card-change">▼ ${reductionPct}%</span>
             </div>
           </div>
         `;
