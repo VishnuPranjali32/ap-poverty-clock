@@ -3079,11 +3079,13 @@
         await loadMandalData();
       } catch(e) {
         console.error(e);
+        alert('Failed to load mandal data. Please try again.');
         return;
       }
 
       if (typeof mandalMapData === 'undefined' || !mandalMapData[districtName]) {
         console.warn('No mandal data for', districtName);
+        alert('Mandal data not available for ' + districtName);
         return;
       }
 
@@ -3175,16 +3177,12 @@
               <span class="mandal-stat-value">${districtName}</span>
             </div>
             <div class="mandal-stat-row">
-              <span class="mandal-stat-label">Region</span>
-              <span class="mandal-stat-value">${oldDist}</span>
-            </div>
-            <div class="mandal-stat-row">
               <span class="mandal-stat-label">Mandal Code</span>
               <span class="mandal-stat-value">${mCode}</span>
             </div>
             <div class="mandal-list-section">
               <div class="mandal-list-title">All Mandals</div>
-              ${mandalMapData[oldDist].mandals.map(m => `
+              ${mandalMapData[districtName].mandals.map(m => `
                 <div class="mandal-list-item${m.name === mName ? ' active' : ''}" data-mandal="${m.name}">
                   <span class="mandal-list-item-name">${m.name}</span>
                   <span class="mandal-list-item-code">${m.code}</span>
@@ -3194,7 +3192,7 @@
           `;
 
           // Re-bind list clicks
-          bindMandalListClicks(districtName, oldDist);
+          bindMandalListClicks(districtName);
 
           // Mobile tooltip
           if (isMobile) {
@@ -3215,10 +3213,10 @@
       });
 
       // Bind list item clicks
-      bindMandalListClicks(districtName, oldDist);
+      bindMandalListClicks(districtName);
     }
 
-    function bindMandalListClicks(districtName, oldDist) {
+    function bindMandalListClicks(districtName) {
       document.querySelectorAll('.mandal-list-item').forEach(li => {
         li.addEventListener('click', () => {
           const mName = li.dataset.mandal;
