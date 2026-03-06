@@ -1307,17 +1307,18 @@
       .panel-stat-value { font-size: 13px; }
 
       /* District List */
-      .district-list-section { padding: 20px 0 40px; overflow: hidden; }
-      .district-list { grid-template-columns: repeat(2, 1fr); gap: 8px; max-width: 100%; overflow-x: hidden; }
-      .list-controls { gap: 6px; margin-bottom: 14px; }
+      .district-list-section { padding: 20px 0 40px; }
+      .district-list { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .list-controls { gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
       .sort-btn { padding: 6px 12px; font-size: 10px; }
-      .district-item { padding: 14px; border-radius: 12px; }
-      .district-card-value { font-size: 20px; }
-      .district-rank { font-size: 11px; }
-      .district-name-text { font-size: 12px; }
-      .district-card-hcr { font-size: 11px; }
-      .district-card-footer { font-size: 10px; }
-      .district-card-change { font-size: 11px; }
+      .district-item { padding: 12px; border-radius: 12px; min-width: 0; }
+      .district-card-value { font-size: 18px; }
+      .district-rank { font-size: 10px; }
+      .district-name-text { font-size: 11px; }
+      .district-card-hcr { font-size: 10px; }
+      .district-card-footer { font-size: 9px; }
+      .district-card-change { font-size: 10px; }
+      .district-card-bar { height: 4px; }
 
       /* Footer */
       .footer { padding: 16px 0; font-size: 10px; overflow: hidden; }
@@ -1343,10 +1344,216 @@
       .mode-btn { padding: 6px 14px; font-size: 10px; }
       .stat-value { font-size: 16px; }
       .stats-grid { gap: 6px; }
-      .district-list { grid-template-columns: 1fr; }
-      .district-item { padding: 12px; }
-      .district-card-value { font-size: 18px; }
+      .district-list { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+      .district-item { padding: 10px; }
+      .district-card-value { font-size: 16px; }
+      .district-name-text { font-size: 10px; }
+      .district-card-hcr { font-size: 9px; }
+      .district-card-footer { font-size: 8px; }
       .timeline-slider-labels span { font-size: 8px; }
+    }
+
+    /* ===== MANDAL OVERLAY ===== */
+    .mandal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: var(--bg-primary);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .mandal-overlay.active { display: flex; }
+
+    .mandal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+    .mandal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mandal-back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mandal-back-btn:hover { border-color: var(--accent-1); color: var(--accent-1); }
+    .mandal-district-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .mandal-district-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .mandal-body {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .mandal-map-wrap {
+      position: relative;
+      padding: 20px;
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mandal-map-wrap svg {
+      width: 100%;
+      max-width: 700px;
+      height: auto;
+    }
+    .mandal-path {
+      transition: all 0.2s ease;
+      cursor: pointer;
+      stroke: var(--map-stroke);
+      stroke-width: 1;
+      stroke-linejoin: round;
+      fill: var(--bg-glass);
+    }
+    .mandal-path:hover {
+      filter: brightness(1.3);
+      stroke: #fff;
+      stroke-width: 2;
+    }
+    .mandal-path.selected {
+      stroke: var(--accent-6);
+      stroke-width: 2.5;
+      filter: brightness(1.15);
+    }
+    .mandal-label {
+      font-size: 6px;
+      fill: var(--text-primary);
+      font-weight: 600;
+      pointer-events: none;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      opacity: 0.8;
+    }
+    [data-theme="light"] .mandal-label { fill: #1a1a2e; }
+
+    .mandal-panel {
+      background: var(--bg-card);
+      border-left: 1px solid var(--border-color);
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .mandal-panel-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    .mandal-panel-instruction {
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+      padding: 40px 16px;
+    }
+    .mandal-info-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .mandal-info-district {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .mandal-stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .mandal-stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+    .mandal-stat-value {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .mandal-list-section {
+      margin-top: 20px;
+    }
+    .mandal-list-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+    }
+    .mandal-list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+    .mandal-list-item:hover { background: var(--bg-glass); }
+    .mandal-list-item.active { background: var(--accent-1); color: #fff; }
+    .mandal-list-item-name { font-weight: 600; }
+    .mandal-list-item-code { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+    .mandal-list-item.active .mandal-list-item-code { color: rgba(255,255,255,0.7); }
+
+    /* Mandal tooltip */
+    .mandal-tooltip {
+      position: fixed;
+      z-index: 1000;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-glow);
+      border-radius: 10px;
+      padding: 10px 14px;
+      min-width: 140px;
+      box-shadow: var(--shadow-card);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      font-size: 12px;
+    }
+    .mandal-tooltip.visible { opacity: 1; }
+    .mandal-tooltip-name { font-weight: 700; margin-bottom: 4px; color: var(--text-primary); }
+    .mandal-tooltip-info { color: var(--text-secondary); font-size: 11px; }
+
+    @media (max-width: 900px) {
+      .mandal-body { grid-template-columns: 1fr; }
+      .mandal-panel { border-left: none; border-top: 1px solid var(--border-color); max-height: 300px; }
+    }
+    @media (max-width: 640px) {
+      .mandal-header { padding: 10px 14px; }
+      .mandal-back-btn { padding: 6px 12px; font-size: 12px; }
+      .mandal-district-title { font-size: 14px; }
+      .mandal-map-wrap { padding: 10px; }
+      .mandal-panel { padding: 16px; max-height: 250px; }
+      .mandal-label { font-size: 5px; }
     }
   </style>
 </head>
@@ -1516,6 +1723,32 @@
       <div class="district-list" id="districtList"></div>
     </section>
   </main>
+
+  <!-- Mandal Overlay -->
+  <div class="mandal-overlay" id="mandalOverlay">
+    <div class="mandal-header">
+      <div class="mandal-header-left">
+        <button class="mandal-back-btn" id="mandalBackBtn">← Back</button>
+        <div>
+          <div class="mandal-district-title" id="mandalDistrictTitle"></div>
+          <div class="mandal-district-sub" id="mandalDistrictSub"></div>
+        </div>
+      </div>
+    </div>
+    <div class="mandal-body">
+      <div class="mandal-map-wrap" id="mandalMapWrap"></div>
+      <div class="mandal-panel" id="mandalPanel">
+        <div class="mandal-panel-title">Mandal Details</div>
+        <div class="mandal-panel-instruction" id="mandalPanelContent">
+          Click on a mandal to view details
+        </div>
+      </div>
+    </div>
+    <div class="mandal-tooltip" id="mandalTooltip">
+      <div class="mandal-tooltip-name" id="mandalTooltipName"></div>
+      <div class="mandal-tooltip-info" id="mandalTooltipInfo"></div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -2200,6 +2433,14 @@
             <div class="panel-progress-fill" style="width:${progressToZero}%"></div>
           </div>
         </div>
+        <button onclick="openMandalView('${name}')" style="
+          width:100%;margin-top:14px;padding:10px;
+          background:var(--accent-1);color:#fff;border:none;border-radius:10px;
+          font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px;
+          transition:opacity 0.2s;
+        " onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">
+          View Mandals →
+        </button>
       `;
     }
 
@@ -2275,6 +2516,7 @@
             mapPath.classList.add('selected');
           }
           updateDistrictPanel(name);
+          openMandalView(name);
         });
       });
     }
@@ -2566,6 +2808,198 @@
 
       animate();
     }
+
+    // ===== MANDAL DRILL-DOWN =====
+    const mandalOverlay = document.getElementById('mandalOverlay');
+    const mandalBackBtn = document.getElementById('mandalBackBtn');
+    const mandalMapWrap = document.getElementById('mandalMapWrap');
+    const mandalPanel = document.getElementById('mandalPanel');
+    const mandalTooltip = document.getElementById('mandalTooltip');
+
+    let mandalDataLoaded = false;
+    let selectedMandal = null;
+
+    function loadMandalData() {
+      return new Promise((resolve, reject) => {
+        if (mandalDataLoaded) { resolve(); return; }
+        const s = document.createElement('script');
+        s.src = 'mandal_data.js';
+        s.onload = () => { mandalDataLoaded = true; resolve(); };
+        s.onerror = () => reject(new Error('Failed to load mandal data'));
+        document.head.appendChild(s);
+      });
+    }
+
+    async function openMandalView(districtName) {
+      try {
+        await loadMandalData();
+      } catch(e) {
+        console.error(e);
+        return;
+      }
+
+      const oldDist = typeof newToOldDistrict !== 'undefined' ? newToOldDistrict[districtName] : null;
+      if (!oldDist || typeof mandalMapData === 'undefined' || !mandalMapData[oldDist]) {
+        console.warn('No mandal data for', districtName, '→', oldDist);
+        return;
+      }
+
+      const dData = mandalMapData[oldDist];
+      const mandals = dData.mandals;
+
+      document.getElementById('mandalDistrictTitle').textContent = districtName;
+      document.getElementById('mandalDistrictSub').textContent =
+        `${mandals.length} mandals · Region: ${oldDist}`;
+
+      // Build SVG
+      let svg = `<svg viewBox="${dData.viewBox}" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;">`;
+      mandals.forEach(m => {
+        svg += `<path class="mandal-path" data-mandal="${m.name}" data-code="${m.code}" d="${m.d}" />`;
+        // Label only if there's room (show all)
+        svg += `<text class="mandal-label" x="${m.cx}" y="${m.cy}">${m.name}</text>`;
+      });
+      svg += '</svg>';
+      mandalMapWrap.innerHTML = svg;
+
+      // Reset panel
+      selectedMandal = null;
+      document.getElementById('mandalPanelContent').innerHTML = `
+        <div class="mandal-panel-instruction">Click on a mandal to view details</div>
+        <div class="mandal-list-section">
+          <div class="mandal-list-title">All Mandals (${mandals.length})</div>
+          ${mandals.map(m => `
+            <div class="mandal-list-item" data-mandal="${m.name}">
+              <span class="mandal-list-item-name">${m.name}</span>
+              <span class="mandal-list-item-code">${m.code}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      // Show overlay
+      mandalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      // Setup map events
+      setupMandalMapEvents(districtName, oldDist);
+    }
+
+    function setupMandalMapEvents(districtName, oldDist) {
+      const paths = mandalMapWrap.querySelectorAll('.mandal-path');
+      const isMobile = window.innerWidth <= 768;
+
+      paths.forEach(path => {
+        if (!isMobile) {
+          path.addEventListener('mouseenter', (e) => {
+            const mName = path.dataset.mandal;
+            const mCode = path.dataset.code;
+            document.getElementById('mandalTooltipName').textContent = mName;
+            document.getElementById('mandalTooltipInfo').textContent = `Code: ${mCode} · District: ${districtName}`;
+            mandalTooltip.classList.add('visible');
+          });
+          path.addEventListener('mousemove', (e) => {
+            mandalTooltip.style.left = (e.clientX + 14) + 'px';
+            mandalTooltip.style.top = (e.clientY - 10) + 'px';
+          });
+          path.addEventListener('mouseleave', () => {
+            mandalTooltip.classList.remove('visible');
+          });
+        }
+
+        path.addEventListener('click', (e) => {
+          const mName = path.dataset.mandal;
+          const mCode = path.dataset.code;
+
+          // Highlight selection
+          mandalMapWrap.querySelectorAll('.mandal-path.selected').forEach(p => p.classList.remove('selected'));
+          path.classList.add('selected');
+          selectedMandal = mName;
+
+          // Highlight in list
+          document.querySelectorAll('.mandal-list-item').forEach(li => li.classList.remove('active'));
+          const listItem = document.querySelector(`.mandal-list-item[data-mandal="${mName}"]`);
+          if (listItem) {
+            listItem.classList.add('active');
+            listItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+
+          // Update panel
+          document.getElementById('mandalPanelContent').innerHTML = `
+            <div class="mandal-info-name">${mName}</div>
+            <div class="mandal-info-district">${districtName} · Code: ${mCode}</div>
+            <div class="mandal-stat-row">
+              <span class="mandal-stat-label">District</span>
+              <span class="mandal-stat-value">${districtName}</span>
+            </div>
+            <div class="mandal-stat-row">
+              <span class="mandal-stat-label">Region</span>
+              <span class="mandal-stat-value">${oldDist}</span>
+            </div>
+            <div class="mandal-stat-row">
+              <span class="mandal-stat-label">Mandal Code</span>
+              <span class="mandal-stat-value">${mCode}</span>
+            </div>
+            <div class="mandal-list-section">
+              <div class="mandal-list-title">All Mandals</div>
+              ${mandalMapData[oldDist].mandals.map(m => `
+                <div class="mandal-list-item${m.name === mName ? ' active' : ''}" data-mandal="${m.name}">
+                  <span class="mandal-list-item-name">${m.name}</span>
+                  <span class="mandal-list-item-code">${m.code}</span>
+                </div>
+              `).join('')}
+            </div>
+          `;
+
+          // Re-bind list clicks
+          bindMandalListClicks(districtName, oldDist);
+
+          // Mobile tooltip
+          if (isMobile) {
+            document.getElementById('mandalTooltipName').textContent = mName;
+            document.getElementById('mandalTooltipInfo').textContent = `Code: ${mCode}`;
+            const tt = mandalTooltip;
+            let left = e.clientX + 12;
+            let top = e.clientY - 60;
+            if (left + 160 > window.innerWidth) left = e.clientX - 170;
+            if (left < 8) left = 8;
+            if (top < 8) top = e.clientY + 16;
+            tt.style.left = left + 'px';
+            tt.style.top = top + 'px';
+            tt.classList.add('visible');
+            setTimeout(() => tt.classList.remove('visible'), 2500);
+          }
+        });
+      });
+
+      // Bind list item clicks
+      bindMandalListClicks(districtName, oldDist);
+    }
+
+    function bindMandalListClicks(districtName, oldDist) {
+      document.querySelectorAll('.mandal-list-item').forEach(li => {
+        li.addEventListener('click', () => {
+          const mName = li.dataset.mandal;
+          const mapPath = mandalMapWrap.querySelector(`.mandal-path[data-mandal="${mName}"]`);
+          if (mapPath) mapPath.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        });
+      });
+    }
+
+    function closeMandalView() {
+      mandalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+      selectedMandal = null;
+      mandalTooltip.classList.remove('visible');
+    }
+
+    mandalBackBtn.addEventListener('click', closeMandalView);
+
+    // ESC key to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mandalOverlay.classList.contains('active')) {
+        closeMandalView();
+      }
+    });
 
     // Start
     document.addEventListener('DOMContentLoaded', () => {
