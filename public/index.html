@@ -687,6 +687,18 @@
       box-shadow: 0 4px 15px rgba(99,102,241,0.3);
     }
 
+    .logo-home-btn {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .header-title {
       display: flex;
       flex-direction: column;
@@ -2273,7 +2285,9 @@
   <header class="header">
     <div class="container header-inner">
       <div class="header-left">
-        <img src="GFST logo.jpeg" alt="GFST Logo" class="logo-img" />
+        <button id="headerHomeBtn" class="logo-home-btn" aria-label="Go to home page">
+          <img src="GFST logo.jpeg" alt="GFST Logo" class="logo-img" />
+        </button>
         <div class="header-title">
           <div class="org-name">GFST - NEXT ERA OF GOVERNANCE</div>
           <h1>Andhra Pradesh Poverty Clock</h1>
@@ -2328,7 +2342,7 @@
     <!-- Hero Counter -->
     <section class="hero-section animate-in delay-1">
       <div class="hero-section-label">Andhra Pradesh — People Living in Poverty</div>
-      <div class="hero-context-line">Anchored: NFHS-4 (2015) · NFHS-5 (2020) · 2026 (2.6%) · <strong>Zero by 2029</strong></div>
+      <div class="hero-context-line">Anchored: NFHS-4 (2015) · NFHS-5 (2020) · 2026 (2.68%) · <strong>Zero by 2029</strong></div>
       <div class="hero-view-badge" id="viewBadge">
         <span class="live-indicator"></span> LIVE
       </div>
@@ -2454,7 +2468,7 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p>© GFST &nbsp;|&nbsp; Data: NFHS-4 (2015) &amp; NFHS-5 (2020) &amp; 2026 Anchor (2.6%) &nbsp;|&nbsp; Piecewise-linear to Zero by 2029 &nbsp;|&nbsp; Population: Census 2011 + 0.082% p.a.</p>
+      <p>© GFST &nbsp;|&nbsp; Data: NFHS-4 (2015) &amp; NFHS-5 (2020) &amp; 2026 Anchor (2.68%) &nbsp;|&nbsp; Piecewise-linear to Zero by 2029 &nbsp;|&nbsp; Population: Census 2011 + 0.082% p.a.</p>
       <p style="margin-top:4px;">Mission Zero Poverty — Andhra Pradesh 2029</p>
     </div>
   </footer>
@@ -2477,7 +2491,7 @@
   2023: { population: 48912998, poor: 2126197, rate: 4.3469, exited: 281237, daily: 770.5, hourly: 32.1, perSec: 0.00891797 },
   2024: { population: 48952959, poor: 1844514, rate: 3.7679, exited: 281683, daily: 771.7, hourly: 32.16, perSec: 0.00893211 },
   2025: { population: 48992954, poor: 1562358, rate: 3.1889, exited: 282156, daily: 773.0, hourly: 32.21, perSec: 0.00894711 },
-  2026: { population: 49032979, poor: 1279744, rate: 2.6100, exited: 282614, daily: 774.3, hourly: 32.26, perSec: 0.00896163 },
+  2026: { population: 53763000, poor: 1440848, rate: 2.6800, exited: 282614, daily: 774.3, hourly: 32.26, perSec: 0.00896163 },
   2027: { population: 49073041, poor: 818341, rate: 1.6676, exited: 461403, daily: 1264.1, hourly: 52.67, perSec: 0.01463099 },
   2028: { population: 49113134, poor: 376732, rate: 0.7671, exited: 441609, daily: 1209.9, hourly: 50.41, perSec: 0.01400333 },
   2029: { population: 49153256, poor: 0, rate: 0.0000, exited: 376732, daily: 1032.1, hourly: 43.01, perSec: 0.01194609 },
@@ -3685,9 +3699,15 @@
       // Landing page launch
       const landingPage = document.getElementById('landingPage');
       const launchBtn = document.getElementById('launchClockBtn');
+      const headerHomeBtn = document.getElementById('headerHomeBtn');
       const dismissLanding = () => {
         landingPage.classList.add('hide');
         setTimeout(() => { landingPage.style.display = 'none'; }, 900);
+      };
+      const showLanding = () => {
+        landingPage.style.display = 'block';
+        landingPage.classList.remove('hide');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       };
       if (launchBtn && landingPage) {
         launchBtn.addEventListener('click', dismissLanding);
@@ -3695,6 +3715,9 @@
         document.querySelectorAll('.lp-launch-btn').forEach(btn => {
           btn.addEventListener('click', dismissLanding);
         });
+      }
+      if (headerHomeBtn && landingPage) {
+        headerHomeBtn.addEventListener('click', showLanding);
       }
     });
   </script>
