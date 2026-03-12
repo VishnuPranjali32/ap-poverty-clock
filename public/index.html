@@ -2660,6 +2660,14 @@
       if (year < 2015) return { poor: stateYearlyData[2015].poor, pop: stateYearlyData[2015].population, rate: stateYearlyData[2015].rate, daily: 0 };
       if (year >= 2029) return { poor: 0, pop: stateYearlyData[2029].population, rate: 0, daily: 0 };
 
+      // 2026: slow tick using perSec rate, fixed population & percentage
+      if (year === 2026) {
+        const sd = stateYearlyData[2026];
+        const elapsed = (now - yearStart) / 1000;
+        const poor = Math.max(0, sd.poor - sd.perSec * elapsed);
+        return { poor: Math.round(poor), pop: sd.population, rate: sd.rate, daily: sd.daily };
+      }
+
       const sd = stateYearlyData[year];
       const sdNext = stateYearlyData[year + 1];
 
@@ -3717,8 +3725,16 @@
           btn.addEventListener('click', dismissLanding);
         });
       }
-      if (headerHomeBtn && landingPage) {
-        headerHomeBtn.addEventListener('click', showLanding);
+      if (headerHomeBtn) {
+        headerHomeBtn.addEventListener('click', () => {
+          // Dismiss landing page if visible and go to the clock's first page
+          if (landingPage && landingPage.style.display !== 'none') {
+            dismissLanding();
+          }
+          // Switch to live mode and scroll to top of clock
+          activateMode('live');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
       }
     });
   </script>
