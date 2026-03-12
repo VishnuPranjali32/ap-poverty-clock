@@ -6,6 +6,7 @@
   <title>AP Poverty Clock — Andhra Pradesh Zero Poverty 2029</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <style>
     /* ===== LANDING PAGE ===== */
     .landing {
@@ -2094,6 +2095,357 @@
       .mandal-list-item { padding: 7px 10px; font-size: 11px; }
       .mandal-tooltip { display: none; }
     }
+
+    /* ===== ANALYTICS PAGE ===== */
+    .analytics-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg-primary);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .analytics-overlay.active { display: block; }
+
+    .analytics-back-btn {
+      appearance: none;
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background .2s;
+    }
+    .analytics-back-btn:hover { background: var(--bg-card-hover); }
+
+    .analytics-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .analytics-breadcrumb a {
+      color: var(--accent-4);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .analytics-breadcrumb a:hover { text-decoration: underline; }
+    .analytics-breadcrumb .sep { color: var(--text-muted); }
+
+    .analytics-header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .analytics-header-left { flex: 1; min-width: 250px; }
+    .analytics-header-right {
+      text-align: right;
+      min-width: 200px;
+    }
+    .analytics-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 4px 0;
+    }
+    .analytics-region {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .analytics-live-counter {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 700;
+      background: var(--gradient-counter);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .analytics-live-label {
+      font-size: 11px;
+      color: var(--accent-5);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .analytics-body { padding: 20px 24px 40px; max-width: 1200px; margin: 0 auto; }
+
+    /* Scenario toggle */
+    .scenario-toggle {
+      display: flex;
+      gap: 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      margin: 16px 0 20px;
+      width: fit-content;
+    }
+    .scenario-btn {
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      transition: background .2s, color .2s;
+    }
+    .scenario-btn.active {
+      background: var(--accent-5);
+      color: #fff;
+    }
+    .scenario-btn:first-child.active {
+      background: var(--accent-1);
+      color: #fff;
+    }
+
+    /* KPI cards row */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .kpi-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 6px;
+    }
+    .kpi-value {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .kpi-value.green { color: var(--accent-5); }
+    .kpi-value.cyan { color: var(--accent-4); }
+    .kpi-value.amber { color: var(--accent-6); }
+
+    /* Chart containers */
+    .chart-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .chart-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 14px;
+    }
+    .chart-wrap { position: relative; width: 100%; max-height: 340px; }
+    .chart-wrap canvas { width: 100% !important; }
+
+    /* Two-column charts */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 768px) {
+      .chart-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Progress rings */
+    .ring-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .ring-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .ring-svg { width: 110px; height: 110px; }
+    .ring-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-align: center;
+      max-width: 130px;
+    }
+
+    /* Year-by-year table */
+    .snapshot-table-wrap { overflow-x: auto; margin-bottom: 24px; }
+    .snapshot-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .snapshot-table th {
+      background: var(--bg-glass);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 8px 10px;
+      text-align: right;
+      border-bottom: 2px solid var(--border-color);
+      white-space: nowrap;
+    }
+    .snapshot-table th:first-child { text-align: left; }
+    .snapshot-table td {
+      padding: 7px 10px;
+      text-align: right;
+      border-bottom: 1px solid var(--border-color);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+    .snapshot-table td:first-child {
+      text-align: left;
+      font-family: var(--font-sans);
+      font-weight: 600;
+    }
+    .snapshot-table tr.anchor-row { background: rgba(245, 158, 11, 0.08); }
+    .snapshot-table tr.anchor-row td:first-child { color: var(--accent-6); }
+    .snapshot-table tr.zero-row { background: rgba(16, 185, 129, 0.08); }
+    .snapshot-table tr.zero-row td { font-weight: 700; color: var(--accent-5); }
+
+    /* Strategy callout box */
+    .strategy-callout {
+      background: var(--gradient-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .strategy-callout-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    .strategy-stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 13px;
+    }
+    .strategy-stat-label { color: var(--text-secondary); }
+    .strategy-stat-value { font-weight: 700; color: var(--accent-5); font-family: var(--font-mono); }
+    .strategy-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .strategy-pill {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--accent-5);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    /* District-analytics button */
+    .district-analytics-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      background: var(--accent-5);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .district-analytics-btn:hover {
+      opacity: 0.85;
+      transform: translateY(-1px);
+    }
+    .district-analytics-btn:active {
+      transform: translateY(0);
+      opacity: 0.75;
+    }
+    .mandal-analytics-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      background: var(--accent-5);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .mandal-analytics-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    /* Extra KPI cards for mandal */
+    .kpi-row-extra {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    /* District map in analytics header */
+    .analytics-map-wrap {
+      width: 180px;
+      height: 180px;
+      flex-shrink: 0;
+    }
+    .analytics-map-wrap svg {
+      width: 100%;
+      height: 100%;
+    }
+    .analytics-map-wrap svg path {
+      fill: var(--accent-5);
+      stroke: var(--bg-primary);
+      stroke-width: 0.3;
+      opacity: 0.7;
+    }
+    .analytics-map-wrap svg path.highlighted {
+      fill: var(--accent-1);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .analytics-header { flex-direction: column; padding: 16px; }
+      .analytics-header-right { text-align: left; }
+      .analytics-live-counter { font-size: 24px; }
+      .analytics-title { font-size: 18px; }
+      .analytics-body { padding: 16px; }
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .analytics-map-wrap { width: 120px; height: 120px; }
+    }
   </style>
 </head>
 <body>
@@ -2462,6 +2814,55 @@
     <div class="mandal-tooltip" id="mandalTooltip">
       <div class="mandal-tooltip-name" id="mandalTooltipName"></div>
       <div class="mandal-tooltip-info" id="mandalTooltipInfo"></div>
+    </div>
+  </div>
+
+  <!-- Analytics Overlay -->
+  <div class="analytics-overlay" id="analyticsOverlay">
+    <div class="analytics-header">
+      <div class="analytics-header-left">
+        <button class="analytics-back-btn" id="analyticsBackBtn">← Back</button>
+        <div class="analytics-breadcrumb" id="analyticsBreadcrumb"></div>
+        <div class="analytics-region" id="analyticsRegion"></div>
+        <div class="analytics-title" id="analyticsTitle"></div>
+      </div>
+      <div class="analytics-map-wrap" id="analyticsMapWrap"></div>
+      <div class="analytics-header-right">
+        <div class="analytics-live-label">● LIVE — 2026</div>
+        <div class="analytics-live-counter" id="analyticsLiveCounter">0</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" id="analyticsLiveSub"></div>
+      </div>
+    </div>
+    <div class="analytics-body" id="analyticsBody">
+      <div class="scenario-toggle" id="scenarioToggle">
+        <button class="scenario-btn active" data-scenario="bau">📈 Business As Usual</button>
+        <button class="scenario-btn" data-scenario="strategy">🚀 With Strategies</button>
+      </div>
+      <div class="kpi-row-extra" id="kpiExtra" style="display:none;"></div>
+      <div class="kpi-row" id="kpiRow"></div>
+      <div class="chart-grid">
+        <div class="chart-section">
+          <div class="chart-section-title">Poverty Trajectory (People in Poverty)</div>
+          <div class="chart-wrap"><canvas id="trajectoryChart"></canvas></div>
+        </div>
+        <div class="chart-section">
+          <div class="chart-section-title">Head Count Ratio (HCR%)</div>
+          <div class="chart-wrap"><canvas id="hcrChart"></canvas></div>
+        </div>
+      </div>
+      <div class="chart-section">
+        <div class="chart-section-title">Progress Indicators</div>
+        <div class="ring-row" id="progressRings"></div>
+      </div>
+      <div class="chart-section">
+        <div class="chart-section-title">Annual Poverty Exits (People Exited per Year)</div>
+        <div class="chart-wrap"><canvas id="exitChart"></canvas></div>
+      </div>
+      <div class="snapshot-table-wrap">
+        <div class="chart-section-title" style="margin-bottom:10px;">Year-by-Year Snapshot (2015–2029)</div>
+        <table class="snapshot-table" id="snapshotTable"></table>
+      </div>
+      <div class="strategy-callout" id="strategyCallout"></div>
     </div>
   </div>
 
@@ -3158,6 +3559,9 @@
             <div class="panel-progress-fill" style="width:${progressToZero}%"></div>
           </div>
         </div>
+        <button class="district-analytics-btn" onclick="openAnalytics('district','${name.replace(/'/g, "\\'")}')">
+          📊 View District-wise Data →
+        </button>
         <button class="mandal-view-btn" onclick="openMandalView('${name}')">
           View Mandal-wise Data →
         </button>
@@ -3650,6 +4054,9 @@
               <span class="mandal-stat-label">Mandal Code</span>
               <span class="mandal-stat-value">${mCode}</span>
             </div>
+            <button class="mandal-analytics-btn" onclick="openAnalytics('mandal','${mName.replace(/'/g, "\\'")}','${districtName.replace(/'/g, "\\'")}')">
+              📊 View Mandal Analytics →
+            </button>
           `;
 
           // Mobile tooltip
@@ -3701,10 +4108,409 @@
       }
     });
 
+    // ===== ANALYTICS PAGE SYSTEM =====
+    const ANALYTICS_YEARS = [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029];
+    const ANCHOR_YEARS = [2015, 2020, 2026];
+    const STRATEGIES = ['SHG Scale-up','EPEP Mission','Amenity Saturation','Social Protection','Local Jobs','Data Systems'];
+    let analyticsData = null;
+    let analyticsCharts = {};
+    let analyticsInterval = null;
+    let currentAnalytics = null; // {type:'district'|'mandal', name, district, scenario:'bau'|'strategy'}
+
+    function loadAnalyticsData() {
+      if (analyticsData) return Promise.resolve(analyticsData);
+      return fetch('analytics_data.json')
+        .then(r => r.json())
+        .then(data => { analyticsData = data; return data; });
+    }
+
+    function getAnalyticsDistrictData(name) {
+      const raw = analyticsData.districts || analyticsData.d;
+      return raw[name] || null;
+    }
+
+    function getAnalyticsMandal(district, mandal) {
+      const raw = analyticsData.mandals || analyticsData.m;
+      if (Array.isArray(raw)) {
+        return raw.find(m => (m.district || m.d) === district && (m.mandal || m.m) === mandal) || null;
+      }
+      // Dictionary keyed by "District|Mandal"
+      return raw[district + '|' + mandal] || null;
+    }
+
+    function analyticsGetPop(d, yearIdx) {
+      return (d.population || d.p)[yearIdx];
+    }
+    function analyticsGetBAU(d, yearIdx) {
+      return (d.bau || d.b)[yearIdx];
+    }
+    function analyticsGetStr(d, yearIdx) {
+      return (d.strategy || d.s)[yearIdx];
+    }
+    function analyticsGetRegion(d) { return d.region || d.r || ''; }
+    function analyticsGetZeroBAU(d) { return d.zeroBAU || d.zB || '2029'; }
+    function analyticsGetZeroStr(d) { return d.zeroStrategy || d.zS || '2029'; }
+
+    function analyticsHCR(poor, pop) { return pop > 0 ? (poor / pop) * 100 : 0; }
+
+    function analyticsLiveCount(d) {
+      const now = new Date();
+      const yr = now.getFullYear();
+      if (yr < 2015 || yr >= 2029) return analyticsGetBAU(d, yr >= 2029 ? 14 : 0);
+      const yrIdx = yr - 2015;
+      const yearStart = new Date(yr, 0, 1);
+      const yearEnd = new Date(yr + 1, 0, 1);
+      const frac = (now - yearStart) / (yearEnd - yearStart);
+      const cur = analyticsGetBAU(d, yrIdx);
+      const next = yrIdx < 14 ? analyticsGetBAU(d, yrIdx + 1) : 0;
+      return Math.max(0, Math.round(cur + (next - cur) * frac));
+    }
+
+    function openAnalytics(type, name, district) {
+      loadAnalyticsData().then(() => {
+        let d;
+        if (type === 'district') {
+          d = getAnalyticsDistrictData(name);
+        } else {
+          d = getAnalyticsMandal(district, name);
+        }
+        if (!d) { alert('Data not available for ' + name); return; }
+        currentAnalytics = { type, name, district: district || name, scenario: 'bau', data: d };
+        renderAnalytics();
+        document.getElementById('analyticsOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        startAnalyticsTicker();
+      });
+    }
+
+    function closeAnalytics() {
+      document.getElementById('analyticsOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+      stopAnalyticsTicker();
+      destroyAnalyticsCharts();
+      currentAnalytics = null;
+    }
+
+    function startAnalyticsTicker() {
+      stopAnalyticsTicker();
+      analyticsInterval = setInterval(() => {
+        if (!currentAnalytics) return;
+        const live = analyticsLiveCount(currentAnalytics.data);
+        document.getElementById('analyticsLiveCounter').textContent = formatPeople(live);
+      }, 200);
+    }
+    function stopAnalyticsTicker() {
+      if (analyticsInterval) { clearInterval(analyticsInterval); analyticsInterval = null; }
+    }
+
+    function destroyAnalyticsCharts() {
+      Object.values(analyticsCharts).forEach(c => { if (c && c.destroy) c.destroy(); });
+      analyticsCharts = {};
+    }
+
+    function renderAnalytics() {
+      const { type, name, district, scenario, data: d } = currentAnalytics;
+      const isM = type === 'mandal';
+      const region = analyticsGetRegion(d);
+
+      // Breadcrumb
+      const bc = document.getElementById('analyticsBreadcrumb');
+      if (isM) {
+        bc.innerHTML = `<a onclick="closeAnalytics()">AP Map</a><span class="sep">→</span><a onclick="closeAnalytics();openMandalView('${district.replace(/'/g, "\\'")}')">${district}</a><span class="sep">→</span><span>Mandal Analytics</span>`;
+      } else {
+        bc.innerHTML = `<a onclick="closeAnalytics()">AP Map</a><span class="sep">→</span><span>District Analytics</span>`;
+      }
+
+      // Header
+      document.getElementById('analyticsRegion').textContent = region;
+      document.getElementById('analyticsTitle').textContent = isM ? `${d.mandal || d.m}, ${district}` : name;
+
+      // Live counter
+      const live = analyticsLiveCount(d);
+      document.getElementById('analyticsLiveCounter').textContent = formatPeople(live);
+      const pop2026 = analyticsGetPop(d, 11);
+      const hcr2026 = analyticsHCR(analyticsGetBAU(d, 11), pop2026);
+      document.getElementById('analyticsLiveSub').textContent = `${hcr2026.toFixed(2)}% of ${formatPeople(pop2026)}`;
+
+      // Map
+      const mapWrap = document.getElementById('analyticsMapWrap');
+      if (type === 'district' && typeof districtPaths !== 'undefined' && districtPaths[name]) {
+        mapWrap.innerHTML = `<svg viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg"><path d="${districtPaths[name]}" class="highlighted"/></svg>`;
+        mapWrap.style.display = '';
+      } else {
+        mapWrap.style.display = 'none';
+      }
+
+      // Scenario toggle
+      const toggle = document.getElementById('scenarioToggle');
+      toggle.querySelectorAll('.scenario-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.scenario === scenario);
+        btn.onclick = () => {
+          currentAnalytics.scenario = btn.dataset.scenario;
+          renderAnalyticsContent();
+        };
+      });
+
+      renderAnalyticsContent();
+    }
+
+    function renderAnalyticsContent() {
+      const { type, name, district, scenario, data: d } = currentAnalytics;
+      const isM = type === 'mandal';
+      const isBau = scenario === 'bau';
+
+      // KPI extra row (mandal only)
+      const extraRow = document.getElementById('kpiExtra');
+      if (isM) {
+        const pci = d.pci || d.pci;
+        const rank = d.rank2026 || d.rk || '?';
+        const total = d.totalMandals || d.tm || '?';
+        extraRow.style.display = '';
+        extraRow.innerHTML = `
+          ${pci ? `<div class="kpi-card"><div class="kpi-label">Per Capita Income</div><div class="kpi-value amber">₹${formatPeople(pci)}</div></div>` : ''}
+          <div class="kpi-card"><div class="kpi-label">District Rank (2026)</div><div class="kpi-value">${ordinal(rank)} of ${total}</div></div>
+        `;
+      } else {
+        extraRow.style.display = 'none';
+      }
+
+      // KPI row
+      const poor2026 = isBau ? analyticsGetBAU(d, 11) : analyticsGetStr(d, 11);
+      const pop2026 = analyticsGetPop(d, 11);
+      const hcr2026 = analyticsHCR(poor2026, pop2026);
+      const zeroYr = isBau ? analyticsGetZeroBAU(d) : analyticsGetZeroStr(d);
+      document.getElementById('kpiRow').innerHTML = `
+        <div class="kpi-card"><div class="kpi-label">People in Poverty (2026)</div><div class="kpi-value cyan">${formatPeople(poor2026)}</div></div>
+        <div class="kpi-card"><div class="kpi-label">Poverty Rate HCR%</div><div class="kpi-value">${hcr2026.toFixed(3)}%</div></div>
+        <div class="kpi-card"><div class="kpi-label">Population (2026)</div><div class="kpi-value">${formatPeople(pop2026)}</div></div>
+        <div class="kpi-card"><div class="kpi-label">Zero Poverty Year</div><div class="kpi-value green">${zeroYr}</div></div>
+      `;
+
+      destroyAnalyticsCharts();
+      renderTrajectoryChart(d);
+      renderHCRChart(d);
+      renderProgressRings(d);
+      renderExitChart(d);
+      renderSnapshotTable(d);
+      renderStrategyCallout(d);
+    }
+
+    function renderTrajectoryChart(d) {
+      const ctx = document.getElementById('trajectoryChart').getContext('2d');
+      const bau = ANALYTICS_YEARS.map((_, i) => analyticsGetBAU(d, i));
+      const strat = ANALYTICS_YEARS.map((_, i) => analyticsGetStr(d, i));
+      const isBau = currentAnalytics.scenario === 'bau';
+
+      const datasets = [{
+        label: 'BAU',
+        data: bau,
+        borderColor: '#6366f1',
+        backgroundColor: 'rgba(99,102,241,0.08)',
+        borderWidth: 2,
+        tension: 0.3,
+        fill: false,
+        pointRadius: ANALYTICS_YEARS.map(y => ANCHOR_YEARS.includes(y) ? 6 : 2),
+        pointBackgroundColor: ANALYTICS_YEARS.map(y => ANCHOR_YEARS.includes(y) ? '#f59e0b' : '#6366f1'),
+      }, {
+        label: 'With Strategies',
+        data: strat,
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16,185,129,0.08)',
+        borderWidth: 2,
+        tension: 0.3,
+        fill: '-1',
+        pointRadius: ANALYTICS_YEARS.map(y => ANCHOR_YEARS.includes(y) ? 6 : 2),
+        pointBackgroundColor: ANALYTICS_YEARS.map(y => ANCHOR_YEARS.includes(y) ? '#f59e0b' : '#10b981'),
+      }];
+
+      analyticsCharts.trajectory = new Chart(ctx, {
+        type: 'line',
+        data: { labels: ANALYTICS_YEARS, datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim(), font: { size: 11 } } },
+            tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + formatPeople(ctx.raw) } }
+          },
+          scales: {
+            x: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim(), font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+            y: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim(), callback: v => formatPeople(v), font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
+          }
+        }
+      });
+    }
+
+    function renderHCRChart(d) {
+      const ctx = document.getElementById('hcrChart').getContext('2d');
+      const bauHCR = ANALYTICS_YEARS.map((_, i) => analyticsHCR(analyticsGetBAU(d, i), analyticsGetPop(d, i)));
+      const strHCR = ANALYTICS_YEARS.map((_, i) => analyticsHCR(analyticsGetStr(d, i), analyticsGetPop(d, i)));
+
+      const bauColors = ANALYTICS_YEARS.map(y => ANCHOR_YEARS.includes(y) ? '#4f46e5' : 'rgba(99,102,241,0.5)');
+      const strColors = ANALYTICS_YEARS.map(y => ANCHOR_YEARS.includes(y) ? '#059669' : 'rgba(16,185,129,0.5)');
+
+      analyticsCharts.hcr = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ANALYTICS_YEARS,
+          datasets: [
+            { label: 'BAU HCR%', data: bauHCR, backgroundColor: bauColors, borderRadius: 3, barPercentage: 0.45, categoryPercentage: 0.8 },
+            { label: 'Strategy HCR%', data: strHCR, backgroundColor: strColors, borderRadius: 3, barPercentage: 0.45, categoryPercentage: 0.8 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim(), font: { size: 11 } } },
+            tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw.toFixed(3) + '%' } }
+          },
+          scales: {
+            x: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim(), font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim(), callback: v => v.toFixed(1) + '%', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
+          }
+        }
+      });
+    }
+
+    function renderProgressRings(d) {
+      const poor2015 = analyticsGetBAU(d, 0);
+      const poor2026bau = analyticsGetBAU(d, 11);
+      const poor2026str = analyticsGetStr(d, 11);
+
+      const reductionPct = poor2015 > 0 ? ((poor2015 - poor2026bau) / poor2015) * 100 : 0;
+      const remainPct = poor2015 > 0 ? (poor2026bau / poor2015) * 100 : 0;
+      const stratImpactPct = poor2026bau > 0 ? ((poor2026bau - poor2026str) / poor2026bau) * 100 : 0;
+
+      const rings = [
+        { pct: reductionPct, label: '% Reduced (2015→2026)', color: '#10b981' },
+        { pct: remainPct, label: 'Remaining to Zero', color: '#f59e0b' },
+        { pct: stratImpactPct, label: 'Extra Strategy Impact', color: '#06b6d4' },
+      ];
+
+      document.getElementById('progressRings').innerHTML = rings.map(r => {
+        const pct = Math.min(100, Math.max(0, r.pct));
+        const dash = (pct / 100) * 251.2;
+        return `
+          <div class="ring-item">
+            <svg class="ring-svg" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="${r.color}" stroke-width="8"
+                stroke-dasharray="${dash} 251.2" stroke-dashoffset="0"
+                transform="rotate(-90 50 50)" stroke-linecap="round"/>
+              <text x="50" y="54" text-anchor="middle" fill="${r.color}" font-size="16" font-weight="700" font-family="var(--font-mono)">${pct.toFixed(1)}%</text>
+            </svg>
+            <div class="ring-label">${r.label}</div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderExitChart(d) {
+      const ctx = document.getElementById('exitChart').getContext('2d');
+      const bauExits = ANALYTICS_YEARS.map((_, i) => i === 0 ? 0 : Math.max(0, analyticsGetBAU(d, i-1) - analyticsGetBAU(d, i)));
+      const strExits = ANALYTICS_YEARS.map((_, i) => i === 0 ? 0 : Math.max(0, analyticsGetStr(d, i-1) - analyticsGetStr(d, i)));
+
+      analyticsCharts.exit = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ANALYTICS_YEARS,
+          datasets: [
+            { label: 'BAU Exits', data: bauExits, backgroundColor: 'rgba(99,102,241,0.6)', borderRadius: 3, barPercentage: 0.45, categoryPercentage: 0.8 },
+            { label: 'Strategy Exits', data: strExits, backgroundColor: 'rgba(16,185,129,0.6)', borderRadius: 3, barPercentage: 0.45, categoryPercentage: 0.8 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim(), font: { size: 11 } } },
+            tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + formatPeople(ctx.raw) } }
+          },
+          scales: {
+            x: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim(), font: { size: 10 } }, grid: { display: false } },
+            y: { ticks: { color: getComputedStyle(document.documentElement).getPropertyValue('--text-muted').trim(), callback: v => formatPeople(v), font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
+          }
+        }
+      });
+    }
+
+    function renderSnapshotTable(d) {
+      const isBau = currentAnalytics.scenario === 'bau';
+      let html = `<thead><tr>
+        <th>Year</th><th>Population</th><th>BAU Poor</th><th>BAU HCR%</th>
+        <th>Strategy Poor</th><th>Strategy HCR%</th><th>Saved</th>
+      </tr></thead><tbody>`;
+      ANALYTICS_YEARS.forEach((yr, i) => {
+        const pop = analyticsGetPop(d, i);
+        const bau = analyticsGetBAU(d, i);
+        const str = analyticsGetStr(d, i);
+        const bauHCR = analyticsHCR(bau, pop);
+        const strHCR = analyticsHCR(str, pop);
+        const saved = bau - str;
+        const isAnchor = ANCHOR_YEARS.includes(yr);
+        const isZero = yr === 2029;
+        const cls = isZero ? 'zero-row' : isAnchor ? 'anchor-row' : '';
+        html += `<tr class="${cls}">
+          <td>${yr}</td><td>${formatPeople(pop)}</td><td>${formatPeople(bau)}</td>
+          <td>${bauHCR.toFixed(3)}%</td><td>${formatPeople(str)}</td>
+          <td>${strHCR.toFixed(3)}%</td><td>${saved > 0 ? formatPeople(saved) : '—'}</td>
+        </tr>`;
+      });
+      html += '</tbody>';
+      document.getElementById('snapshotTable').innerHTML = html;
+    }
+
+    function renderStrategyCallout(d) {
+      const totalSaved = ANALYTICS_YEARS.reduce((sum, _, i) => sum + Math.max(0, analyticsGetBAU(d, i) - analyticsGetStr(d, i)), 0);
+      const zeroBAU = analyticsGetZeroBAU(d);
+      const zeroStr = analyticsGetZeroStr(d);
+
+      // Peak daily exit (strategy)
+      let peakDaily = 0;
+      for (let i = 1; i < 15; i++) {
+        const exitPerYear = analyticsGetStr(d, i-1) - analyticsGetStr(d, i);
+        const daily = exitPerYear / 365;
+        if (daily > peakDaily) peakDaily = daily;
+      }
+
+      document.getElementById('strategyCallout').innerHTML = `
+        <div class="strategy-callout-title">🚀 Strategy Impact Summary</div>
+        <div class="strategy-stat-row">
+          <span class="strategy-stat-label">Total Extra People Lifted (cumulative)</span>
+          <span class="strategy-stat-value">${formatPeople(totalSaved)}</span>
+        </div>
+        <div class="strategy-stat-row">
+          <span class="strategy-stat-label">Zero Year (BAU)</span>
+          <span class="strategy-stat-value">${zeroBAU}</span>
+        </div>
+        <div class="strategy-stat-row">
+          <span class="strategy-stat-label">Zero Year (With Strategies)</span>
+          <span class="strategy-stat-value">${zeroStr}</span>
+        </div>
+        <div class="strategy-stat-row">
+          <span class="strategy-stat-label">Peak Daily Exit Rate</span>
+          <span class="strategy-stat-value">${Math.round(peakDaily).toLocaleString('en-IN')}/day</span>
+        </div>
+        <div class="strategy-pills">
+          ${STRATEGIES.map(s => `<span class="strategy-pill">${s}</span>`).join('')}
+        </div>
+      `;
+    }
+
+    function ordinal(n) {
+      const s = ['th','st','nd','rd'];
+      const v = n % 100;
+      return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    }
+
     // Start
     document.addEventListener('DOMContentLoaded', () => {
       init();
       initParticles();
+
+      // Analytics back button
+      document.getElementById('analyticsBackBtn').addEventListener('click', closeAnalytics);
 
       // Landing page launch
       const landingPage = document.getElementById('landingPage');
