@@ -2660,12 +2660,13 @@
       if (year < 2015) return { poor: stateYearlyData[2015].poor, pop: stateYearlyData[2015].population, rate: stateYearlyData[2015].rate, daily: 0 };
       if (year >= 2029) return { poor: 0, pop: stateYearlyData[2029].population, rate: 0, daily: 0 };
 
-      // 2026: slow tick using perSec rate, fixed population & percentage
+      // 2026: start at 14,40,848 from deployment, decrease 1 person every 2 minutes
       if (year === 2026) {
         const sd = stateYearlyData[2026];
-        const elapsed = (now - yearStart) / 1000;
-        const poor = Math.max(0, sd.poor - sd.perSec * elapsed);
-        return { poor: Math.round(poor), pop: sd.population, rate: sd.rate, daily: sd.daily };
+        const DEPLOY_EPOCH = new Date(2026, 2, 12, 12, 0, 0); // March 12, 2026 noon
+        const elapsed = Math.max(0, (now - DEPLOY_EPOCH) / 1000);
+        const poor = Math.max(0, 1440848 - Math.floor(elapsed / 120));
+        return { poor: poor, pop: sd.population, rate: sd.rate, daily: sd.daily };
       }
 
       const sd = stateYearlyData[year];
