@@ -2662,6 +2662,12 @@
 
       const sd = stateYearlyData[year];
       const sdNext = stateYearlyData[year + 1];
+
+      // Keep 2026 anchored values exact as requested.
+      if (year === 2026) {
+        return { poor: sd.poor, pop: sd.population, rate: sd.rate, daily: sd.daily };
+      }
+
       const poor = Math.max(0, sd.poor + (sdNext.poor - sd.poor) * fraction);
       const pop = sd.population + (sdNext.population - sd.population) * fraction;
       const rate = Math.max(0, sd.rate + (sdNext.rate - sd.rate) * fraction);
