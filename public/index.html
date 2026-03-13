@@ -2096,6 +2096,30 @@
       .mandal-tooltip { display: none; }
     }
 
+    @media (max-width: 1100px) and (max-height: 700px) {
+      .header-inner { padding: 8px 16px; }
+      .logo-img { width: 42px; height: 42px; border-radius: 10px; }
+      .header-title h1 { font-size: 16px; }
+      .header-title span { font-size: 9px; }
+      .hero-section { padding: 14px 0 10px; }
+      .hero-counter { font-size: clamp(28px, 6vw, 52px); }
+      .timeline-section { padding: 10px 0 6px; }
+      .stats-grid { gap: 10px; }
+      .stat-card { padding: 14px; }
+      .map-wrapper { padding: 14px; }
+      .district-list-section { padding-bottom: 10px; }
+
+      .mandal-header { padding: 8px 16px; }
+      .mandal-map-wrap { padding: 10px; }
+      .mandal-map-wrap svg { max-height: 70vh; }
+
+      .analytics-header { padding: 10px 16px; }
+      .analytics-title { font-size: 20px; }
+      .analytics-live-counter { font-size: 24px; }
+      .analytics-body { padding: 12px 16px 24px; }
+      .scenario-toggle { margin: 10px 0 14px; }
+    }
+
     /* ===== ANALYTICS PAGE ===== */
     .analytics-overlay {
       display: none;
@@ -2207,10 +2231,12 @@
     .scenario-btn.active {
       background: var(--accent-5);
       color: #fff;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
     }
     .scenario-btn:first-child.active {
       background: var(--accent-1);
       color: #fff;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
     }
 
     /* KPI cards row */
@@ -3944,51 +3970,121 @@
 
     let selectedMandal = null;
 
+    function getSmartMandalViewBox(mandals, fallbackViewBox) {
+      if (!Array.isArray(mandals) || mandals.length === 0) return fallbackViewBox || '0 0 500 500';
+
+      const xs = mandals.map(m => Number(m.cx)).filter(Number.isFinite).sort((a, b) => a - b);
+      const ys = mandals.map(m => Number(m.cy)).filter(Number.isFinite).sort((a, b) => a - b);
+      if (!xs.length || !ys.length) return fallbackViewBox || '0 0 500 500';
+
+      const q = (arr, p) => {
+        const idx = Math.max(0, Math.min(arr.length - 1, Math.floor((arr.length - 1) * p)));
+        return arr[idx];
+      };
+
+      const minX = xs[0], maxX = xs[xs.length - 1], minY = ys[0], maxY = ys[ys.length - 1];
+      const q10x = q(xs, 0.1), q90x = q(xs, 0.9), q10y = q(ys, 0.1), q90y = q(ys, 0.9);
+
+      const fullW = Math.max(1, maxX - minX);
+      const fullH = Math.max(1, maxY - minY);
+      const coreW = Math.max(1, q90x - q10x);
+      const coreH = Math.max(1, q90y - q10y);
+
+      let boxMinX = minX;
+      let boxMaxX = maxX;
+      let boxMinY = minY;
+      let boxMaxY = maxY;
+
+      if (fullW > coreW * 2.8 || fullH > coreH * 2.8) {
+        boxMinX = q10x;
+        boxMaxX = q90x;
+        boxMinY = q10y;
+        boxMaxY = q90y;
+      }
+
+      const padX = Math.max(8, (boxMaxX - boxMinX) * 0.22);
+      const padY = Math.max(8, (boxMaxY - boxMinY) * 0.22);
+      const x = Math.max(0, boxMinX - padX);
+      const y = Math.max(0, boxMinY - padY);
+      const w = Math.max(40, (boxMaxX - boxMinX) + padX * 2);
+      const h = Math.max(40, (boxMaxY - boxMinY) + padY * 2);
+
+      if (!Number.isFinite(x + y + w + h)) return fallbackViewBox || '0 0 500 500';
+      return `${x} ${y} ${w} ${h}`;
+    }
+
+    function getMandalCurrentHCR(districtName, mandalName, now) {
+      if (!analyticsData) return null;
+      const m = getAnalyticsMandal(districtName, mandalName);
+      if (!m) return null;
+
+      const year = now.getFullYear();
+      if (year < 2015) return analyticsHCR(analyticsGetBAU(m, 0), analyticsGetPop(m, 0));
+      if (year >= 2029) return 0;
+
+      const yearStart = new Date(year, 0, 1);
+      const yearEnd = new Date(year + 1, 0, 1);
+      const fraction = (now - yearStart) / (yearEnd - yearStart);
+      const idx = year - 2015;
+      const currentPoor = analyticsGetBAU(m, idx);
+      const nextPoor = idx < 14 ? analyticsGetBAU(m, idx + 1) : 0;
+      const currentPop = analyticsGetPop(m, idx);
+      const nextPop = idx < 14 ? analyticsGetPop(m, idx + 1) : currentPop;
+      const poor = currentPoor + (nextPoor - currentPoor) * fraction;
+      const pop = currentPop + (nextPop - currentPop) * fraction;
+      return analyticsHCR(poor, pop);
+    }
+
     function openMandalView(districtName) {
+      loadAnalyticsData().catch(() => null).then(() => {
+        if (typeof mandalMapData === 'undefined' || !mandalMapData[districtName]) {
+          console.warn('No mandal data for', districtName);
+          alert('Mandal data not available for ' + districtName);
+          return;
+        }
 
-      if (typeof mandalMapData === 'undefined' || !mandalMapData[districtName]) {
-        console.warn('No mandal data for', districtName);
-        alert('Mandal data not available for ' + districtName);
-        return;
-      }
+        const dData = mandalMapData[districtName];
+        const mandals = dData.mandals;
+        const now = new Date();
+        const smartViewBox = getSmartMandalViewBox(mandals, dData.viewBox);
 
-      const dData = mandalMapData[districtName];
-      const mandals = dData.mandals;
+        document.getElementById('mandalDistrictTitle').textContent = districtName;
+        document.getElementById('mandalDistrictSub').textContent =
+          `${mandals.length} mandals`;
 
-      document.getElementById('mandalDistrictTitle').textContent = districtName;
-      document.getElementById('mandalDistrictSub').textContent =
-        `${mandals.length} mandals`;
+        // Build SVG using array join for efficiency
+        const svgParts = [`<svg viewBox="${smartViewBox}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;">`];
+        for (let i = 0; i < mandals.length; i++) {
+          const m = mandals[i];
+          const hcr = getMandalCurrentHCR(districtName, m.name, now);
+          const fillAttr = Number.isFinite(hcr) ? ` fill="${getHCRColor(hcr)}"` : '';
+          svgParts.push(`<path class="mandal-path" data-mandal="${m.name}" data-code="${m.code}" d="${m.d}"${fillAttr} />`);
+          svgParts.push(`<text class="mandal-label" x="${m.cx}" y="${m.cy}">${m.name}</text>`);
+        }
+        svgParts.push('</svg>');
+        mandalMapWrap.innerHTML = svgParts.join('');
 
-      // Build SVG using array join for efficiency
-      const svgParts = [`<svg viewBox="${dData.viewBox}" xmlns="http://www.w3.org/2000/svg" style="fill-rule:evenodd;">`];
-      for (let i = 0; i < mandals.length; i++) {
-        const m = mandals[i];
-        svgParts.push(`<path class="mandal-path" data-mandal="${m.name}" data-code="${m.code}" d="${m.d}" />`);
-        svgParts.push(`<text class="mandal-label" x="${m.cx}" y="${m.cy}">${m.name}</text>`);
-      }
-      svgParts.push('</svg>');
-      mandalMapWrap.innerHTML = svgParts.join('');
+        // Reset panel - build list efficiently
+        selectedMandal = null;
+        const listItems = [];
+        for (let i = 0; i < mandals.length; i++) {
+          listItems.push(`<div class="mandal-list-item" data-mandal="${mandals[i].name}"><span class="mandal-list-item-name">${mandals[i].name}</span><span class="mandal-list-item-code">${mandals[i].code}</span></div>`);
+        }
+        document.getElementById('mandalPanelContent').innerHTML = `
+          <div class="mandal-panel-instruction">Click on a mandal to view details</div>
+          <div class="mandal-list-section">
+            <div class="mandal-list-title">All Mandals (${mandals.length})</div>
+            ${listItems.join('')}
+          </div>
+        `;
 
-      // Reset panel - build list efficiently
-      selectedMandal = null;
-      const listItems = [];
-      for (let i = 0; i < mandals.length; i++) {
-        listItems.push(`<div class="mandal-list-item" data-mandal="${mandals[i].name}"><span class="mandal-list-item-name">${mandals[i].name}</span><span class="mandal-list-item-code">${mandals[i].code}</span></div>`);
-      }
-      document.getElementById('mandalPanelContent').innerHTML = `
-        <div class="mandal-panel-instruction">Click on a mandal to view details</div>
-        <div class="mandal-list-section">
-          <div class="mandal-list-title">All Mandals (${mandals.length})</div>
-          ${listItems.join('')}
-        </div>
-      `;
+        // Show overlay
+        mandalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
 
-      // Show overlay
-      mandalOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-
-      // Setup map events
-      setupMandalMapEvents(districtName);
+        // Setup map events
+        setupMandalMapEvents(districtName);
+      });
     }
 
     function setupMandalMapEvents(districtName) {
@@ -4124,18 +4220,54 @@
         .then(data => { analyticsData = data; return data; });
     }
 
+    function normalizeAnalyticsKey(value) {
+      return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    function findNormalizedObjectKey(obj, target) {
+      if (!obj || !target) return null;
+      if (Object.prototype.hasOwnProperty.call(obj, target)) return target;
+      const normalizedTarget = normalizeAnalyticsKey(target);
+      for (const key of Object.keys(obj)) {
+        if (normalizeAnalyticsKey(key) === normalizedTarget) return key;
+      }
+      return null;
+    }
+
     function getAnalyticsDistrictData(name) {
       const raw = analyticsData.districts || analyticsData.d;
-      return raw[name] || null;
+      if (!raw) return null;
+      const key = findNormalizedObjectKey(raw, name);
+      return key ? raw[key] : null;
     }
 
     function getAnalyticsMandal(district, mandal) {
       const raw = analyticsData.mandals || analyticsData.m;
+      const districtNorm = normalizeAnalyticsKey(district);
+      const mandalNorm = normalizeAnalyticsKey(mandal);
+
       if (Array.isArray(raw)) {
-        return raw.find(m => (m.district || m.d) === district && (m.mandal || m.m) === mandal) || null;
+        return raw.find(m => {
+          const dName = m.district || m.d;
+          const mName = m.mandal || m.m;
+          return normalizeAnalyticsKey(dName) === districtNorm && normalizeAnalyticsKey(mName) === mandalNorm;
+        }) || null;
       }
+
+      if (!raw) return null;
+
       // Dictionary keyed by "District|Mandal"
-      return raw[district + '|' + mandal] || null;
+      const exact = raw[district + '|' + mandal];
+      if (exact) return exact;
+
+      for (const key of Object.keys(raw)) {
+        const parts = key.split('|');
+        if (parts.length !== 2) continue;
+        if (normalizeAnalyticsKey(parts[0]) === districtNorm && normalizeAnalyticsKey(parts[1]) === mandalNorm) {
+          return raw[key];
+        }
+      }
+      return null;
     }
 
     function analyticsGetPop(d, yearIdx) {
@@ -4247,6 +4379,9 @@
         btn.classList.toggle('active', btn.dataset.scenario === scenario);
         btn.onclick = () => {
           currentAnalytics.scenario = btn.dataset.scenario;
+          toggle.querySelectorAll('.scenario-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.scenario === currentAnalytics.scenario);
+          });
           renderAnalyticsContent();
         };
       });
