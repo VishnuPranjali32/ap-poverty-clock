@@ -3099,8 +3099,9 @@
           poor,
           pop: sd.population,
           rate: sd.rate,
-          daily: Math.round(86400 / LIVE_2026_ESCAPE_INTERVAL_SECONDS),
-          cadenceLabel: '−1 person every 2-3 min'
+          daily: 774,
+          rateLabel: '774 people/day',
+          rateCard: '774'
         };
       }
 
@@ -3766,8 +3767,8 @@
       document.getElementById('heroTotalPop').textContent = formatPeople(state.pop);
 
       // Rate badge
-      if (state.cadenceLabel && state.poor > 0) {
-        document.getElementById('rateText').textContent = state.cadenceLabel;
+      if (state.rateLabel && state.poor > 0) {
+        document.getElementById('rateText').textContent = state.rateLabel;
       } else if (state.daily > 0 && state.poor > 0) {
         document.getElementById('rateText').textContent = `−${Math.round(state.daily).toLocaleString('en-IN')} people/day`;
       } else if (state.poor <= 0) {
@@ -3794,7 +3795,7 @@
       // Stats cards
       document.getElementById('statHCR').textContent = state.rate.toFixed(3) + '%';
       document.getElementById('statPeople').textContent = poorDisplay;
-      document.getElementById('statRate').textContent = state.cadenceLabel ? '−1/2-3 min' : (state.daily > 0 ? '−' + Math.round(state.daily).toLocaleString('en-IN') : '—');
+      document.getElementById('statRate').textContent = state.rateCard ? state.rateCard : (state.daily > 0 ? '−' + Math.round(state.daily).toLocaleString('en-IN') : '—');
       document.getElementById('statZeroDistricts').textContent = getZeroDistricts(now);
 
       // Days remaining to target — use current time for live, or Jan 1 of selected year for timeline
