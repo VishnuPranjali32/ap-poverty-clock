@@ -2444,8 +2444,8 @@
 
     /* District map in analytics header */
     .analytics-map-wrap {
-      width: 180px;
-      height: 180px;
+      width: 280px;
+      height: 260px;
       flex-shrink: 0;
     }
     .analytics-map-wrap svg {
@@ -2470,7 +2470,7 @@
       .analytics-title { font-size: 18px; }
       .analytics-body { padding: 16px; }
       .kpi-row { grid-template-columns: repeat(2, 1fr); }
-      .analytics-map-wrap { width: 120px; height: 120px; }
+      .analytics-map-wrap { width: 180px; height: 170px; }
     }
   </style>
 </head>
@@ -2904,6 +2904,9 @@
     // ===== DATA (Year-by-Year from AP_Poverty_Clock_Data.xlsx) =====
     const dataYears = [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029];
     const TARGET_DATE = new Date(2029, 11, 31);
+    const LIVE_2026_START_POOR = 144084814; // Requested start value: 14,40,84,814
+    const LIVE_2026_DEPLOY_EPOCH = new Date('2026-03-13T13:08:13+05:30');
+    const LIVE_2026_ESCAPE_INTERVAL_SECONDS = 150; // 1 person every ~2.5 minutes (within 2-3 minutes)
 
     // State-level yearly data
     const stateYearlyData = {
@@ -3087,13 +3090,18 @@
       if (year < 2015) return { poor: stateYearlyData[2015].poor, pop: stateYearlyData[2015].population, rate: stateYearlyData[2015].rate, daily: 0 };
       if (year >= 2029) return { poor: 0, pop: stateYearlyData[2029].population, rate: 0, daily: 0 };
 
-      // 2026: start at 14,40,848 from deployment, decrease 1 person every 2 minutes
+      // 2026: start at requested value from deployment, decrease 1 person every ~2.5 minutes
       if (year === 2026) {
         const sd = stateYearlyData[2026];
-        const DEPLOY_EPOCH = new Date(2026, 2, 12, 12, 0, 0); // March 12, 2026 noon
-        const elapsed = Math.max(0, (now - DEPLOY_EPOCH) / 1000);
-        const poor = Math.max(0, 1440848 - Math.floor(elapsed / 120));
-        return { poor: poor, pop: sd.population, rate: sd.rate, daily: sd.daily };
+        const elapsed = Math.max(0, (now - LIVE_2026_DEPLOY_EPOCH) / 1000);
+        const poor = Math.max(0, LIVE_2026_START_POOR - Math.floor(elapsed / LIVE_2026_ESCAPE_INTERVAL_SECONDS));
+        return {
+          poor,
+          pop: sd.population,
+          rate: sd.rate,
+          daily: Math.round(86400 / LIVE_2026_ESCAPE_INTERVAL_SECONDS),
+          cadenceLabel: '−1 person every 2-3 min'
+        };
       }
 
       const sd = stateYearlyData[year];
@@ -3758,7 +3766,9 @@
       document.getElementById('heroTotalPop').textContent = formatPeople(state.pop);
 
       // Rate badge
-      if (state.daily > 0 && state.poor > 0) {
+      if (state.cadenceLabel && state.poor > 0) {
+        document.getElementById('rateText').textContent = state.cadenceLabel;
+      } else if (state.daily > 0 && state.poor > 0) {
         document.getElementById('rateText').textContent = `−${Math.round(state.daily).toLocaleString('en-IN')} people/day`;
       } else if (state.poor <= 0) {
         document.getElementById('rateText').textContent = '✨ Zero Poverty Achieved!';
@@ -3784,7 +3794,7 @@
       // Stats cards
       document.getElementById('statHCR').textContent = state.rate.toFixed(3) + '%';
       document.getElementById('statPeople').textContent = poorDisplay;
-      document.getElementById('statRate').textContent = state.daily > 0 ? '−' + Math.round(state.daily).toLocaleString('en-IN') : '—';
+      document.getElementById('statRate').textContent = state.cadenceLabel ? '−1/2-3 min' : (state.daily > 0 ? '−' + Math.round(state.daily).toLocaleString('en-IN') : '—');
       document.getElementById('statZeroDistricts').textContent = getZeroDistricts(now);
 
       // Days remaining to target — use current time for live, or Jan 1 of selected year for timeline
@@ -4298,6 +4308,36 @@
       return Math.max(0, Math.round(cur + (next - cur) * frac));
     }
 
+    function getDistrictPathViewBox(pathD, fallback = '0 0 500 700') {
+      if (!pathD || typeof pathD !== 'string') return fallback;
+      const nums = pathD.match(/-?\d*\.?\d+/g);
+      if (!nums || nums.length < 4) return fallback;
+
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      for (let i = 0; i + 1 < nums.length; i += 2) {
+        const x = Number(nums[i]);
+        const y = Number(nums[i + 1]);
+        if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+      }
+
+      if (!Number.isFinite(minX + minY + maxX + maxY)) return fallback;
+
+      const w = Math.max(1, maxX - minX);
+      const h = Math.max(1, maxY - minY);
+      const padX = Math.max(8, w * 0.2);
+      const padY = Math.max(8, h * 0.2);
+      const x = Math.max(0, minX - padX);
+      const y = Math.max(0, minY - padY);
+      const vw = Math.max(30, w + padX * 2);
+      const vh = Math.max(30, h + padY * 2);
+
+      return `${x} ${y} ${vw} ${vh}`;
+    }
+
     function openAnalytics(type, name, district) {
       loadAnalyticsData().then(() => {
         let d;
@@ -4367,7 +4407,9 @@
       // Map
       const mapWrap = document.getElementById('analyticsMapWrap');
       if (type === 'district' && typeof districtPaths !== 'undefined' && districtPaths[name]) {
-        mapWrap.innerHTML = `<svg viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg"><path d="${districtPaths[name]}" class="highlighted"/></svg>`;
+        const dPath = districtPaths[name];
+        const viewBox = getDistrictPathViewBox(dPath, '0 0 500 700');
+        mapWrap.innerHTML = `<svg viewBox="${viewBox}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"><path d="${dPath}" class="highlighted"/></svg>`;
         mapWrap.style.display = '';
       } else {
         mapWrap.style.display = 'none';
